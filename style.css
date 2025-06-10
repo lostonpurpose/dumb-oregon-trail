@@ -9,12 +9,34 @@ body {
     position: fixed;
 }
 
-.path {
-    height: 500vh;
+.path-1, .path-2, .path-3 {
+    height: 200vh;
     width: 20%;
     position: absolute;
     background: linear-gradient(to bottom, green, white);
     left: 50%;
     transform: translateX(-50%)
+}
+.path-1 { top: 0; }
+.path-2 { top: 200vh; }
+.path-3 { top: 400vh; }
 
+.stop {
+    top: 400vh;
+    height: 20px;
+    width: 20px;
+    background-color: blue;
+    position: absolute;
+}
+
+#wagon {
+    background-image: url("images/ot.png");
+    width: 100px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transform: rotate(90deg);
 }
