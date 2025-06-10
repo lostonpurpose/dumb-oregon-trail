@@ -11,16 +11,17 @@ let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e);
 
 const path1 = document.querySelector(".path-1")
 let milesLeft = Math.round(parseFloat(getComputedStyle(path1).width) / window.innerWidth * 100);
-console.log(milesLeft)
+miles.innerText = `${milesLeft} miles til next landmark` 
 
 function animate(e) {
     paths.forEach(path => {
     let distance = parseFloat(getComputedStyle(path).right) / window.innerWidth * 100;
     if (e.key === ' ') {
         distance += 10;
-        milesLeft -= 10;
         path.style.right = `${distance}vw`
-        miles.innerText = `${milesLeft - distance} miles til next landmark` 
+        
     }
 })
+    milesLeft -= 10;
+    miles.innerText = `${milesLeft} miles til next landmark` 
 };
