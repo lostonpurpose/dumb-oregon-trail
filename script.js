@@ -8,6 +8,8 @@ const path3 = document.querySelector(".path-3");
 const path4 = document.querySelector(".path-4");
 const path5 = document.querySelector(".path-5");
 
+const location1 = document.getElementById("loc-1")
+
 document.body.focus();
 let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e); 
     animate(e);
@@ -17,7 +19,8 @@ let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e);
 
 
 // somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
-let milesLeft = Math.round(parseFloat(getComputedStyle(path1).width) / window.innerWidth * 100);
+let currentPath = path1
+let milesLeft = path1.dataset.miles;
 miles.innerText = `${milesLeft} miles til next landmark` 
 
 function animate(e) {
@@ -41,20 +44,16 @@ function animate(e) {
 
 
 function animateKeyT(e, path) {
-
-    let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
     if (e.key === 't') {
+        let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
         distance -= 10;
         path.style.width = `${distance}vw`
-    }
-
-    if (milesLeft <= 0) {
-        milesLeft = 200;
-        miles.innerText = `${milesLeft} miles til next landmark` 
-    }
-    else {miles.innerText = `${milesLeft} miles til next landmark` 
-    milesLeft -= 10;
+        milesLeft -= 10;
     
-}
-    
+        if (milesLeft <= 0) {
+            miles.innerText = `You have reached ${location1.dataset.location}!` 
+        }
+        else {miles.innerText = `${milesLeft} miles til next landmark` 
+        }
+    }
 };

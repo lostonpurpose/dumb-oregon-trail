@@ -25,7 +25,7 @@ html, body {
 
 
 .routes-container {
-    width: 100vw;
+    width: auto;
     height: 20vh;
     border: 1px solid black;
     display: flex;
@@ -40,15 +40,16 @@ html, body {
     display: flex;
 }
 
-.path-1, .path-2 {
-    width: 90%;
+.path-1 {
+    width: 90vw;
     height: 100%;
     background-color: rgb(217, 176, 255);
 }
-.loc-1, .loc-2 {
+#loc-1, #loc-2 {
     width: 10%;
     height: 100%;
     background-color: blueviolet;
+    margin: 0;
 }
 
 .route-2 {
