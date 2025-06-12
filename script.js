@@ -1,3 +1,5 @@
+import { fart } from "./allLocations.js";
+
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
 const miles = document.querySelector(".miles");
