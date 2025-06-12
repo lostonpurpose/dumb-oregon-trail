@@ -10,6 +10,7 @@ let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e);
 });
 
 const path1 = document.querySelector(".path-1")
+// somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
 let milesLeft = Math.round(parseFloat(getComputedStyle(path1).width) / window.innerWidth * 100);
 miles.innerText = `${milesLeft} miles til next landmark` 
 
@@ -22,6 +23,13 @@ function animate(e) {
         
     }
 })
+    if (milesLeft <= 0) {
+        milesLeft = 200;
+        miles.innerText = `${milesLeft} miles til next landmark` 
+    }
+    else {miles.innerText = `${milesLeft} miles til next landmark` 
     milesLeft -= 10;
-    miles.innerText = `${milesLeft} miles til next landmark` 
+    
+}
+    
 };
