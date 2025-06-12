@@ -1,8 +1,9 @@
 html, body {
-    margin: 0;
-    background-color: gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centers vertically */
     height: 100vh;
-    width: 100vw;
+    margin: 0;
 }
 
 /* .background { */
@@ -50,11 +51,36 @@ html, body {
     background-size: contain;
     background-repeat: no-repeat;
     transform: scaleY(-1) rotate(180deg) translateY(-50%);
-    top: 50vh;
+    /* top: 50vh; */
     left: 0;
     z-index: 2;
 }
 
 .miles {
     position: relative;
+}
+
+
+.a {
+    width: 50vw;
+    height: 20vh;
+    background-color: red;
+}
+
+.first {
+    width: 100vw;
+    height: 20%;
+    background-color: antiquewhite;
+    display: flex;
+}
+
+.a1 {
+    width: 90%;
+    height: 100%;
+    background-color: rgb(217, 176, 255);
+}
+.loc1 {
+    width: 10%;
+    height: 100%;
+    background-color: blueviolet;
 }
