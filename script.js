@@ -44,7 +44,7 @@ function animate(e) {
     
 };
 
-
+// this animate has path as argument. currently hard-coded for path1.
 function animateKeyT(e, path) {
     if (e.key === 't') {
         let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
@@ -53,9 +53,25 @@ function animateKeyT(e, path) {
         milesLeft -= 10;
     
         if (milesLeft <= 0) {
-            miles.innerText = `You have reached ${location1.dataset.location}!` 
+            miles.innerText = `You have reached ${location1.dataset.location}!`;
+            locationOptions(location1);
         }
         else {miles.innerText = `${milesLeft} miles til next landmark` 
         }
     }
+};
+
+// this works. uses the location dataset name to pull correct info. will be better to use the classes when i get around to it.
+function locationOptions(e, location) {
+    if (location.dataset.location === "Fort Sumpter") {
+        document.body.insertAdjacentHTML("beforeend", `${"<h2>You have reached Fort Sumpter! The small fort town bustels with activity. What would you like to do?</h2>"}`)
+        let locationOptions = document.body.insertAdjacentHTML("beforeend", `<h3 class="${location.dataset.location}">1. Buy Supplies<br>2. Continue</h3>`)
+        
+        // trying to have a 1 key press bring up shopping
+        // if (e.key === "1") {
+        //     locationOptions.innerText = "Pooka pooka"
+        // }
+
+    }
+
 };

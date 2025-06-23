@@ -45,6 +45,13 @@ html, body {
     height: 100%;
     background-color: rgb(217, 176, 255);
 }
+
+.path-2 {
+    width: 130vw;
+    height: 100%;
+    background-color: rgb(217, 176, 255);
+}
+
 #loc-1, #loc-2 {
     width: 10%;
     height: 100%;
