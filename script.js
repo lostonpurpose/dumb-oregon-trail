@@ -54,7 +54,8 @@ function animateKeyT(e, path) {
     
         if (milesLeft <= 0) {
             miles.innerText = `You have reached ${location1.dataset.location}!`;
-            locationOptions(location1);
+            // trying to get this to work, showing current location options
+            showLocation(location1);
         }
         else {miles.innerText = `${milesLeft} miles til next landmark` 
         }
@@ -62,16 +63,21 @@ function animateKeyT(e, path) {
 };
 
 // this works. uses the location dataset name to pull correct info. will be better to use the classes when i get around to it.
-function locationOptions(e, location) {
-    if (location.dataset.location === "Fort Sumpter") {
-        document.body.insertAdjacentHTML("beforeend", `${"<h2>You have reached Fort Sumpter! The small fort town bustels with activity. What would you like to do?</h2>"}`)
-        let locationOptions = document.body.insertAdjacentHTML("beforeend", `<h3 class="${location.dataset.location}">1. Buy Supplies<br>2. Continue</h3>`)
-        
-        // trying to have a 1 key press bring up shopping
-        // if (e.key === "1") {
-        //     locationOptions.innerText = "Pooka pooka"
-        // }
+function showLocation(location) {
+  if (location.dataset.location === "Fort Sumpter") {
+    document.body.insertAdjacentHTML("beforeend", `<h2>You have reached Fort Sumpter! The small fort town bustels with activity. What would you like to do?</h2>`);
+    
+    const safeClass = location.dataset.location.replace(/\s+/g, "-");
+    document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);
+  }
+}
 
+document.addEventListener("keydown", (e) => {  
+  if (e.key === "1") {
+    const safeClass = "Fort-Sumpter"; // or generate dynamically
+    let locationOptions = document.querySelector(`h3.${safeClass}`);
+    if (locationOptions) {
+      locationOptions.innerText = "Pooka pooka";
     }
-
-};
+  }
+});
