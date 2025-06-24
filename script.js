@@ -98,12 +98,20 @@ document.addEventListener("keydown", (e) => {
     }
   }
   else if (e.key === "2") {
-    arrived = false;
+    if (!arrived) return;  // only allow pressing "2" if arrived is true
+
+    arrived = false;  // reset arrived for next path
+
     document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'none';  
     currentPathIndex++;
-      // Show next route — **this line is missing in your code**
-    document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'block';
-    milesLeft = allPaths[currentPathIndex].dataset.miles;
-    miles.innerText = `${milesLeft} miles til next landmark`;
+
+    const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
+    if (nextRoute) {
+      nextRoute.style.display = 'block';
+      milesLeft = allPaths[currentPathIndex].dataset.miles;
+      miles.innerText = `${milesLeft} miles til next landmark`;
+    } else {
+      miles.innerText = `You have reached the end of the trail!`;
+    }
   }
 });
