@@ -45,14 +45,16 @@ function animate(e) {
 };
 
 // this animate has path as argument. currently hard-coded for path1.
+let arrived = false;
 function animateKeyT(e, path) {
-    if (e.key === 't') {
+    if (e.key === 't' && !arrived) {
         let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
         distance -= 10;
         path.style.width = `${distance}vw`
         milesLeft -= 10;
     
         if (milesLeft <= 0) {
+            arrived = true;
             miles.innerText = `You have reached ${location1.dataset.location}!`;
             // trying to get this to work, showing current location options
             showLocation(location1);
@@ -77,7 +79,7 @@ document.addEventListener("keydown", (e) => {
     const safeClass = "Fort-Sumpter"; // or generate dynamically
     let locationOptions = document.querySelector(`h3.${safeClass}`);
     if (locationOptions) {
-      locationOptions.innerText = "Pooka pooka";
+      locationOptions.innerText = `What will you buy?\n\n1. Food\n2. Wagon wheel\n3. Leave`;
     }
   }
 });
