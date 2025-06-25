@@ -6,31 +6,30 @@ html, body {
     margin: 0;
 }
 
-#wagon {
-    background-image: url("images/ot.png");
-    width: 400px;
-    height: 150px;
-    position: fixed;
-    background-size: contain;
-    background-repeat: no-repeat;
-    transform: scaleY(-1) rotate(180deg) translateY(-50%);
-    top: 40vh;
-    left: 0;
-    z-index: 2;
-}
-
 .miles {
     color: blue;
+    margin-top: 50px;
 }
 
 
 .routes-container {
-    width: auto;
-    height: 20vh;
-    border: 1px solid black;
-    display: flex;
-    align-items: center;
-    margin: 0;
+  position: relative;
+  height: 20vh;
+  display: flex;
+  align-items: center;
+}
+
+#wagon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%) scaleY(-1) rotate(180deg);
+  width: 300px;
+  height: 150px;
+  background-image: url("images/ot.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 2;
 }
 
 .route-1, .route-2 {
@@ -38,6 +37,8 @@ html, body {
     height: 50%;
     background-color: antiquewhite;
     display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap; /* 💥 this line is key */
 }
 
 
@@ -51,6 +52,7 @@ html, body {
     width: 130vw;
     height: 100%;
     background-color: rgb(217, 176, 255);
+    display: none;
 }
 
 #loc-1, #loc-2 {
@@ -60,11 +62,11 @@ html, body {
     margin: 0;
 }
 
-.route-2 {
-    box-sizing: border-box;
+#loc-2 {
     display: none;
 }
 
-.route-1 {
+.route-2 {
     box-sizing: border-box;
+    display: none;
 }

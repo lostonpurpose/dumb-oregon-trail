@@ -1,4 +1,5 @@
 import { fart } from "./allLocations.js";
+import { fortSumpter } from "./allLocations.js";
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -81,7 +82,8 @@ function animateKeyT(e, path) {
 // this works. uses the location dataset name to pull correct info. will be better to use the classes when i get around to it.
 function showLocation(location) {
   if (location.dataset.location === "Fort Sumpter") {
-    document.body.insertAdjacentHTML("beforeend", `<h2>You have reached Fort Sumpter! The small fort town bustels with activity. What would you like to do?</h2>`);
+    document.body.insertAdjacentHTML("beforeend", `<h3>${fortSumpter.flavorText}</h3>`);
+
     
     const safeClass = location.dataset.location.replace(/\s+/g, "-");
     document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);
@@ -89,6 +91,7 @@ function showLocation(location) {
   
 }
 
+// town logic to continue
 document.addEventListener("keydown", (e) => {  
   if (e.key === "1") {
     const safeClass = "Fort-Sumpter"; // or generate dynamically
@@ -107,6 +110,8 @@ document.addEventListener("keydown", (e) => {
 
     const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
     if (nextRoute) {
+      path2.classList.remove("display");
+      loc2.classList.remove("display");
       nextRoute.style.display = 'block';
       milesLeft = allPaths[currentPathIndex].dataset.miles;
       miles.innerText = `${milesLeft} miles til next landmark`;
