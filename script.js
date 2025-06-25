@@ -27,7 +27,7 @@ const currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}
 
 document.body.focus();
 let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e); 
-    animate(e);
+    // animate(e);
     animateKeyT(e, allPaths[currentPathIndex]);
 });
 
@@ -39,15 +39,16 @@ let milesLeft = currentPath.dataset.miles;
 miles.innerText = `${milesLeft} miles til next landmark` 
 
 // this is the old animate function
-function animate(e) {
-    paths.forEach(path => {
-    let distance = parseFloat(getComputedStyle(path).right) / window.innerWidth * 100;
-    if (e.key === ' ') {
-        distance += 10;
-        path.style.right = `${distance}vw`
+// function animate(e) {
+//     paths.forEach(path => {
+//     let distance = parseFloat(getComputedStyle(path).right) / window.innerWidth * 100;
+//     if (e.key === ' ') {
+//         distance += 10;
+//         path.style.right = `${distance}vw`
         
-    }
-    })
+//     }
+//     })
+//     };
     // if (milesLeft <= 0) {
     //     milesLeft = 200;
     //     miles.innerText = `${milesLeft} miles til next landmark` 
@@ -56,7 +57,7 @@ function animate(e) {
     // milesLeft -= 10;
     // }
     
-};
+
 
 // this animate has path as argument. now coded to interate path index
 let arrived = false;
@@ -67,11 +68,12 @@ function animateKeyT(e, path) {
         console.log("Current path:", path);
         path.style.width = `${distance}vw`
         milesLeft -= 10;
-    
+
+        // determines whether you reached a destination or not
         if (milesLeft <= 0) {
             arrived = true;
             miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
-            // trying to get this to work, showing current location options
+            // calls the destination info
             showLocation(currentLocation);
         }
         else {miles.innerText = `${milesLeft} miles til next landmark` 
@@ -83,21 +85,21 @@ function animateKeyT(e, path) {
 function showLocation(location) {
   if (location.dataset.location === "Fort Sumpter") {
     document.body.insertAdjacentHTML("beforeend", `<h3>${fortSumpter.flavorText}</h3>`);
-
     
     const safeClass = location.dataset.location.replace(/\s+/g, "-");
     document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);
   }
   
-}
+};
 
-// town logic to continue
+// town logic to continue or use options
 document.addEventListener("keydown", (e) => {  
   if (e.key === "1") {
     const safeClass = "Fort-Sumpter"; // or generate dynamically
     let locationOptions = document.querySelector(`h3.${safeClass}`);
     if (locationOptions) {
-      locationOptions.innerText = `What will you buy?\n\n1. Food\n2. Wagon wheel\n3. Leave`;
+      // locationOptions.innerText = `What will you buy?\n\n1. Food\n2. Wagon wheel\n3. Leave`;
+      locationOptions.innerText = `${fortSumpter.buySupplies}`;
     }
   }
   else if (e.key === "2") {
