@@ -39,28 +39,7 @@
   let milesLeft = currentPath.dataset.miles;
   miles.innerText = `${milesLeft} miles til next landmark` 
 
-  // this is the old animate function
-  // function animate(e) {
-  //     paths.forEach(path => {
-  //     let distance = parseFloat(getComputedStyle(path).right) / window.innerWidth * 100;
-  //     if (e.key === ' ') {
-  //         distance += 10;
-  //         path.style.right = `${distance}vw`
-          
-  //     }
-  //     })
-  //     };
-      // if (milesLeft <= 0) {
-      //     milesLeft = 200;
-      //     miles.innerText = `${milesLeft} miles til next landmark` 
-      // }
-      // else {miles.innerText = `${milesLeft} miles til next landmark` 
-      // milesLeft -= 10;
-      // }
-      
-
-
-  // this animate has path as argument. now coded to interate path index
+  // this animate has path as argument. now coded to iterate path index
   let arrived = false;
   function animateKeyT(e, path) {
       if (e.key === 't' && !arrived) {
@@ -88,14 +67,15 @@
       document.body.insertAdjacentHTML("beforeend", `<h3>${fortKearney.flavorText}</h3>`);
       
       const safeClass = location.dataset.location.replace(/\s+/g, "-");
-      document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);
+      let optionText = document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">${fortKearney.options}</h3>`);
     }
 
     else if (location.dataset.location === "Fort Laramie") {
       document.body.insertAdjacentHTML("beforeend", `<h3>${fortLaramie.flavorText}</h3>`);
       
       const safeClass = location.dataset.location.replace(/\s+/g, "-");
-      document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);
+      optionText.innerText(fortLaramie.flavorText);
+      // document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);optionText.innerText(fortLaramie.flavorText);
     }
   };
 

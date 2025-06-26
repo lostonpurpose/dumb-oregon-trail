@@ -11,14 +11,14 @@ export const fortKearney = {
 
 export const fortLaramie = {
     flavorText: "You have reached Fort Laramie! This is rugged town struggling to get by. What would you like to do?",
-    options: "1. Buy Supplies\n2.Continue on the trail",
-    buySupplies: "1. Buy Food\n2. Buy Wagon Wheels\n3. Leave"
+    options: "1. Buy Supplies<br>2.Continue on the trail",
+    buySupplies: "1. Buy Food<br>2. Buy Wagon Wheels\n3. Leave"
 };
 
 export const fortBridger = {
     flavorText: "You have reached Fort Laramie! This is rugged town struggling to get by. What would you like to do?",
-    options: "1. Buy Supplies\n2.Continue on the trail",
-    buySupplies: "1. Buy Food\n2. Buy Wagon Wheels\n3. Leave"
+    options: "1. Buy Supplies<br>2.Continue on the trail",
+    buySupplies: "1. Buy Food<br>2. Buy Wagon Wheels\n3. Leave"
 };
 
 
