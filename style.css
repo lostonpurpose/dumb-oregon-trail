@@ -38,35 +38,37 @@ html, body {
   z-index: 2;
 }
 
-.route-1 {
-    width: 100vw;
+.route-1, .route-2, .route-3 {
     height: 50%;
     background-color: antiquewhite;
     display: flex;
     align-items: stretch;
     flex-wrap: nowrap; /* 💥 this line is key */
 }
-
-
-.path-1 {
-    width: 90vw;
+.path-1, .path-2 {
     height: 100%;
     background-color: rgb(217, 176, 255);
+}
+
+.route-1 {
+    width: 100vw;
+}
+.path-1 {
+    width: 90vw;
 }
 
 .route-2 {
     width: 110vw;
-    height: 50%;
-    background-color: antiquewhite;
-    display: flex;
-    align-items: stretch;
-    flex-wrap: nowrap; /* 💥 this line is key */
 }
-
 .path-2 {
     width: 100vw;
-    height: 100%;
-    background-color: rgb(217, 176, 255);
+}
+
+.route-3 {
+    width: 140vw;
+}
+.path-3 {
+    width: 130vw;
 }
 
 #loc-1, #loc-2 {
