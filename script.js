@@ -1,4 +1,4 @@
-  import { fart, fortLaramie, fortKearney } from "./allLocations.js";
+  import { fart, fortLaramie, fortKearney, fortBridger } from "./allLocations.js";
 
   const wagon = document.querySelector("#wagon");
   const paths = document.querySelectorAll(".paths");
@@ -119,6 +119,9 @@
 
       document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'none';  
       currentPathIndex++;
+      // updates the location index
+      currentLocationIndex++;
+      currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`);
 
       const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
       if (nextRoute) {
