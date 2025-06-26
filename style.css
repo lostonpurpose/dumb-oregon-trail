@@ -1,3 +1,5 @@
+import locations.css
+
 * {
     box-sizing: border-box;
 }
@@ -50,26 +52,7 @@ html, body {
     background-color: rgb(217, 176, 255);
 }
 
-.route-1 {
-    width: 100vw;
-}
-.path-1 {
-    width: 90vw;
-}
 
-.route-2 {
-    width: 110vw;
-}
-.path-2 {
-    width: 100vw;
-}
-
-.route-3 {
-    width: 140vw;
-}
-.path-3 {
-    width: 130vw;
-}
 
 #loc-1, #loc-2 {
     width: 10vw;

@@ -1,5 +1,4 @@
-  import { fart } from "./allLocations.js";
-  import { fortSumpter } from "./allLocations.js";
+  import { fart, fortLaramie, fortKearney } from "./allLocations.js";
 
   const wagon = document.querySelector("#wagon");
   const paths = document.querySelectorAll(".paths");
@@ -25,7 +24,7 @@
   const allLocations = [loc1, loc2, loc3, loc4, loc5];
   let currentLocationIndex = 0;
 
-  const currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
+  let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
 
   document.body.focus();
   let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e); 
@@ -85,22 +84,28 @@
 
   // this works. uses the location dataset name to pull correct info. will be better to use the classes when i get around to it.
   function showLocation(location) {
-    if (location.dataset.location === "Fort Sumpter") {
-      document.body.insertAdjacentHTML("beforeend", `<h3>${fortSumpter.flavorText}</h3>`);
+    if (location.dataset.location === "Fort Kearney") {
+      document.body.insertAdjacentHTML("beforeend", `<h3>${fortKearney.flavorText}</h3>`);
       
       const safeClass = location.dataset.location.replace(/\s+/g, "-");
       document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);
     }
-    
+
+    else if (location.dataset.location === "Fort Laramie") {
+      document.body.insertAdjacentHTML("beforeend", `<h3>${fortLaramie.flavorText}</h3>`);
+      
+      const safeClass = location.dataset.location.replace(/\s+/g, "-");
+      document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);
+    }
   };
 
   // town logic to continue or use options
   document.addEventListener("keydown", (e) => {  
     if (e.key === "1") {
-      const safeClass = "Fort-Sumpter"; // or generate dynamically
+      const safeClass = location.dataset.location.replace(/\s+/g, "-");
       let locationOptions = document.querySelector(`h3.${safeClass}`);
       if (locationOptions) {
-        locationOptions.innerText = `${fortSumpter.buySupplies}`;
+        locationOptions.innerText = `${location.dataset.location.replace(/\s+/g, "-").buySupplies}`;
       }
     }
     else if (e.key === "2") {
