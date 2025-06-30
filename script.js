@@ -1,4 +1,4 @@
-  import { fart, fortLaramie, fortKearney, fortBridger } from "./allLocations.js";
+  import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
 
   const wagon = document.querySelector("#wagon");
   const paths = document.querySelectorAll(".paths");
@@ -17,6 +17,15 @@
   const loc3 = document.getElementById("loc-3");
   const loc4 = document.getElementById("loc-4");
   const loc5 = document.getElementById("loc-5");
+
+  // assigning correct casing for allLocation.js lookup
+  const fortData = {
+    "FortKearney": fortKearney,
+    "FortLaramie": fortLaramie,
+    "FortBridger": fortBridger,
+    "FortHall": fortHall,
+    "FortBoise": fortBoise,
+  };
 
 
   const allPaths = [path1, path2, path3, path4, path5];
@@ -54,7 +63,8 @@
               arrived = true;
               miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
               // calls the destination info
-              showLocation(currentLocation);
+              // showLocation(currentLocation);
+              newShowLocation(currentLocation);
           }
           else {miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
           }
@@ -62,11 +72,22 @@
   };
 
   // this works. uses the location dataset name to pull correct info. will be better to use the classes when i get around to it.
+  // have to rework this to use the location argument directly instead of multiple 'ifs'
+  // can i use the fortData object here? 
   let flavorText = document.querySelector(".flavor-text");
   let options = document.querySelector(".options");
+
+  function newShowLocation(location) {
+    const key = location.dataset.location.replace(/\s+/g, "");
+
+    flavorText.innerText = `${fortData[key].flavorText}`;
+    options.innerText = `${fortData[key].options}`;
+  };
+
+
   function showLocation(location) {
+    console.log("the location is", location);
     if (location.dataset.location === "Fort Kearney") {
-      // document.body.insertAdjacentHTML("beforeend", `<h3>${fortKearney.flavorText}</h3>`);
       flavorText.innerText = `${fortKearney.flavorText}`;
       options.innerText = `${fortKearney.options}`;
       
@@ -93,10 +114,7 @@
       flavorText.innerText = "";
       options.innerText = "";
 
-      // assigning correct casing for allLocation.js lookup
-      const fortData = {
-        "FortKearney": fortKearney
-      };
+      
 
       // removes the - from class and converts to fortData retrievable
       const key = currentLocation.dataset.location.replace(/\s+/g, "");
@@ -133,4 +151,4 @@
     }
   });
 
-// need to get option 1 working again. add couple more routes and can finally add random event logic. also make every leave option continue on the trail. can also code party generation. fun.
+// everything good except from route 3 path doesn't appear and neither do options. also make every leave option continue on the trail. can also code party generation. fun.
