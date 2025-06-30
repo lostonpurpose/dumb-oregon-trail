@@ -37,12 +37,12 @@
   // somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
   let currentPath = allPaths[currentPathIndex];
   let milesLeft = currentPath.dataset.miles;
-  miles.innerText = `${milesLeft} miles til next landmark` 
+  miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
 
-  // this animate has path as argument. now coded to iterate path index
+  // this animates the wagon. checks for spacebar. called by above that checks for keypress. coded to iterate path index
   let arrived = false;
   function animateKeyT(e, path) {
-      if (e.key === 't' && !arrived) {
+      if (e.key === ' ' && !arrived) {
           let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
           distance -= 10;
           console.log("Current path:", path);
@@ -56,26 +56,29 @@
               // calls the destination info
               showLocation(currentLocation);
           }
-          else {miles.innerText = `${milesLeft} miles til next landmark` 
+          else {miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
           }
       }
   };
 
   // this works. uses the location dataset name to pull correct info. will be better to use the classes when i get around to it.
+  let optionText = document.querySelector(".option-text")
   function showLocation(location) {
     if (location.dataset.location === "Fort Kearney") {
-      document.body.insertAdjacentHTML("beforeend", `<h3>${fortKearney.flavorText}</h3>`);
+      // document.body.insertAdjacentHTML("beforeend", `<h3>${fortKearney.flavorText}</h3>`);
+      optionText.innerText = "poop"
       
       const safeClass = location.dataset.location.replace(/\s+/g, "-");
-      let optionText = document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">${fortKearney.options}</h3>`);
+      document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">${fortKearney.options}</h3>`);
     }
 
     else if (location.dataset.location === "Fort Laramie") {
       document.body.insertAdjacentHTML("beforeend", `<h3>${fortLaramie.flavorText}</h3>`);
+      // document.querySelector(`h3.${safeClass}`).innerText.replace = "poop"
       
       const safeClass = location.dataset.location.replace(/\s+/g, "-");
-      optionText.innerText(fortLaramie.flavorText);
-      // document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);optionText.innerText(fortLaramie.flavorText);
+      // optionText.innerText(fortLaramie.flavorText);
+      document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">1. Buy Supplies<br>2. Continue</h3>`);optionText.innerText(fortLaramie.flavorText);
     }
   };
 
@@ -108,9 +111,11 @@
         
         // nextRoute.style.display = 'block';
         milesLeft = allPaths[currentPathIndex].dataset.miles;
-        miles.innerText = `${milesLeft} miles til next landmark`;
+        miles.innerText = `${milesLeft} miles til ${currentLocation.dataset.location}`;
       } else {
         miles.innerText = `You have reached the end of the trail!`;
       }
     }
   });
+
+  // need to get town text to update correctly. <br> is not working. eventually make text disappear / get replaced. add couple more routes and can finally add random event logic. also make every leave option continue on the trail. can also code party generation. fun.
