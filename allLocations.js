@@ -24,13 +24,13 @@ export const fortBridger = {
 export const fortHall = {
     flavorText: "You have reached Fort Hall! It's nothing more than a wooden palisade and stray chickens. What would you like to do?",
     options: "1. Continue on the trail\n2. Buy Supplies",
-    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Yoke"
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy a Hall"
 };
 
 export const fortBoise = {
     flavorText: "You have reached Fort Boise! Turds alive! It's Built to Spill! What would you like to do?",
     options: "1. Continue on the trail\n2. Buy Supplies",
-    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Yoke"
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Perfect From Now On"
 };
 
 
