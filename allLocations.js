@@ -21,6 +21,18 @@ export const fortBridger = {
     buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Yoke"
 };
 
+export const fortHall = {
+    flavorText: "You have reached Fort Hall! It's nothing more than a wooden palisade and stray chickens. What would you like to do?",
+    options: "1. Continue on the trail\n2. Buy Supplies",
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Yoke"
+};
+
+export const fortBoise = {
+    flavorText: "You have reached Fort Boise! Turds alive! It's Built to Spill! What would you like to do?",
+    options: "1. Continue on the trail\n2. Buy Supplies",
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Yoke"
+};
+
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger
 // if green river, soda springs, fort hall, snake river, fort boise, blue mountains -- fort walla walla or the dulles
