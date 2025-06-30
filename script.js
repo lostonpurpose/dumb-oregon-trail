@@ -86,7 +86,7 @@
 
   // town logic to continue or use options
   document.addEventListener("keydown", (e) => {  
-    if (e.key === "1") {
+    if (e.key === "2") {
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
       // clearing arrival text
@@ -99,17 +99,12 @@
       };
 
       // removes the - from class and converts to fortData retrievable
-      const key = location.dataset.location.replace(/\s+/g, "-");
+      const key = currentLocation.dataset.location.replace(/\s+/g, "");
 
       purchaseText.innerText = "What will you buy?";
-      purchaseOptions.innerText = fortData["FortKearney"].buySupplies;
-      // const safeClass = location.dataset.location.replace(/\s+/g, "-");
-      // let locationOptions = document.querySelector(`h3.${safeClass}`);
-      // if (locationOptions) {
-      //   locationOptions.innerText = `${location.dataset.location.replace(/\s+/g, "-").buySupplies}`;
-      // }
+      purchaseOptions.innerText = fortData[key].buySupplies;
     }
-    else if (e.key === "2") {
+    else if (e.key === "1") {
       if (!arrived) return;  // only allow pressing "2" if arrived is true
       arrived = false;  // reset arrived for next path
 

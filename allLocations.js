@@ -5,20 +5,20 @@ console.log(fart)
 
 export const fortKearney = {
     flavorText: "You have reached Fort Kearney! The small fort town bustles with activity. What would you like to do?",
-    options: "1. Buy Supplies\n2.Continue on the trail",
-    buySupplies: "1. Buy Food\n2. Buy Wagon Wheels\n3. Leave"
+    options: "1. Continue on the trail\n2. Buy Supplies",
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels"
 };
 
 export const fortLaramie = {
     flavorText: "You have reached Fort Laramie! This is rugged town struggling to get by. What would you like to do?",
-    options: "1. Buy Supplies\n2.Continue on the trail",
-    buySupplies: "1. Buy Food\n2. Buy Wagon Wheels\n3. Leave"
+    options: "1. Continue on the trail\n2. Buy Supplies",
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Axle"
 };
 
 export const fortBridger = {
     flavorText: "You have reached Fort Bridger! It's nothing more than a wooden palisade and stray chickens. What would you like to do?",
-    options: "1. Buy Supplies\n2.Continue on the trail",
-    buySupplies: "1. Buy Food\n2. Buy Wagon Wheels\n3. Leave"
+    options: "1. Continue on the trail\n2. Buy Supplies",
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Yoke"
 };
 
 
