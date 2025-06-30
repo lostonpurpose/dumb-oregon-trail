@@ -62,14 +62,16 @@
   };
 
   // this works. uses the location dataset name to pull correct info. will be better to use the classes when i get around to it.
-  let optionText = document.querySelector(".option-text")
+  let flavorText = document.querySelector(".flavor-text");
+  let options = document.querySelector(".options");
   function showLocation(location) {
     if (location.dataset.location === "Fort Kearney") {
       // document.body.insertAdjacentHTML("beforeend", `<h3>${fortKearney.flavorText}</h3>`);
-      optionText.innerText = "poop"
+      flavorText.innerText = `${fortKearney.flavorText}`;
+      options.innerText = `${fortKearney.options}`;
       
       const safeClass = location.dataset.location.replace(/\s+/g, "-");
-      document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">${fortKearney.options}</h3>`);
+      // document.body.insertAdjacentHTML("beforeend", `<h3 class="${safeClass}">${fortKearney.options}</h3>`);
     }
 
     else if (location.dataset.location === "Fort Laramie") {
@@ -85,20 +87,38 @@
   // town logic to continue or use options
   document.addEventListener("keydown", (e) => {  
     if (e.key === "1") {
-      const safeClass = location.dataset.location.replace(/\s+/g, "-");
-      let locationOptions = document.querySelector(`h3.${safeClass}`);
-      if (locationOptions) {
-        locationOptions.innerText = `${location.dataset.location.replace(/\s+/g, "-").buySupplies}`;
-      }
+      let purchaseText = document.querySelector(".purchase-text");
+      let purchaseOptions = document.querySelector(".purchase-options");
+      // clearing arrival text
+      flavorText.innerText = "";
+      options.innerText = "";
+
+      // assigning correct casing for allLocation.js lookup
+      const fortData = {
+        "FortKearney": fortKearney
+      };
+
+      // removes the - from class and converts to fortData retrievable
+      const key = location.dataset.location.replace(/\s+/g, "-");
+
+      purchaseText.innerText = "What will you buy?";
+      purchaseOptions.innerText = fortData["FortKearney"].buySupplies;
+      // const safeClass = location.dataset.location.replace(/\s+/g, "-");
+      // let locationOptions = document.querySelector(`h3.${safeClass}`);
+      // if (locationOptions) {
+      //   locationOptions.innerText = `${location.dataset.location.replace(/\s+/g, "-").buySupplies}`;
+      // }
     }
     else if (e.key === "2") {
       if (!arrived) return;  // only allow pressing "2" if arrived is true
-
       arrived = false;  // reset arrived for next path
 
+      // updating things like getting rid of prior path etc
       path2.classList.remove("hide-path");
       loc2.classList.remove("hide-loc");
       route2.classList.remove("hide-route");
+      flavorText.innerText = "";
+      options.innerText = "";
 
       document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'none';  
       currentPathIndex++;
@@ -118,4 +138,4 @@
     }
   });
 
-  // need to get town text to update correctly. <br> is not working. eventually make text disappear / get replaced. add couple more routes and can finally add random event logic. also make every leave option continue on the trail. can also code party generation. fun.
+// need to get option 1 working again. add couple more routes and can finally add random event logic. also make every leave option continue on the trail. can also code party generation. fun.
