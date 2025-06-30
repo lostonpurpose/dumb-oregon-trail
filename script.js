@@ -32,11 +32,13 @@
       "FortBoise": fortBoise,
     };
 
-
+    // using this to check each path for miles left
     const allPaths = [path1, path2, path3, path4, path5];
     let currentPathIndex = 0;
+    // not using currently
     const allLocations = [loc1, loc2, loc3, loc4, loc5];
     let currentLocationIndex = 0;
+    // not using currently
     const allRoutes = [route1, route2, route3, route4, route5];
     let currentRouteIndex = 0;
 
@@ -109,32 +111,35 @@
         if (!arrived) return;  // only allow pressing "2" if arrived is true
         arrived = false;  // reset arrived for next path
 
-        // updating things like getting rid of prior path etc
-        // path2.classList.remove("hide-path");
-        // loc2.classList.remove("hide-loc");
-        // route2.classList.remove("hide-route");
         flavorText.innerText = "";
         options.innerText = "";
 
-        // hides current path and route. maybe only need to hide route???
+        // hides current route.
         document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'none';
-        currentPathIndex++;
-        // am not using route 1's index bc it's not hidden by default
+      
+        // am not using route 1's index bc it's not hidden by default. updates all routes/paths/locs
         currentRouteIndex++;
-        // unhides next route. TESTING
-        document.querySelector(`.route-${currentRouteIndex + 1}`).classList.remove("hide-route");
-        // unhides next path. TESTING
-        document.querySelector(`.path-${currentPathIndex + 1}`).classList.remove("hide-path");
-
-        // updates the location index
+        currentPathIndex++;
         currentLocationIndex++;
+        // unhides next route. TESTING. WORKING
+        const nextRouteEl = document.querySelector(`.route-${currentRouteIndex + 1}`);
+        if (nextRouteEl) {
+          nextRouteEl.classList.remove("hide-route");
+        }
+        // unhides next path. TESTING. WORKING
+        const nextPathEl = document.querySelector(`.path-${currentPathIndex + 1}`);
+        if (nextPathEl) {
+          nextPathEl.classList.remove("hide-path");
+        }
         currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`); 
-        // unhides next location. TESTING
-        document.querySelector(`#loc-${currentLocationIndex + 1}`).classList.remove("hide-loc");
+        // unhides next location. TESTING. WORKING.
+        const nextLocEl = document.querySelector(`#loc-${currentLocationIndex + 1}`);
+        if (nextLocEl) {
+          nextLocEl.classList.remove("hide-loc");
+        }
 
         const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
         if (nextRoute) {
-          
           milesLeft = allPaths[currentPathIndex].dataset.miles;
           miles.innerText = `${milesLeft} miles til ${currentLocation.dataset.location}`;
         } else {
@@ -143,4 +148,4 @@
       }
     });
 
-  // everything good except from route 3 path doesn't appear. also make every leave option continue on the trail. can also code party generation. fun.
+  // only issue left (i think) is path 5's location doesn't appear. and after finishing the else 'you have reached the end' doesn't appear. can make random events. can also code party generation. fun.
