@@ -68,3 +68,7 @@ html, body {
 /* .route-2 {
     box-sizing: border-box;
 } */
+
+.event {
+    color: red;
+}

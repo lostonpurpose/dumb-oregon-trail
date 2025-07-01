@@ -73,8 +73,9 @@ function animateKeyT(e, path) {
         if (milesLeft <= 0) {
             arrived = true;
             miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
+            // hide any events bc at a location
+            eventDiv.innerText = "";
             // calls the destination info
-            // showLocation(currentLocation);
             newShowLocation(currentLocation);
         }
         else {miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
@@ -150,12 +151,14 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
   if (e.key === " ") {
+    eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 7) {
+    if (eventChance >= 9) {
       let chosenAccident = getRandomAccident();
-      console.log(chosenAccident);
+      eventDiv.innerText = `${chosenAccident}`;
     }
   }
 };
