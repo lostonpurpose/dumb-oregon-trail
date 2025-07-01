@@ -53,7 +53,6 @@ let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e);
 });
 
 
-
 // somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
 let currentPath = allPaths[currentPathIndex];
 let milesLeft = currentPath.dataset.miles;
@@ -73,8 +72,7 @@ function animateKeyT(e, path) {
         if (milesLeft <= 0) {
             arrived = true;
             miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
-            // hide any events bc at a location
-            eventDiv.innerText = "";
+            
             // calls the destination info
             newShowLocation(currentLocation);
         }
@@ -156,10 +154,13 @@ function randomEvents(e) {
   if (e.key === " ") {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 9) {
+    if (eventChance >= 1) {
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident}`;
-    }
+      if (arrived === true) {
+        eventDiv.innerText = "";
+      }
+    };
   }
 };
 

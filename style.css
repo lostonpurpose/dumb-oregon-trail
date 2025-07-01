@@ -19,7 +19,6 @@ html, body {
     width: 100%;
 }
 
-
 .routes-container {
     position: relative;
     height: 20vh;
@@ -59,6 +58,7 @@ html, body {
     height: 100%;
     background-color: blueviolet;
     margin: 0;
+    background-image: url("./images/fort.png");
 }
 
 .hide-path, .hide-loc, .hide-route{
