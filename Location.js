@@ -6,4 +6,4 @@ export class Location {
         this.trade = trade;
         this.flavorText = flavorText;
     }
-}
+};

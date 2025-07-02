@@ -1,5 +1,6 @@
 import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident } from "./events.js";
+import { Will } from "./createParty.js";
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -154,14 +155,16 @@ function randomEvents(e) {
   if (e.key === " ") {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 1) {
+    if (eventChance >= 8) {
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident}`;
       if (arrived === true) {
         eventDiv.innerText = "";
       }
     };
-  }
+  };
 };
+
+console.log(Will);
 
 //  can make random events. can also code party generation. fun.

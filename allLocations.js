@@ -1,8 +1,5 @@
 import { Location } from "./Location.js";
 
-export const fart = new Location("fart")
-console.log(fart)
-
 export const fortKearney = {
     flavorText: "You have reached Fort Kearney! The small fort town bustles with activity. What would you like to do?",
     options: "1. Continue on the trail\n2. Buy Supplies",
