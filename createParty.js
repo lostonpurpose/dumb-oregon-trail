@@ -1,8 +1,12 @@
-// have to make a new party with a wagon with people and gear
+import { Wagon, wagon1, wagon2, wagon3 } from "./Wagon.js";
 
-import { Wagon } from "./Wagon.js";
-import { Person, Will } from "./Person.js";
+export class Party {
+    constructor(name, wagons, items) {
+        this.name = name;
+        this.passengers = wagons;
+        this.items = items;
+    }
+};
 
-
-
-
+export const party = new Party("The Secret Druids", [wagon1, wagon2, wagon3], [])
+console.log(party);

@@ -1,7 +1,6 @@
 import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident } from "./events.js";
-import { will, ayaka } from "./Person.js";
-import { wagon1 } from "./Wagon.js";
+import { party } from "./createParty.js";
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");

@@ -8,6 +8,5 @@ export class Wagon {
 };
 
 export const wagon1 = new Wagon("Wagon 1", [will, ayaka, billy]);
-export const wagon2 = new Wagon("Wagon 1", [pooper, fart, dookie, turd]);
-export const wagon3 = new Wagon("Wagon 1", [crapper, dapper]);
-
+export const wagon2 = new Wagon("Wagon 2", [pooper, fart, dookie, turd]);
+export const wagon3 = new Wagon("Wagon 3", [crapper, dapper]);
