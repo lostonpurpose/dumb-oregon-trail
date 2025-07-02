@@ -1,6 +1,7 @@
 import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident } from "./events.js";
-import { Will } from "./createParty.js";
+import { will, ayaka } from "./Person.js";
+import { wagon1 } from "./Wagon.js";
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -165,6 +166,5 @@ function randomEvents(e) {
   };
 };
 
-console.log(Will);
 
 //  can make random events. can also code party generation. fun.
