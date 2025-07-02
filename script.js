@@ -165,5 +165,4 @@ function randomEvents(e) {
   };
 };
 
-
 //  can make random events. can also code party generation. fun.
