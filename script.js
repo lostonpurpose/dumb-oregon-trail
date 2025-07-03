@@ -25,6 +25,8 @@ const loc3 = document.getElementById("loc-3");
 const loc4 = document.getElementById("loc-4");
 const loc5 = document.getElementById("loc-5");
 
+const infoDiv = document.querySelector(".info-div");
+
 // assigning correct casing for allLocation.js lookup
 const fortData = {
   "FortKearney": fortKearney,
@@ -59,28 +61,68 @@ let currentPath = allPaths[currentPathIndex];
 let milesLeft = currentPath.dataset.miles;
 miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
 
-// this animates the wagon. checks for spacebar. called by above that checks for keypress. coded to iterate path index
+// new autoscroll function i didn't code::::::
 let arrived = false;
-function animateKeyT(e, path) {
-    if (e.key === ' ' && !arrived) {
-        let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
-        distance -= 10;
-        console.log("Current path:", path);
-        path.style.width = `${distance}vw`
-        milesLeft -= 10;
+let autoMoveInterval = null;
 
-        // determines whether you reached a destination or not
-        if (milesLeft <= 0) {
+function autoMoveWagon(path, step = 10, interval = 500) {
+    let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
+
+    autoMoveInterval = setInterval(() => {
+        if (arrived || distance <= 0) {
+            clearInterval(autoMoveInterval);
+            autoMoveInterval = null;
             arrived = true;
             miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
-            
-            // calls the destination info
             newShowLocation(currentLocation);
+            return;
         }
-        else {miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
+        distance -= step;
+        path.style.width = `${distance}vw`;
+        milesLeft -= step;
+        miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}`;
+        // triggers event function. can trigger ANY function in here!
+        randomEvents();
+    }, interval);
+}
+
+// Toggle animation with spacebar
+document.body.addEventListener("keyup", (e) => {
+    if (e.key === ' ' && !arrived) {
+        if (autoMoveInterval) {
+            clearInterval(autoMoveInterval);
+            autoMoveInterval = null;
+        } else {
+            autoMoveWagon(allPaths[currentPathIndex]);
         }
     }
-};
+    randomEvents(e);
+});
+// end of autoscroll i didn't code:::::::::
+
+
+// this animates the wagon. checks for spacebar. called by above that checks for keypress. coded to iterate path index
+// let arrived = false;
+// function animateKeyT(e, path) {
+//     if (e.key === ' ' && !arrived) {
+//         let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
+//         distance -= 10;
+//         console.log("Current path:", path);
+//         path.style.width = `${distance}vw`
+//         milesLeft -= 10;
+
+//         // determines whether you reached a destination or not
+//         if (milesLeft <= 0) {
+//             arrived = true;
+//             miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
+            
+//             // calls the destination info
+//             newShowLocation(currentLocation);
+//         }
+//         else {miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
+//         }
+//     }
+// };
 
 // uses fortData to dynamically update every location. beautiful.
 let flavorText = document.querySelector(".flavor-text");
@@ -152,17 +194,22 @@ document.addEventListener("keydown", (e) => {
 
 const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
-  if (e.key === " ") {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 8) {
+    if (eventChance >= 9) {
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident}`;
+
+      // Pause the animation
+        if (autoMoveInterval) {
+            clearInterval(autoMoveInterval);
+            autoMoveInterval = null;
+            infoDiv.innerText = "Press spacebar to continue"
+        }
+      // end pause animation
+
       if (arrived === true) {
         eventDiv.innerText = "";
       }
     };
-  };
 };
-
-//  can make random events. can also code party generation. fun.
