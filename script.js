@@ -61,6 +61,8 @@ let currentPath = allPaths[currentPathIndex];
 let milesLeft = currentPath.dataset.miles;
 miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
 
+
+// ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // new autoscroll function i didn't code::::::
 let arrived = false;
 let autoMoveInterval = null;
@@ -99,6 +101,7 @@ document.body.addEventListener("keyup", (e) => {
     randomEvents(e);
 });
 // end of autoscroll i didn't code:::::::::
+// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 // this animates the wagon. checks for spacebar. called by above that checks for keypress. coded to iterate path index

@@ -72,3 +72,9 @@ html, body {
 .event {
     color: red;
 }
+
+.party-info {
+    position: absolute;
+    top: 0;
+    width: 50%;
+}
