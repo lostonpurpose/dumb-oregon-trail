@@ -77,8 +77,25 @@ html, body {
     position: absolute;
     top: 0;
     width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.party-info h3 {
+    text-align: center;
 }
 
 .wagons {
     display: flex;
+    justify-content: space-between;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
 }

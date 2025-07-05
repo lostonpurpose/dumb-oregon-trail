@@ -69,7 +69,7 @@ let autoMoveInterval = null;
 
 function autoMoveWagon(path, step = 10, interval = 500) {
     let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
-
+    infoDiv.innerText = ""
     autoMoveInterval = setInterval(() => {
         if (arrived || distance <= 0) {
             clearInterval(autoMoveInterval);
