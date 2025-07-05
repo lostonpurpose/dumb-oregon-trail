@@ -16,6 +16,7 @@ export function getRandomAccident() {
     if (chooseEventType === 1) {
         // select wagon to have accident happen to
         const chosenAccident = accidents[accidentIndex];
+        firstParty.wagons[wagonIndex].accident = chosenAccident;
         return `${firstParty.wagons[wagonIndex].name + chosenAccident + ". You have lost " + lostDays + " days."}`;
     }
     else if (chooseEventType === 2) {

@@ -2,6 +2,8 @@ import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./al
 import { diseases, accidents, getRandomAccident } from "./events.js";
 import { firstParty } from "./createParty.js";
 
+document.addEventListener("DOMContentLoaded", () => {
+
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
 const miles = document.querySelector(".miles");
@@ -57,14 +59,20 @@ function renderPassengers() {
     ul.innerHTML = "";
     wagon.passengers.forEach(passenger => {
       const li = document.createElement("li");
-      li.textContent = `${passenger.name} ${passenger.disease}`;
+      if (passenger.disease != "none") {
+        li.textContent = `${passenger.name} ${passenger.disease}`;
+      }
+      else { passenger.disease = ""}
       ul.appendChild(li);
     });
   });
 };
+console.log('first party0', firstParty)
+console.log("firstParty.wagons", firstParty.wagons);
+console.log("passengerLists", passengerLists);
+console.log("wagonNames", wagonNames);
 renderPassengers();
 
-console.log(firstParty.wagons[0].passengers[0].name)
 
 // assigning correct casing for allLocation.js lookup
 const fortData = {
@@ -87,6 +95,14 @@ let currentRouteIndex = 0;
 
 let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
 
+// somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
+let currentPath = allPaths[currentPathIndex];
+let milesLeft = currentPath.dataset.miles;
+miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
+
+});
+// LLLLLLLLLLLLLLLL End of domcontent loaded wrapper
+
 
 // old way of doing spacebar animation
 // document.body.focus();
@@ -97,10 +113,6 @@ let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
 // });
 
 
-// somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
-let currentPath = allPaths[currentPathIndex];
-let milesLeft = currentPath.dataset.miles;
-miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
 
 
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
