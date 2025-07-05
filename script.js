@@ -62,7 +62,7 @@ function renderPassengers() {
       if (passenger.disease != "none") {
         li.textContent = `${passenger.name} ${passenger.disease}`;
       }
-      else { passenger.disease = ""}
+      else { li.textContent = passenger.name};
       ul.appendChild(li);
     });
   });
@@ -71,7 +71,9 @@ console.log('first party0', firstParty)
 console.log("firstParty.wagons", firstParty.wagons);
 console.log("passengerLists", passengerLists);
 console.log("wagonNames", wagonNames);
-renderPassengers();
+setTimeout(() => {
+  renderPassengers();
+}, 100);
 
 
 // assigning correct casing for allLocation.js lookup
