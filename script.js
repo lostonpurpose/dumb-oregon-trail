@@ -50,16 +50,19 @@ const wagonNames = [
   document.querySelector('.wagon-name-3')
 ];
 
-firstParty.wagons.forEach((wagon, i) => {
-  wagonNames[i].innerText = wagon.name;
-  const ul = passengerLists[i];
-  ul.innerHTML = "";
-  wagon.passengers.forEach(passenger => {
-    const li = document.createElement("li");
-    li.textContent = passenger.name;
-    ul.appendChild(li);
+function renderPassengers() {
+  firstParty.wagons.forEach((wagon, i) => {
+    wagonNames[i].innerText = wagon.name;
+    const ul = passengerLists[i];
+    ul.innerHTML = "";
+    wagon.passengers.forEach(passenger => {
+      const li = document.createElement("li");
+      li.textContent = `${passenger.name} ${passenger.disease}`;
+      ul.appendChild(li);
+    });
   });
-});
+};
+renderPassengers();
 
 console.log(firstParty.wagons[0].passengers[0].name)
 
@@ -240,6 +243,7 @@ function randomEvents(e) {
     if (eventChance >= 9) {
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident}`;
+      renderPassengers();
 
       // Pause the animation
         if (autoMoveInterval) {

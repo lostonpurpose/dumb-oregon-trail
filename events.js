@@ -21,6 +21,7 @@ export function getRandomAccident() {
     else if (chooseEventType === 2) {
         // select passenger to have disease
         const chosenDisease = diseases[diseaseIndex];
+        firstParty.wagons[wagonIndex].passengers[passengerIndex].disease = chosenDisease;
         return `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + chosenDisease + ". You have lost " + lostDays + " days."}`;
     }
 }
