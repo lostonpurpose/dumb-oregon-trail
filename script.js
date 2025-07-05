@@ -2,8 +2,6 @@ import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./al
 import { diseases, accidents, getRandomAccident } from "./events.js";
 import { firstParty } from "./createParty.js";
 
-document.addEventListener("DOMContentLoaded", () => {
-
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
 const miles = document.querySelector(".miles");
@@ -102,8 +100,6 @@ let currentPath = allPaths[currentPathIndex];
 let milesLeft = currentPath.dataset.miles;
 miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
 
-});
-// LLLLLLLLLLLLLLLL End of domcontent loaded wrapper
 
 
 // old way of doing spacebar animation
