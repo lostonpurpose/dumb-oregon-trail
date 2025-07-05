@@ -1,6 +1,6 @@
 import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident } from "./events.js";
-import { party } from "./createParty.js";
+import { firstParty } from "./createParty.js";
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -27,6 +27,36 @@ const loc5 = document.getElementById("loc-5");
 
 const infoDiv = document.querySelector(".info-div");
 
+// wagon and passengers
+let allWagons = document.querySelectorAll(".wagons ul");
+
+const passengerLists = [
+  document.querySelector('.passenger-list-1'),
+  document.querySelector('.passenger-list-2'),
+  document.querySelector('.passenger-list-3')
+];
+
+// sets the wagon names dynamically MY way, but maybe using the existing class firstParty.wagons would be better
+// let wagonIndex = 0;
+// allWagons.forEach(element => {
+//   element.innerText = firstParty.wagons[wagonIndex].name;
+//   wagonIndex++;
+// });
+
+// sets the wagons and passengers dynamically
+firstParty.wagons.forEach((wagon, i) => {     // oh right bc i have access to the class and the wagons and passengers are arrays
+  const ul = passengerLists[i];
+  ul.innerHTML = ""; // just clears any potentially existing ones
+  ul.textContent = wagon.name;
+  wagon.passengers.forEach(passenger => {
+    const li = document.createElement("li");
+    li.textContent = passenger.name;
+    ul.appendChild(li);
+  })
+});
+
+console.log(firstParty.wagons[0].passengers[0].name)
+
 // assigning correct casing for allLocation.js lookup
 const fortData = {
   "FortKearney": fortKearney,
@@ -48,12 +78,14 @@ let currentRouteIndex = 0;
 
 let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
 
-document.body.focus();
-let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e); 
-    // animate(e);
-    animateKeyT(e, allPaths[currentPathIndex]);
-    randomEvents(e);
-});
+
+// old way of doing spacebar animation
+// document.body.focus();
+// let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e); 
+//     // animate(e);
+//     animateKeyT(e, allPaths[currentPathIndex]);
+//     randomEvents(e);
+// });
 
 
 // somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know

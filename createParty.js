@@ -8,5 +8,5 @@ export class Party {
     }
 };
 
-export const party = new Party("The Secret Druids", [wagon1, wagon2, wagon3], [])
-console.log(party);
+export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], [])
+console.log(firstParty);
