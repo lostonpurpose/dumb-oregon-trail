@@ -44,15 +44,21 @@ const passengerLists = [
 // });
 
 // sets the wagons and passengers dynamically
-firstParty.wagons.forEach((wagon, i) => {     // oh right bc i have access to the class and the wagons and passengers are arrays
+const wagonNames = [
+  document.querySelector('.wagon-name-1'),
+  document.querySelector('.wagon-name-2'),
+  document.querySelector('.wagon-name-3')
+];
+
+firstParty.wagons.forEach((wagon, i) => {
+  wagonNames[i].innerText = wagon.name;
   const ul = passengerLists[i];
-  ul.innerHTML = ""; // just clears any potentially existing ones
-  ul.textContent = wagon.name;
+  ul.innerHTML = "";
   wagon.passengers.forEach(passenger => {
     const li = document.createElement("li");
     li.textContent = passenger.name;
     ul.appendChild(li);
-  })
+  });
 });
 
 console.log(firstParty.wagons[0].passengers[0].name)
