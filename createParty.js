@@ -8,7 +8,7 @@ export class Party {
     }
 };
 
-export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], {"food": 500, "wagon wheel": 1, "ox yoke": 2, "medicine": 5})
+export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], {"food": 100, "wagon wheel": 1, "ox yoke": 2, "medicine": 5})
 console.log(firstParty);
 
 export function updateFood(days) { 
@@ -20,4 +20,8 @@ export function updateFood(days) {
     const foodConsumed = passengerCount * foodPerPersonPerDay * days;
     firstParty.items.food -= foodConsumed
     if (firstParty.items.food < 0) firstParty.items.food = 0; // avoids negative
+};
+
+export function isDead() {
+    return firstParty.items.food <= 0;
 };

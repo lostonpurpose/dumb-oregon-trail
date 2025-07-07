@@ -1,6 +1,6 @@
 import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
-import { firstParty, updateFood } from "./createParty.js";
+import { firstParty, updateFood, isDead } from "./createParty.js";
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -135,6 +135,19 @@ function autoMoveWagon(path, step = 10, interval = 500) {
   eventDiv.innerText = "";
 
   autoMoveInterval = setInterval(() => {
+    // check for death
+    if (isDead()) {
+      if (fakeMoveInterval) {
+        clearInterval(fakeMoveInterval);
+        fakeMoveInterval = null;
+      }
+      clearInterval(autoMoveInterval);
+      autoMoveInterval = null;
+      infoDiv.innerText = "You are all dead";
+      return;  // important: stop the rest of the code in the interval
+    }
+    // end check for death
+
     days += 1;
     dayDiv.innerText = days;
     updateFood(1);
@@ -292,6 +305,19 @@ function randomEvents(e) {
         i++;
         updateFood(1); // update for 1 day each tick
         renderPassengers();
+        // check for death
+        if (isDead()) {
+          if (fakeMoveInterval) {
+            clearInterval(fakeMoveInterval);
+            fakeMoveInterval = null;
+          }
+          clearInterval(autoMoveInterval);
+          autoMoveInterval = null;
+          infoDiv.innerText = "You are all dead";
+          return;  // important: stop the rest of the code in the interval
+        }
+        // end check for death
+    
       }, 500);
 
       // Pause the animation
