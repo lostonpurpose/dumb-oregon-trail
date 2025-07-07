@@ -103,7 +103,7 @@ let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
 
 // somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
 let currentPath = allPaths[currentPathIndex];
-let milesLeft = currentPath.dataset.miles;
+let milesLeft = parseInt(currentPath.dataset.miles, 10);
 miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
 
 
@@ -127,27 +127,31 @@ let days = 0;
 const dayDiv = document.querySelector(".days");
 
 function autoMoveWagon(path, step = 10, interval = 500) {
-    let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
-    infoDiv.innerText = ""
-    autoMoveInterval = setInterval(() => {
-        if (arrived || distance <= 0) {
-            clearInterval(autoMoveInterval);
-            autoMoveInterval = null;
-            arrived = true;
-            miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
-            newShowLocation(currentLocation);
-            return;
-        }
-        days += 1;
-        dayDiv.innerText = days;
-        distance -= step;
-        path.style.width = `${distance}vw`;
-        milesLeft -= step;
-        miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}`;
-        // triggers event function. can trigger ANY function in here!
-        randomEvents();
-    }, interval);
+  infoDiv.innerText = "";
+
+  autoMoveInterval = setInterval(() => {
+    days += 1;
+    dayDiv.innerText = days;
+
+    milesLeft -= step;
+    if (milesLeft < 0) milesLeft = 0;
+
+    path.style.width = `${milesLeft}vw`;
+    miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}`;
+
+    if (arrived || milesLeft <= 0) {
+      clearInterval(autoMoveInterval);
+      autoMoveInterval = null;
+      arrived = true;
+      miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
+      newShowLocation(currentLocation);
+      return;
+    }
+
+    randomEvents();
+  }, interval);
 }
+
 
 // Toggle animation with spacebar
 document.body.addEventListener("keyup", (e) => {
@@ -274,7 +278,8 @@ function randomEvents(e) {
       // end pause animation
 
       if (arrived === true) {
-        eventDiv.innerText = "";
+        // eventDiv.innerText = "";
+        eventChance = 0;
       }
     };
 };
