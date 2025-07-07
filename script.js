@@ -67,17 +67,20 @@ function renderPassengers() {
       ul.appendChild(li);
     });
   });
+
+  // updates items dynamically
+  Object.entries(firstParty.items).forEach(([item, amount]) => {
+  const itemLi = document.createElement("li");
+  itemLi.textContent = `${item} : ${amount}`;
+  items.appendChild(itemLi);
+});
+
 };
 setTimeout(() => {
   renderPassengers();
 }, 100);
 
 // render items dynamically
-Object.entries(firstParty.items).forEach(([item, amount]) => {
-  const itemLi = document.createElement("li");
-  itemLi.textContent = `${item} : ${amount}`;
-  items.appendChild(itemLi);
-});
 
 
 // assigning correct casing for allLocation.js lookup
@@ -279,20 +282,19 @@ function randomEvents(e) {
         if (i >= chosenAccident.lostDays) {
           clearInterval(fakeMoveInterval);
           fakeMoveInterval = null;
+          infoDiv.innerText = "Press spacebar to continue"
           return;
         }
         days ++;
         dayDiv.innerText = days;
         i++;
       }, 500);
-      
-
 
       // Pause the animation
         if (autoMoveInterval) {
             clearInterval(autoMoveInterval);
             autoMoveInterval = null;
-            infoDiv.innerText = "Press spacebar to continue"
+            
         }
       // end pause animation
 
@@ -309,3 +311,5 @@ function randomEvents(e) {
 // if wagon destroyed move people to other wagons, but overcrowding affects health. 
 
 // move passenger/wagon dynamic creation to party file, then import. simplify
+
+// need to make spacebar not available while waiting out an event
