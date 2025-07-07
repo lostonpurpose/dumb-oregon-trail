@@ -123,6 +123,8 @@ miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.
 // new autoscroll function i didn't code::::::
 let arrived = false;
 let autoMoveInterval = null;
+let days = 0;
+const dayDiv = document.querySelector(".days");
 
 function autoMoveWagon(path, step = 10, interval = 500) {
     let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
@@ -136,6 +138,8 @@ function autoMoveWagon(path, step = 10, interval = 500) {
             newShowLocation(currentLocation);
             return;
         }
+        days += 1;
+        dayDiv.innerText = days;
         distance -= step;
         path.style.width = `${distance}vw`;
         milesLeft -= step;
