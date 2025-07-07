@@ -61,6 +61,7 @@ function renderPassengers() {
       const li = document.createElement("li");
       if (passenger.disease != "none") {
         li.textContent = `${passenger.name} ${passenger.disease}`;
+        li.classList.add("passenger-info-text");
       }
       else { li.textContent = passenger.name};
       ul.appendChild(li);
@@ -70,7 +71,7 @@ function renderPassengers() {
 setTimeout(() => {
   renderPassengers();
 }, 100);
-console.log(firstParty.items)
+
 // render items dynamically
 Object.entries(firstParty.items).forEach(([item, amount]) => {
   const itemLi = document.createElement("li");

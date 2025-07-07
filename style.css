@@ -91,7 +91,7 @@ html, body {
     justify-content: space-between;
 }
 
-.wagon-name-1, .wagon-name-2, .wagon-name-3 {
+.wagon-name-1, .wagon-name-2, .wagon-name-3, .item-span {
     display: block;
     margin-bottom: 12px;
 }
@@ -103,4 +103,8 @@ ul {
 
 li {
     list-style-type: none;
+}
+
+.passenger-info-text {
+    color: red;
 }
