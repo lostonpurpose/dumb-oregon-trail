@@ -65,13 +65,11 @@ function renderPassengers() {
     });
   });
 };
-console.log('first party0', firstParty)
-console.log("firstParty.wagons", firstParty.wagons);
-console.log("passengerLists", passengerLists);
-console.log("wagonNames", wagonNames);
 setTimeout(() => {
   renderPassengers();
 }, 100);
+
+// render items dynamically
 
 
 // assigning correct casing for allLocation.js lookup
@@ -268,3 +266,8 @@ function randomEvents(e) {
       }
     };
 };
+
+
+// TODO: add wagon accidents and inventory. link disease to health. allow recovery (doctor eventually) or spontaneous (random). 
+// do to oxen exactly what i did to people. they have health too... certain diseases for people/oxen kill them outright. 
+// if wagon destroyed move people to other wagons, but overcrowding affects health. 
