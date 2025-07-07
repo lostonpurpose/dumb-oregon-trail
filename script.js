@@ -36,6 +36,8 @@ const passengerLists = [
   document.querySelector('.passenger-list-3')
 ];
 
+const items = document.querySelector(".item-ul");
+
 // sets the wagon names dynamically MY way, but maybe using the existing class firstParty.wagons would be better
 // let wagonIndex = 0;
 // allWagons.forEach(element => {
@@ -68,8 +70,13 @@ function renderPassengers() {
 setTimeout(() => {
   renderPassengers();
 }, 100);
-
+console.log(firstParty.items)
 // render items dynamically
+Object.entries(firstParty.items).forEach(([item, amount]) => {
+  const itemLi = document.createElement("li");
+  itemLi.textContent = `${item} : ${amount}`;
+  items.appendChild(itemLi);
+});
 
 
 // assigning correct casing for allLocation.js lookup
@@ -271,3 +278,5 @@ function randomEvents(e) {
 // TODO: add wagon accidents and inventory. link disease to health. allow recovery (doctor eventually) or spontaneous (random). 
 // do to oxen exactly what i did to people. they have health too... certain diseases for people/oxen kill them outright. 
 // if wagon destroyed move people to other wagons, but overcrowding affects health. 
+
+// move passenger/wagon dynamic creation to party file, then import. simplify
