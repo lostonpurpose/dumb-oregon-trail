@@ -8,5 +8,16 @@ export class Party {
     }
 };
 
-export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], {"food": 300, "wagon wheel": 1, "ox yoke": 2, "medicine": 5})
+export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], {"food": 500, "wagon wheel": 1, "ox yoke": 2, "medicine": 5})
 console.log(firstParty);
+
+export function updateFood(days) { 
+    const foodPerPersonPerDay = 1;
+    let passengerCount = 0;
+    firstParty.wagons.forEach(wagon => {
+        passengerCount += wagon.passengers.length
+    });
+    const foodConsumed = passengerCount * foodPerPersonPerDay * days;
+    firstParty.items.food -= foodConsumed
+    if (firstParty.items.food < 0) firstParty.items.food = 0; // avoids negative
+};

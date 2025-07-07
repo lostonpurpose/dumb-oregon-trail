@@ -1,6 +1,6 @@
 import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
-import { firstParty } from "./createParty.js";
+import { firstParty, updateFood } from "./createParty.js";
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -69,6 +69,7 @@ function renderPassengers() {
   });
 
   // updates items dynamically
+  items.innerHTML = "";
   Object.entries(firstParty.items).forEach(([item, amount]) => {
   const itemLi = document.createElement("li");
   itemLi.textContent = `${item} : ${amount}`;
@@ -136,7 +137,8 @@ function autoMoveWagon(path, step = 10, interval = 500) {
   autoMoveInterval = setInterval(() => {
     days += 1;
     dayDiv.innerText = days;
-
+    updateFood(1);
+    renderPassengers();
     milesLeft -= step;
     if (milesLeft < 0) milesLeft = 0;
 
@@ -274,7 +276,7 @@ function randomEvents(e) {
     if (eventChance >= 9) {
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
-      renderPassengers(); 
+
 
       // faking time for days lost
       let i = 0;
@@ -288,6 +290,8 @@ function randomEvents(e) {
         days ++;
         dayDiv.innerText = days;
         i++;
+        updateFood(1); // update for 1 day each tick
+        renderPassengers();
       }, 500);
 
       // Pause the animation
@@ -297,7 +301,7 @@ function randomEvents(e) {
             
         }
       // end pause animation
-
+      
       if (arrived === true) {
         // eventDiv.innerText = "";
         eventChance = 0;
