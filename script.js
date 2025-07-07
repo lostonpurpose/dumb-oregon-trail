@@ -1,5 +1,5 @@
 import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
-import { diseases, accidents, getRandomAccident } from "./events.js";
+import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
 import { firstParty } from "./createParty.js";
 
 const wagon = document.querySelector("#wagon");
@@ -128,6 +128,7 @@ const dayDiv = document.querySelector(".days");
 
 function autoMoveWagon(path, step = 10, interval = 500) {
   infoDiv.innerText = "";
+  eventDiv.innerText = "";
 
   autoMoveInterval = setInterval(() => {
     days += 1;
@@ -163,7 +164,7 @@ document.body.addEventListener("keyup", (e) => {
             autoMoveWagon(allPaths[currentPathIndex]);
         }
     }
-    randomEvents(e);
+    // randomEvents(e);
 });
 // end of autoscroll i didn't code:::::::::
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -260,14 +261,32 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+// accidents and diseases
+
+let fakeMoveInterval = null;
 const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
     if (eventChance >= 9) {
       let chosenAccident = getRandomAccident();
-      eventDiv.innerText = `${chosenAccident}`;
-      renderPassengers();
+      eventDiv.innerText = `${chosenAccident.message}`;
+      renderPassengers(); 
+
+      // faking time for days lost
+      let i = 0;
+      fakeMoveInterval = setInterval(() => {
+        if (i >= chosenAccident.lostDays) {
+          clearInterval(fakeMoveInterval);
+          fakeMoveInterval = null;
+          return;
+        }
+        days ++;
+        dayDiv.innerText = days;
+        i++;
+      }, 500);
+      
+
 
       // Pause the animation
         if (autoMoveInterval) {
