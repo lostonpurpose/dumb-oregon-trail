@@ -1,6 +1,6 @@
 import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
-import { firstParty, updateFood, isDead } from "./createParty.js";
+import { firstParty, updateFood, isDead, diseaseToHealth } from "./createParty.js";
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -60,10 +60,10 @@ function renderPassengers() {
     wagon.passengers.forEach(passenger => {
       const li = document.createElement("li");
       if (passenger.disease != "none") {
-        li.textContent = `${passenger.name} ${passenger.disease}`;
+        li.textContent = `${passenger.name} ${passenger.disease} ${passenger.health}`;
         li.classList.add("passenger-info-text");
       }
-      else { li.textContent = passenger.name};
+      else { li.textContent = `${passenger.name} ${passenger.health}`} ;
       ul.appendChild(li);
     });
   });
@@ -151,6 +151,7 @@ function autoMoveWagon(path, step = 10, interval = 500) {
     days += 1;
     dayDiv.innerText = days;
     updateFood(1);
+    diseaseToHealth(2) // new function does it work??
     renderPassengers();
     milesLeft -= step;
     if (milesLeft < 0) milesLeft = 0;
@@ -336,7 +337,7 @@ function randomEvents(e) {
 };
 
 
-// TODO: add wagon accidents and inventory. link disease to health. allow recovery (doctor eventually) or spontaneous (random). 
+// TODO: link disease to health. allow recovery (doctor eventually) or spontaneous (random). 
 // do to oxen exactly what i did to people. they have health too... certain diseases for people/oxen kill them outright. 
 // if wagon destroyed move people to other wagons, but overcrowding affects health. 
 

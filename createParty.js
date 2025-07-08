@@ -8,7 +8,7 @@ export class Party {
     }
 };
 
-export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], {"food": 100, "wagon wheel": 1, "ox yoke": 2, "medicine": 5})
+export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], {"food": 500, "wagon wheel": 1, "ox yoke": 2, "medicine": 5})
 console.log(firstParty);
 
 export function updateFood(days) { 
@@ -25,3 +25,17 @@ export function updateFood(days) {
 export function isDead() {
     return firstParty.items.food <= 0;
 };
+
+// holy shit i wrote this in one go and it works perfectly!
+export function diseaseToHealth(subtractedHealth) {
+    firstParty.wagons.forEach((wagon) => {
+        wagon.passengers.forEach((person) => {
+            if (person.disease === "none") {
+                return;
+            }
+            else {
+                person.health -= subtractedHealth;
+            }
+        })
+    }
+)};
