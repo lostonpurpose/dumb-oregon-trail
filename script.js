@@ -239,6 +239,11 @@ document.addEventListener("keydown", (e) => {
     purchaseText.innerText = "What will you buy?";
     purchaseOptions.innerText = fortData[key].buySupplies;
   }
+
+// here i will call a function that will live in alllocations. cleaner that way. have every location have the same options (forts, landmarks, rivers)
+
+
+  // this is always 'leave' and you move on to the next route
   else if (e.key === "1") {
     if (!arrived) return;  // only allow pressing "2" if arrived is true
     arrived = false;  // reset arrived for next path
@@ -337,7 +342,10 @@ function randomEvents(e) {
 };
 
 
-// TODO: link disease to health. allow recovery (doctor eventually) or spontaneous (random). 
+// TODO: add rivers, options. code success/failure chances.
+// make buying supplies possible, add to inventory
+// add money!
+// allow recovery (doctor eventually) or spontaneous (random). 
 // do to oxen exactly what i did to people. they have health too... certain diseases for people/oxen kill them outright. 
 // if wagon destroyed move people to other wagons, but overcrowding affects health. 
 

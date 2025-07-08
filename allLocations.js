@@ -30,6 +30,9 @@ export const fortBoise = {
     buySupplies: "1. Leave\n2. Buy Food\n3. Buy Perfect From Now On"
 };
 
+// need the buy supplies function here. 1. leave, 2. buy food, 3. buy supplies (becomes a new menu with wagon parts, medicine, etc)
+// start with 2, update part food. then make new menu, code number options to throw items into array
+
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger
 // if green river, soda springs, fort hall, snake river, fort boise, blue mountains -- fort walla walla or the dulles
