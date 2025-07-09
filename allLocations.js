@@ -50,7 +50,7 @@ export function buyFoodInput(location, currentLocation) {
     let purchaseText = document.querySelector(".purchase-text");
     let purchaseOptions = document.querySelector(".purchase-options");
         purchaseText.innerText = "How much food will you buy?";
-        purchaseOptions.innerText = `${fortData[key].buyFood} \n ${fortData[key].foodCost}`;
+        purchaseOptions.innerText = `Food available: ${fortData[key].buyFood} \n Cost per pound: ${fortData[key].foodCost}`;
     console.log("purchaseOptions exists?", purchaseOptions);
     purchaseOptions.insertAdjacentHTML("beforeend", `<form id="foodForm">
         <label for="foodAmount">Enter the amount of food you want:</label>
@@ -68,11 +68,13 @@ export function buyFoodInput(location, currentLocation) {
         e.preventDefault();
         const amount = parseInt(document.getElementById("foodAmountField").value, 10);
         console.log("User entered:", amount);
+        const cost = amount * fortData[key].foodCost;
+        if (firstParty.items.money < cost) return console.log("You do not have enough money");
         firstParty.items.money -= amount * fortData[key].foodCost;
         firstParty.items.food += amount;
         renderPassengers();
     });
-  }, 0);
+    }, 0);
 }
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger
