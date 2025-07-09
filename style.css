@@ -30,35 +30,44 @@ html, body {
     position: absolute;
     top: 50%;
     left: 0;
-    transform: translateY(-50%) scaleY(-1) rotate(180deg);
+    transform: translateY(-50%);
     width: 300px;
     height: 150px;
-    background-image: url("images/ot.png");
+    background-image: url("images/ot\ oxen.png");
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 2;
 }
 
-.route-1, .route-2, .route-3, .route-4, .route-5 {
+.route-1, .route-2, .route-3, .route-4, .route-5, .route-6 {
     height: 50%;
     background-color: antiquewhite;
     display: flex;
     align-items: stretch;
     flex-wrap: nowrap; /* 💥 this line is key */
 }
-.path-1, .path-2, .path-3, .path-4, .path-5 {
+.path-1, .path-2, .path-3, .path-4, .path-5, .path-6 {
     height: 100%;
     background-color: rgb(217, 176, 255);
 }
 
 
-
-#loc-1, #loc-2, #loc-3, #loc-4, #loc-5 {
+/* forts only */
+#loc-2, #loc-3, #loc-4, #loc-5, #loc-6 {
     width: 10vw;
     height: 100%;
     background-color: blueviolet;
     margin: 0;
     background-image: url("./images/fort.png");
+}
+
+/* rivers only */
+#loc-1 {
+    width: 10vw;
+    height: 100%;
+    background-color: blueviolet;
+    margin: 0;
+    background-image: url("./images/ot\ river.png");
 }
 
 .hide-path, .hide-loc, .hide-route{

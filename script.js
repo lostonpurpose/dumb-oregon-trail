@@ -1,4 +1,4 @@
-import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput } from "./allLocations.js";
+import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
 import { firstParty, updateFood, isDead, diseaseToHealth } from "./createParty.js";
 
@@ -11,6 +11,7 @@ const route2 = document.querySelector(".route-2");
 const route3 = document.querySelector(".route-3");
 const route4 = document.querySelector(".route-4");
 const route5 = document.querySelector(".route-5");
+const route6 = document.querySelector(".route-6");
 
 
 const path1 = document.querySelector(".path-1");
@@ -18,12 +19,14 @@ const path2 = document.querySelector(".path-2");
 const path3 = document.querySelector(".path-3");
 const path4 = document.querySelector(".path-4");
 const path5 = document.querySelector(".path-5");
+const path6 = document.querySelector(".path-6");
 
 const loc1 = document.getElementById("loc-1");
 const loc2 = document.getElementById("loc-2");
 const loc3 = document.getElementById("loc-3");
 const loc4 = document.getElementById("loc-4");
 const loc5 = document.getElementById("loc-5");
+const loc6 = document.getElementById("loc-6");
 
 const infoDiv = document.querySelector(".info-div");
 
@@ -86,6 +89,7 @@ setTimeout(() => {
 
 // assigning correct casing for allLocation.js lookup
 export const fortData = {
+  "theKansasRiver": theKansasRiver,
   "FortKearney": fortKearney,
   "FortLaramie": fortLaramie,
   "FortBridger": fortBridger,
@@ -94,7 +98,7 @@ export const fortData = {
 };
 
 // using this to check each path for miles left
-const allPaths = [path1, path2, path3, path4, path5];
+const allPaths = [path1, path2, path3, path4, path5, path6];
 let currentPathIndex = 0;
 // not using currently
 const allLocations = [loc1, loc2, loc3, loc4, loc5];
@@ -218,7 +222,6 @@ let options = document.querySelector(".options");
 
 function newShowLocation(location) {
   const key = location.dataset.location.replace(/\s+/g, "");
-
   flavorText.innerText = `${fortData[key].flavorText}`;
   options.innerText = `${fortData[key].options}`;
 };

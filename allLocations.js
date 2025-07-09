@@ -2,7 +2,17 @@ import { Location } from "./Location.js";
 import { firstParty } from "./createParty.js";
 import { renderPassengers, fortData } from "./script.js";
 
+export const theKansasRiver = {
+    fort: "no",
+    flavorText: "You have reached the Kansas River! It is 200 feet wide and 3.1 feet deep. What will you do?",
+    options: "1. Continue on the trail\n2. Attemt to ford the river\n3. Pay for a ferry ($15)",
+    buyFood: 1800,
+    foodCost: 2,
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels"
+};
+
 export const fortKearney = {
+    fort: "yes",
     flavorText: "You have reached Fort Kearney! The small fort town bustles with activity. What would you like to do?",
     options: "1. Continue on the trail\n2. Buy Food\n3. Buy Supplies",
     buyFood: 1800,
@@ -43,8 +53,6 @@ export const fortBoise = {
 
 // on buySupplies screen, logic to purchase things or leave
 
-// town logic to continue or use options
-
 export function buyFoodInput(location, currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
     let purchaseText = document.querySelector(".purchase-text");
@@ -57,8 +65,6 @@ export function buyFoodInput(location, currentLocation) {
         <input type="text" id="foodAmountField" name="foodField"><br><br>
         <input type="submit" value="Submit">
         </form>`);
-
-    
 
     // Wait for DOM to update
     setTimeout(() => {
@@ -76,6 +82,10 @@ export function buyFoodInput(location, currentLocation) {
     });
     }, 0);
 }
+
+export function buyItemsInput() {
+
+};
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger
 // if green river, soda springs, fort hall, snake river, fort boise, blue mountains -- fort walla walla or the dulles
