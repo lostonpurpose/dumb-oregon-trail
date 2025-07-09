@@ -6,9 +6,9 @@ export const theKansasRiver = {
     isFort: "no",
     flavorText: "You have reached the Kansas River! It is 200 feet wide and 3.1 feet deep. What will you do?",
     options: "1. Continue on the trail\n2. Attempt to ford the river\n3. Pay for a ferry ($15)",
-    buyFood: 1800,
-    foodCost: 2,
-    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels"
+    width: 200,
+    depth: 3.1
+    // buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels"
 };
 
 export const fortKearney = {
@@ -87,8 +87,21 @@ export function buyItemsInput() {
 
 };
 
-export function fordRiver() {
+export function fordRiver(currentLocation) {
+    const key = currentLocation.dataset.location.replace(/\s+/g, "");
+    if (fortData[key].depth >= 3.5) {
+        // definite fail, lose a lot of items
+    }
+    else if (fortData[key].depth >= 2.5) {
+        // chance of failure, lose a few items
+    }
+    else {
+        // definite success
+    }
+}
 
+export function takeFerry() {
+    
 }
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger

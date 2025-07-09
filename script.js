@@ -1,4 +1,4 @@
-import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput, fordRiver } from "./allLocations.js";
+import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput, fordRiver, takeFerry, buyItemsInput } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
 import { firstParty, updateFood, isDead, diseaseToHealth } from "./createParty.js";
 
@@ -295,6 +295,7 @@ function townOptions() {
       }
     }
 
+    // buys supplies options (if fort) and take ferry (if river)
     else if (e.key === "3") {
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
@@ -307,6 +308,13 @@ function townOptions() {
 
       purchaseText.innerText = "What will you buy?";
       purchaseOptions.innerText = fortData[key].buySupplies;
+
+      if (fortData[key].isFort === "yes") {
+        buyItemsInput(location, currentLocation);
+      }
+      else if (fortData[key].isFort === "no") {
+        takeFerry();
+      }
     }
   });
 };
