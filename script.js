@@ -1,4 +1,4 @@
-import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise } from "./allLocations.js";
+import { fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
 import { firstParty, updateFood, isDead, diseaseToHealth } from "./createParty.js";
 
@@ -52,7 +52,7 @@ const wagonNames = [
   document.querySelector('.wagon-name-3')
 ];
 
-function renderPassengers() {
+export function renderPassengers() {
   firstParty.wagons.forEach((wagon, i) => {
     wagonNames[i].innerText = wagon.name;
     const ul = passengerLists[i];
@@ -85,7 +85,7 @@ setTimeout(() => {
 
 
 // assigning correct casing for allLocation.js lookup
-const fortData = {
+export const fortData = {
   "FortKearney": fortKearney,
   "FortLaramie": fortLaramie,
   "FortBridger": fortBridger,
@@ -227,25 +227,13 @@ townOptions();
 // town logic to continue or use options
 function townOptions() {
   document.addEventListener("keydown", (e) => {  
-    if (e.key === "2") {
-      let purchaseText = document.querySelector(".purchase-text");
-      let purchaseOptions = document.querySelector(".purchase-options");
-      // clearing arrival text
-      flavorText.innerText = "";
-      options.innerText = "";
-
-      // removes the - from class and converts to fortData retrievable
-      const key = currentLocation.dataset.location.replace(/\s+/g, "");
-
-      purchaseText.innerText = "What will you buy?";
-      purchaseOptions.innerText = fortData[key].buySupplies;
-    }
+    
 
   // here i will call a function that will live in alllocations. cleaner that way. have every location have the same options (forts, landmarks, rivers)
 
 
     // this is always 'leave' and you move on to the next route
-    else if (e.key === "1") {
+    if (e.key === "1") {
       if (!arrived) return;  // only allow pressing "2" if arrived is true
       arrived = false;  // reset arrived for next path
 
@@ -284,6 +272,34 @@ function townOptions() {
         miles.innerText = `You have reached the end of the trail!`;
       }
     }
+
+    else if (e.key === "2") {
+      let purchaseText = document.querySelector(".purchase-text");
+      let purchaseOptions = document.querySelector(".purchase-options");
+      // clearing arrival text
+      flavorText.innerText = "";
+      options.innerText = "";
+
+      // removes the - from class and converts to fortData retrievable
+      const key = currentLocation.dataset.location.replace(/\s+/g, "");
+
+
+      buyFoodInput(location, currentLocation);
+    }
+
+    else if (e.key === "3") {
+      let purchaseText = document.querySelector(".purchase-text");
+      let purchaseOptions = document.querySelector(".purchase-options");
+      // clearing arrival text
+      flavorText.innerText = "";
+      options.innerText = "";
+
+      // removes the - from class and converts to fortData retrievable
+      const key = currentLocation.dataset.location.replace(/\s+/g, "");
+
+      purchaseText.innerText = "What will you buy?";
+      purchaseOptions.innerText = fortData[key].buySupplies;
+    }
   });
 };
 
@@ -294,7 +310,7 @@ const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 9) {
+    if (eventChance >= 11) { // currenlty no events for testing
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 

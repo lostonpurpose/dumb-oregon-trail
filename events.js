@@ -10,7 +10,7 @@ export function getRandomAccident() {
     const chooseEventType = (Math.floor(Math.random() * 2)) + 1;
     const wagonIndex = Math.floor(Math.random() * firstParty.wagons.length);
     const passengerIndex = Math.floor(Math.random() * firstParty.wagons[wagonIndex].passengers.length);
-    const lostDays = (Math.floor(Math.random() * 10) + 2);
+    const lostDays = (Math.floor(Math.random() * 4) + 2); // made this shorter to ease testing
 
     let message = "";
 
