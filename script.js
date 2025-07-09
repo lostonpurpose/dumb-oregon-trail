@@ -223,67 +223,69 @@ function newShowLocation(location) {
   options.innerText = `${fortData[key].options}`;
 };
 
-
+townOptions();
 // town logic to continue or use options
-document.addEventListener("keydown", (e) => {  
-  if (e.key === "2") {
-    let purchaseText = document.querySelector(".purchase-text");
-    let purchaseOptions = document.querySelector(".purchase-options");
-    // clearing arrival text
-    flavorText.innerText = "";
-    options.innerText = "";
+function townOptions() {
+  document.addEventListener("keydown", (e) => {  
+    if (e.key === "2") {
+      let purchaseText = document.querySelector(".purchase-text");
+      let purchaseOptions = document.querySelector(".purchase-options");
+      // clearing arrival text
+      flavorText.innerText = "";
+      options.innerText = "";
 
-    // removes the - from class and converts to fortData retrievable
-    const key = currentLocation.dataset.location.replace(/\s+/g, "");
+      // removes the - from class and converts to fortData retrievable
+      const key = currentLocation.dataset.location.replace(/\s+/g, "");
 
-    purchaseText.innerText = "What will you buy?";
-    purchaseOptions.innerText = fortData[key].buySupplies;
-  }
-
-// here i will call a function that will live in alllocations. cleaner that way. have every location have the same options (forts, landmarks, rivers)
-
-
-  // this is always 'leave' and you move on to the next route
-  else if (e.key === "1") {
-    if (!arrived) return;  // only allow pressing "2" if arrived is true
-    arrived = false;  // reset arrived for next path
-
-    flavorText.innerText = "";
-    options.innerText = "";
-
-    // hides current route.
-    document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'none';
-  
-    // am not using route 1's index bc it's not hidden by default. updates all routes/paths/locs
-    currentRouteIndex++;
-    currentPathIndex++;
-    currentLocationIndex++;
-    // unhides next route. TESTING. WORKING
-    const nextRouteEl = document.querySelector(`.route-${currentRouteIndex + 1}`);
-    if (nextRouteEl) {
-      nextRouteEl.classList.remove("hide-route");
-    }
-    // unhides next path. TESTING. WORKING
-    const nextPathEl = document.querySelector(`.path-${currentPathIndex + 1}`);
-    if (nextPathEl) {
-      nextPathEl.classList.remove("hide-path");
-    }
-    currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`); 
-    // unhides next location. TESTING. WORKING.
-    const nextLocEl = document.querySelector(`#loc-${currentLocationIndex + 1}`);
-    if (nextLocEl) {
-      nextLocEl.classList.remove("hide-loc");
+      purchaseText.innerText = "What will you buy?";
+      purchaseOptions.innerText = fortData[key].buySupplies;
     }
 
-    const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
-    if (nextRoute) {
-      milesLeft = allPaths[currentPathIndex].dataset.miles;
-      miles.innerText = `${milesLeft} miles til ${currentLocation.dataset.location}`;
-    } else {
-      miles.innerText = `You have reached the end of the trail!`;
+  // here i will call a function that will live in alllocations. cleaner that way. have every location have the same options (forts, landmarks, rivers)
+
+
+    // this is always 'leave' and you move on to the next route
+    else if (e.key === "1") {
+      if (!arrived) return;  // only allow pressing "2" if arrived is true
+      arrived = false;  // reset arrived for next path
+
+      flavorText.innerText = "";
+      options.innerText = "";
+
+      // hides current route.
+      document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'none';
+    
+      // am not using route 1's index bc it's not hidden by default. updates all routes/paths/locs
+      currentRouteIndex++;
+      currentPathIndex++;
+      currentLocationIndex++;
+      // unhides next route. TESTING. WORKING
+      const nextRouteEl = document.querySelector(`.route-${currentRouteIndex + 1}`);
+      if (nextRouteEl) {
+        nextRouteEl.classList.remove("hide-route");
+      }
+      // unhides next path. TESTING. WORKING
+      const nextPathEl = document.querySelector(`.path-${currentPathIndex + 1}`);
+      if (nextPathEl) {
+        nextPathEl.classList.remove("hide-path");
+      }
+      currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`); 
+      // unhides next location. TESTING. WORKING.
+      const nextLocEl = document.querySelector(`#loc-${currentLocationIndex + 1}`);
+      if (nextLocEl) {
+        nextLocEl.classList.remove("hide-loc");
+      }
+
+      const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
+      if (nextRoute) {
+        milesLeft = allPaths[currentPathIndex].dataset.miles;
+        miles.innerText = `${milesLeft} miles til ${currentLocation.dataset.location}`;
+      } else {
+        miles.innerText = `You have reached the end of the trail!`;
+      }
     }
-  }
-});
+  });
+};
 
 // accidents and diseases
 
@@ -343,6 +345,9 @@ function randomEvents(e) {
 
 
 // TODO: add rivers, options. code success/failure chances.
+// ok i started on moving purchase options to alllocations, but i'm separating out food to option 2, but that will get overridden by
+// the '2' in this file, so i should move all the town logic to locations. i need to make 2 be food, 3 be buy supplies and go from there. 
+// but ran out of time at the moment. 
 // make buying supplies possible, add to inventory
 // add money!
 // allow recovery (doctor eventually) or spontaneous (random). 
