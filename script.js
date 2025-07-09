@@ -1,4 +1,4 @@
-import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput } from "./allLocations.js";
+import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput, fordRiver } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
 import { firstParty, updateFood, isDead, diseaseToHealth } from "./createParty.js";
 
@@ -276,6 +276,7 @@ function townOptions() {
       }
     }
 
+    // this depends on if it's a fort (buy food) or a river (ford river)
     else if (e.key === "2") {
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
@@ -286,8 +287,12 @@ function townOptions() {
       // removes the - from class and converts to fortData retrievable
       const key = currentLocation.dataset.location.replace(/\s+/g, "");
 
-
-      buyFoodInput(location, currentLocation);
+      if (fortData[key].isFort === "yes") {
+        buyFoodInput(location, currentLocation);
+      }
+      else if (fortData[key].isFort === "no") {
+        fordRiver();
+      }
     }
 
     else if (e.key === "3") {

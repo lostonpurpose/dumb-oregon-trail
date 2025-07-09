@@ -3,16 +3,16 @@ import { firstParty } from "./createParty.js";
 import { renderPassengers, fortData } from "./script.js";
 
 export const theKansasRiver = {
-    fort: "no",
+    isFort: "no",
     flavorText: "You have reached the Kansas River! It is 200 feet wide and 3.1 feet deep. What will you do?",
-    options: "1. Continue on the trail\n2. Attemt to ford the river\n3. Pay for a ferry ($15)",
+    options: "1. Continue on the trail\n2. Attempt to ford the river\n3. Pay for a ferry ($15)",
     buyFood: 1800,
     foodCost: 2,
     buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels"
 };
 
 export const fortKearney = {
-    fort: "yes",
+    isFort: "yes",
     flavorText: "You have reached Fort Kearney! The small fort town bustles with activity. What would you like to do?",
     options: "1. Continue on the trail\n2. Buy Food\n3. Buy Supplies",
     buyFood: 1800,
@@ -55,11 +55,12 @@ export const fortBoise = {
 
 export function buyFoodInput(location, currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
+    if (fortData[key].isFort === "no") return
+
     let purchaseText = document.querySelector(".purchase-text");
     let purchaseOptions = document.querySelector(".purchase-options");
-        purchaseText.innerText = "How much food will you buy?";
-        purchaseOptions.innerText = `Food available: ${fortData[key].buyFood} \n Cost per pound: ${fortData[key].foodCost}`;
-    console.log("purchaseOptions exists?", purchaseOptions);
+    purchaseText.innerText = "How much food will you buy?";
+    purchaseOptions.innerText = `Food available: ${fortData[key].buyFood} \n Cost per pound: ${fortData[key].foodCost}`;
     purchaseOptions.insertAdjacentHTML("beforeend", `<form id="foodForm">
         <label for="foodAmount">Enter the amount of food you want:</label>
         <input type="text" id="foodAmountField" name="foodField"><br><br>
@@ -82,10 +83,13 @@ export function buyFoodInput(location, currentLocation) {
     });
     }, 0);
 }
-
 export function buyItemsInput() {
 
 };
+
+export function fordRiver() {
+
+}
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger
 // if green river, soda springs, fort hall, snake river, fort boise, blue mountains -- fort walla walla or the dulles
