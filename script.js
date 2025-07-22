@@ -1,6 +1,19 @@
 import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput, fordRiver, takeFerry, buyItemsInput } from "./allLocations.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
-import { firstParty, updateFood, isDead, diseaseToHealth } from "./createParty.js";
+import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
+
+let gameOver = false;
+
+function checkForDeath(gameOver) {
+    if (gameOver) {
+      if (fakeMoveInterval) {
+        clearInterval(fakeMoveInterval);
+        fakeMoveInterval = null;
+      }
+      clearInterval(autoMoveInterval);
+      autoMoveInterval = null;
+    }
+}
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -139,17 +152,21 @@ function autoMoveWagon(path, step = 10, interval = 500) {
   eventDiv.innerText = "";
 
   autoMoveInterval = setInterval(() => {
+    // NEW check for death
+    checkForDeath();
+    // END check for death
+
     // check for death
-    if (isDead()) {
-      if (fakeMoveInterval) {
-        clearInterval(fakeMoveInterval);
-        fakeMoveInterval = null;
-      }
-      clearInterval(autoMoveInterval);
-      autoMoveInterval = null;
-      infoDiv.innerText = "You are all dead";
-      return;  // important: stop the rest of the code in the interval
-    }
+    // if (isDeadFromFood()) {
+    //   if (fakeMoveInterval) {
+    //     clearInterval(fakeMoveInterval);
+    //     fakeMoveInterval = null;
+    //   }
+    //   clearInterval(autoMoveInterval);
+    //   autoMoveInterval = null;
+    //   totalDeath();
+    //   return;  // important: stop the rest of the code in the interval
+    // }
     // end check for death
 
     days += 1;
@@ -230,6 +247,10 @@ townOptions();
 // town logic to continue or use options
 function townOptions() {
   document.addEventListener("keydown", (e) => {  
+    // safety check
+    if (!["1", "2", "3", " "].includes(e.key)) {
+      return console.error("That is not a valid input");
+    }
     
 
   // here i will call a function that will live in alllocations. cleaner that way. have every location have the same options (forts, landmarks, rivers)
@@ -346,17 +367,21 @@ function randomEvents(e) {
         i++;
         updateFood(1); // update for 1 day each tick
         renderPassengers();
+        // NEW check for death
+        checkForDeath();
+        // END check
+
         // check for death
-        if (isDead()) {
-          if (fakeMoveInterval) {
-            clearInterval(fakeMoveInterval);
-            fakeMoveInterval = null;
-          }
-          clearInterval(autoMoveInterval);
-          autoMoveInterval = null;
-          infoDiv.innerText = "You are all dead";
-          return;  // important: stop the rest of the code in the interval
-        }
+        // if (isDeadFromFood() || totalDeath) {
+        //   if (fakeMoveInterval) {
+        //     clearInterval(fakeMoveInterval);
+        //     fakeMoveInterval = null;
+        //   }
+        //   clearInterval(autoMoveInterval);
+        //   autoMoveInterval = null;
+        //   totalDeath();
+        //   return;  // important: stop the rest of the code in the interval
+        // }
         // end check for death
     
       }, 500);
@@ -374,6 +399,12 @@ function randomEvents(e) {
         eventChance = 0;
       }
     };
+};
+
+export function totalDeath() {
+  infoDiv.innerText = "You have made a huge mistake.";
+  eventDiv.innerText = "Everyone is dead";
+  gameOver = true;
 };
 
 

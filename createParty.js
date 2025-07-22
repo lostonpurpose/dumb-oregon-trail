@@ -1,4 +1,5 @@
 import { Wagon, wagon1, wagon2, wagon3 } from "./Wagon.js";
+import { totalDeath } from "./script.js";
 
 export class Party {
     constructor(name, wagons, items={}) {
@@ -19,12 +20,16 @@ export function updateFood(days) {
     });
     const foodConsumed = passengerCount * foodPerPersonPerDay * days;
     firstParty.items.food -= foodConsumed
-    if (firstParty.items.food < 0) firstParty.items.food = 0; // avoids negative
+    if (firstParty.items.food < 0) {
+        firstParty.items.food = 0; // avoids negative
+        totalDeath();
+    }
 };
 
-export function isDead() {
-    return firstParty.items.food <= 0;
-};
+// being replaced by totalDeath and gameOver functions.
+// export function isDeadFromFood() {
+//     return firstParty.items.food <= 0;
+// };
 
 // holy shit i wrote this in one go and it works perfectly!
 export function diseaseToHealth(subtractedHealth) {

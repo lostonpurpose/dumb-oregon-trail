@@ -88,17 +88,42 @@ export function buyItemsInput() {
 
 };
 
+// 70% chance of success for rivers slightly deep
+function fordRiverSucessChance() {
+    const result = Math.random()
+    if (result <= .7) return true;
+    else return false;
+};
+
+// determining which and how many items you lose
+function lostItems() {
+    const numberOfItems = Object.keys(firstParty.items).length;
+    const loseALot = Math.floor((Math.random() * 5) + 3); // lose 3-5 item types
+    const loseAFew = Math.floor((Math.random() * 3) + 1); // lose 1-3 item types
+};
+
 export function fordRiver(currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
     if (fortData[key].isFort === "yes") return console.error("This is a fort, but this should only work for rivers");
     if (fortData[key].depth >= 3.5) {
-        // definite fail, lose a lot of items
+        // definite failure, lose a bunch of items
+        infoDiv.innerText = "You attempt to ford the river. Huge mistake."
+        eventDiv.innerText = `Guess what, you've just lost a bunch of stuff.` // here insert what was lost via random loss function, not yet made
     }
     else if (fortData[key].depth >= 2.5) {
         // chance of failure, lose a few items
+        infoDiv.innerText = "You attempt to ford the river. Risky, but possible."
+        if (fordRiverSucessChance()) {
+            eventDiv.innerText = `You were lucky and made it across! Press 1 to continue.`
+        }
+        else {
+            eventDiv.innerText = `You were unlucky! You lose the following: ` // if failed see above but lose less
+        }
     }
     else {
         // definite success
+        infoDiv.innerText = "You attempt to ford the river."
+        eventDiv.innerText = "You crossed successfully! Press 1 to continue."
     }
 }
 
