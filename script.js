@@ -28,7 +28,7 @@ const loc4 = document.getElementById("loc-4");
 const loc5 = document.getElementById("loc-5");
 const loc6 = document.getElementById("loc-6");
 
-const infoDiv = document.querySelector(".info-div");
+export const infoDiv = document.querySelector(".info-div");
 
 // wagon and passengers
 let allWagons = document.querySelectorAll(".wagons ul");
@@ -207,7 +207,7 @@ document.body.addEventListener("keyup", (e) => {
 //         if (milesLeft <= 0) {
 //             arrived = true;
 //             miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
-            
+
 //             // calls the destination info
 //             newShowLocation(currentLocation);
 //         }
@@ -235,7 +235,7 @@ function townOptions() {
   // here i will call a function that will live in alllocations. cleaner that way. have every location have the same options (forts, landmarks, rivers)
 
 
-    // this is always 'leave' and you move on to the next route
+    // KEY 1 = this is always 'leave' and you move on to the next route
     if (e.key === "1") {
       if (!arrived) return;  // only allow pressing "2" if arrived is true
       arrived = false;  // reset arrived for next path
@@ -267,6 +267,7 @@ function townOptions() {
         nextLocEl.classList.remove("hide-loc");
       }
 
+      // checks if nextRoute exists, if not you've reached the end
       const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
       if (nextRoute) {
         milesLeft = allPaths[currentPathIndex].dataset.miles;
@@ -276,7 +277,7 @@ function townOptions() {
       }
     }
 
-    // this depends on if it's a fort (buy food) or a river (ford river)
+    // KEY 2 = depends on if it's a fort (buy food) or a river (ford river)
     else if (e.key === "2") {
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
@@ -295,7 +296,7 @@ function townOptions() {
       }
     }
 
-    // buys supplies options (if fort) and take ferry (if river)
+    // KEY 3 = buys supplies options (if fort) and take ferry (if river)
     else if (e.key === "3") {
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
@@ -322,11 +323,11 @@ function townOptions() {
 // accidents and diseases
 
 let fakeMoveInterval = null;
-const eventDiv = document.querySelector(".event");
+export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 11) { // currenlty no events for testing
+    if (eventChance >= 11) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 

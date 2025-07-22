@@ -1,6 +1,6 @@
 import { Location } from "./Location.js";
 import { firstParty } from "./createParty.js";
-import { renderPassengers, fortData } from "./script.js";
+import { renderPassengers, fortData, eventDiv, infoDiv } from "./script.js";
 
 export const theKansasRiver = {
     isFort: "no",
@@ -83,12 +83,14 @@ export function buyFoodInput(location, currentLocation) {
     });
     }, 0);
 }
+
 export function buyItemsInput() {
 
 };
 
 export function fordRiver(currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
+    if (fortData[key].isFort === "yes") return console.error("This is a fort, but this should only work for rivers");
     if (fortData[key].depth >= 3.5) {
         // definite fail, lose a lot of items
     }
