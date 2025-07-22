@@ -4,16 +4,21 @@ import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 
 let gameOver = false;
 
-function checkForDeath(gameOver) {
+function checkForDeath() {
+  console.log("checkForDeath called, gameOver =", gameOver);
     if (gameOver) {
       if (fakeMoveInterval) {
         clearInterval(fakeMoveInterval);
         fakeMoveInterval = null;
       }
-      clearInterval(autoMoveInterval);
-      autoMoveInterval = null;
+      if (autoMoveInterval) {
+        clearInterval(autoMoveInterval);
+        autoMoveInterval = null;
     }
-}
+    return true;
+    }
+  return false;
+};
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
@@ -129,17 +134,6 @@ miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.
 
 
 
-// old way of doing spacebar animation
-// document.body.focus();
-// let keyCheck = document.body.addEventListener("keyup", (e) => { console.log(e); 
-//     // animate(e);
-//     animateKeyT(e, allPaths[currentPathIndex]);
-//     randomEvents(e);
-// });
-
-
-
-
 // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 // new autoscroll function i didn't code::::::
 let arrived = false;
@@ -155,19 +149,6 @@ function autoMoveWagon(path, step = 10, interval = 500) {
     // NEW check for death
     checkForDeath();
     // END check for death
-
-    // check for death
-    // if (isDeadFromFood()) {
-    //   if (fakeMoveInterval) {
-    //     clearInterval(fakeMoveInterval);
-    //     fakeMoveInterval = null;
-    //   }
-    //   clearInterval(autoMoveInterval);
-    //   autoMoveInterval = null;
-    //   totalDeath();
-    //   return;  // important: stop the rest of the code in the interval
-    // }
-    // end check for death
 
     days += 1;
     dayDiv.innerText = days;
@@ -209,29 +190,6 @@ document.body.addEventListener("keyup", (e) => {
 // end of autoscroll i didn't code:::::::::
 // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-
-// this animates the wagon. checks for spacebar. called by above that checks for keypress. coded to iterate path index
-// let arrived = false;
-// function animateKeyT(e, path) {
-//     if (e.key === ' ' && !arrived) {
-//         let distance = Math.round(parseFloat(getComputedStyle(path).width) / window.innerWidth * 100);
-//         distance -= 10;
-//         console.log("Current path:", path);
-//         path.style.width = `${distance}vw`
-//         milesLeft -= 10;
-
-//         // determines whether you reached a destination or not
-//         if (milesLeft <= 0) {
-//             arrived = true;
-//             miles.innerText = `You have reached ${currentLocation.dataset.location}!`;
-
-//             // calls the destination info
-//             newShowLocation(currentLocation);
-//         }
-//         else {miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
-//         }
-//     }
-// };
 
 // uses fortData to dynamically update every location. beautiful.
 let flavorText = document.querySelector(".flavor-text");
@@ -369,21 +327,7 @@ function randomEvents(e) {
         renderPassengers();
         // NEW check for death
         checkForDeath();
-        // END check
-
-        // check for death
-        // if (isDeadFromFood() || totalDeath) {
-        //   if (fakeMoveInterval) {
-        //     clearInterval(fakeMoveInterval);
-        //     fakeMoveInterval = null;
-        //   }
-        //   clearInterval(autoMoveInterval);
-        //   autoMoveInterval = null;
-        //   totalDeath();
-        //   return;  // important: stop the rest of the code in the interval
-        // }
-        // end check for death
-    
+        // END check    
       }, 500);
 
       // Pause the animation
@@ -407,6 +351,12 @@ export function totalDeath() {
   gameOver = true;
 };
 
+
+// next steps
+// death stuff is coded. works. but, eventDiv text doesn't show and wagon moves one more step. the latter prob causes the former
+// i got hung up on the above while coding the fording and ferry stuff. somehow. need to finish that
+// and of course remove option 1 from rivers. hmm. that eliminates the possibility of having every location have 1,2,3 key options because
+// 1 is invalid for rivers. damn it. need to split my key login into iRiver or isNotRiver
 
 // TODO: add rivers, options. code success/failure chances.
 // ok i started on moving purchase options to alllocations, but i'm separating out food to option 2, but that will get overridden by

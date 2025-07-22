@@ -9,7 +9,7 @@ export class Party {
     }
 };
 
-export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], {"money": 600, "food": 500, "wagon wheel": 1, "ox yoke": 2, "medicine": 3})
+export const firstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], {"money": 600, "food": 100, "wagon wheel": 1, "ox yoke": 2, "medicine": 3})
 console.log(firstParty);
 
 export function updateFood(days) { 
