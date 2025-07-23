@@ -10,6 +10,7 @@ html, body {
     justify-content: center; /* centers vertically */
     height: 100vh;
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .miles {
@@ -103,6 +104,12 @@ html, body {
 .wagon-name-1, .wagon-name-2, .wagon-name-3, .item-span {
     display: block;
     margin-bottom: 12px;
+}
+
+.wagon-1, .wagon-2, .wagon-3, .items {
+
+    padding: 8px;
+    box-shadow: 5px 5px 15px rgb(194, 194, 194);
 }
 
 ul {
