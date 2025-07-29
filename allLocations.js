@@ -5,7 +5,7 @@ import { renderPassengers, fortData, eventDiv, infoDiv } from "./script.js";
 export const theKansasRiver = {
     isFort: "no",
     flavorText: "You have reached the Kansas River! It is 200 feet wide and 3.1 feet deep. What will you do?",
-    options: "1. Continue on the trail\n2. Attempt to ford the river\n3. Pay for a ferry ($15)",
+    options: "1. Attempt to ford the river\n2. Pay for a ferry ($15)\n3. Hire a native to find a suitable crossing ($8, lose 2 days)",
     width: 200,
     depth: 3.1
     // buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels"
@@ -89,7 +89,7 @@ export function buyItemsInput() {
 };
 
 // 70% chance of success for rivers slightly deep
-function fordRiverSucessChance() {
+function fordRiverSuccessChance() {
     const result = Math.random()
     if (result <= .7) return true;
     else return false;
@@ -113,17 +113,19 @@ export function fordRiver(currentLocation) {
     else if (fortData[key].depth >= 2.5) {
         // chance of failure, lose a few items
         infoDiv.innerText = "You attempt to ford the river. Risky, but possible."
-        if (fordRiverSucessChance()) {
+        if (fordRiverSuccessChance()) {
             eventDiv.innerText = `You were lucky and made it across! Press 1 to continue.`
+            fortData[key].isFort = "yes" // lets you press 1 to continue now
         }
         else {
-            eventDiv.innerText = `You were unlucky! You lose the following: ` // if failed see above but lose less
+            eventDiv.innerText = `You were unlucky! You lose the following: ` // if failed see above but lose less, have to code this
         }
     }
     else {
         // definite success
         infoDiv.innerText = "You attempt to ford the river."
         eventDiv.innerText = "You crossed successfully! Press 1 to continue."
+        fortData[key].isFort = "yes" // lets you press 1 to continue now
     }
 }
 

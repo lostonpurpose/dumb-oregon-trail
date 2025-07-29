@@ -102,8 +102,6 @@ setTimeout(() => {
   renderPassengers();
 }, 100);
 
-// render items dynamically
-
 
 // assigning correct casing for allLocation.js lookup
 export const fortData = {
@@ -197,66 +195,78 @@ let options = document.querySelector(".options");
 
 function newShowLocation(location) {
   const key = location.dataset.location.replace(/\s+/g, "");
+  const currentLocationKey = fortData[key];
   flavorText.innerText = `${fortData[key].flavorText}`;
   options.innerText = `${fortData[key].options}`;
+
+  townOptions(currentLocationKey);
 };
 
-townOptions();
+// i just moved townOptions call into newShowLocation func b/c it should only happen after you've reached a place. this way it also 
+// has access to location
+
+
+
 // town logic to continue or use options
-function townOptions() {
+function townOptions(currentLocationKey) {
   document.addEventListener("keydown", (e) => {  
     // safety check
     if (!["1", "2", "3", " "].includes(e.key)) {
       return console.error("That is not a valid input");
     }
     
-
-  // here i will call a function that will live in alllocations. cleaner that way. have every location have the same options (forts, landmarks, rivers)
-
-
     // KEY 1 = this is always 'leave' and you move on to the next route
+    // need to if this. if isfort, continue. if not isfort, ford river.
     if (e.key === "1") {
-      if (!arrived) return;  // only allow pressing "2" if arrived is true
-      arrived = false;  // reset arrived for next path
-
-      flavorText.innerText = "";
-      options.innerText = "";
-
-      // hides current route.
-      document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'none';
-    
-      // am not using route 1's index bc it's not hidden by default. updates all routes/paths/locs
-      currentRouteIndex++;
-      currentPathIndex++;
-      currentLocationIndex++;
-      // unhides next route. TESTING. WORKING
-      const nextRouteEl = document.querySelector(`.route-${currentRouteIndex + 1}`);
-      if (nextRouteEl) {
-        nextRouteEl.classList.remove("hide-route");
-      }
-      // unhides next path. TESTING. WORKING
-      const nextPathEl = document.querySelector(`.path-${currentPathIndex + 1}`);
-      if (nextPathEl) {
-        nextPathEl.classList.remove("hide-path");
-      }
-      currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`); 
-      // unhides next location. TESTING. WORKING.
-      const nextLocEl = document.querySelector(`#loc-${currentLocationIndex + 1}`);
-      if (nextLocEl) {
-        nextLocEl.classList.remove("hide-loc");
+      if (currentLocationKey.isFort !== "yes") {
+      fordRiver(currentLocation);
       }
 
-      // checks if nextRoute exists, if not you've reached the end
-      const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
-      if (nextRoute) {
-        milesLeft = allPaths[currentPathIndex].dataset.miles;
-        miles.innerText = `${milesLeft} miles til ${currentLocation.dataset.location}`;
-      } else {
-        miles.innerText = `You have reached the end of the trail!`;
+      else {
+        if (!arrived) return;  // only allow pressing "2" if arrived is true
+        arrived = false;  // reset arrived for next path
+
+        flavorText.innerText = "";
+        options.innerText = "";
+
+        // hides current route.
+        document.querySelector(`.route-${currentPathIndex + 1}`).style.display = 'none';
+      
+        // am not using route 1's index bc it's not hidden by default. updates all routes/paths/locs
+        currentRouteIndex++;
+        currentPathIndex++;
+        currentLocationIndex++;
+        // unhides next route. TESTING. WORKING
+        const nextRouteEl = document.querySelector(`.route-${currentRouteIndex + 1}`);
+        if (nextRouteEl) {
+          nextRouteEl.classList.remove("hide-route");
+        }
+        // unhides next path. TESTING. WORKING
+        const nextPathEl = document.querySelector(`.path-${currentPathIndex + 1}`);
+        if (nextPathEl) {
+          nextPathEl.classList.remove("hide-path");
+        }
+        currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`); 
+        // unhides next location. TESTING. WORKING.
+        const nextLocEl = document.querySelector(`#loc-${currentLocationIndex + 1}`);
+        if (nextLocEl) {
+          nextLocEl.classList.remove("hide-loc");
+        }
+
+        // checks if nextRoute exists, if not you've reached the end
+        // need to punch this up, it means you've beaten the game!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
+        if (nextRoute) {
+          milesLeft = allPaths[currentPathIndex].dataset.miles;
+          miles.innerText = `${milesLeft} miles til ${currentLocation.dataset.location}`;
+        } else {
+          miles.innerText = `You have reached the end of the trail!`;
+        }
       }
     }
 
     // KEY 2 = depends on if it's a fort (buy food) or a river (ford river)
+    // adjust. if isfort buy food, if no isfort buy ferry (lose money)
     else if (e.key === "2") {
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
@@ -271,11 +281,12 @@ function townOptions() {
         buyFoodInput(location, currentLocation);
       }
       else if (fortData[key].isFort === "no") {
-        fordRiver();
+        takeFerry();
       }
     }
 
     // KEY 3 = buys supplies options (if fort) and take ferry (if river)
+    // adjust. if isfort buy supplies. if not isfort hire native (lose time and money)
     else if (e.key === "3") {
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
@@ -293,7 +304,7 @@ function townOptions() {
         buyItemsInput(location, currentLocation);
       }
       else if (fortData[key].isFort === "no") {
-        takeFerry();
+        hireNative();
       }
     }
   });
@@ -354,6 +365,8 @@ export function totalDeath() {
 
 // next steps
 // death stuff is coded. works. but, eventDiv text doesn't show and wagon moves one more step. the latter prob causes the former
+// also, it doesn't work. i can keep pressing spacebar and game continues after death.
+
 // i got hung up on the above while coding the fording and ferry stuff. somehow. need to finish that
 // and of course remove option 1 from rivers. hmm. that eliminates the possibility of having every location have 1,2,3 key options because
 // 1 is invalid for rivers. damn it. need to split my key login into iRiver or isNotRiver
