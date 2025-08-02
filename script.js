@@ -87,7 +87,7 @@ export function renderPassengers() {
         li.textContent = `${passenger.name} ${passenger.disease} ${passenger.health}`;
         li.classList.add("passenger-info-text");
       }
-      else { li.textContent = `${passenger.name} ${passenger.health}`} ;
+      else { li.textContent = `${passenger.name}: (${passenger.health})`}; // eventually fix this, make two separate columns for each, aligned
       ul.appendChild(li);
     });
   });

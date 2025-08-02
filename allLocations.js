@@ -101,11 +101,30 @@ function fordRiverSuccessChance() {
 // determining which and how many items you lose
 const loseALot = Math.floor((Math.random() * 5) + 3); // lose 3-5 item types
 const loseAFew = Math.floor((Math.random() * 3) + 1); // lose 1-3 item types
-function lostItems(amount) {
+function lostItems(amountToLose) {
     const numberOfItems = Object.keys(firstParty.items).length;
-    // check if party item types is less than lost amount
+    let itemsLost; // don't need?
+    if (amountToLose >= numberOfItems) {
+        // use numberOfItems and lose from there
+        Object.entries(firstParty.items).forEach(([key, value]) => {
+            const loss = Math.floor((Math.random() * 2) + 1); // 1–2
+            firstParty.items[key] = Math.max(value - loss, 0); // ensures 0 is the minimum
+        });
+    }
+    else {
+        // calc the difference, randomize which item types, then lose from there
+        const keys = Object.keys(firstParty.items); // makes array of keys
+        const shuffled = keys.sort(() => 0.5 - Math.random()); // returns pos or neg, reorders each pair based on this randomness, somehow
+        const randomFew = shuffled.slice(0, amountToLose); // slices off the first few
+        randomFew.forEach((key) => {
+            const value = firstParty[key];
+            const loss = Math.floor((Math.random() * 2) + 1); // 1–2
+            firstParty.items[key] = Math.max(value - loss, 0); // ensures 0 is the minimum
+        });
+    }
     // if less, lose some of each
     // if more, randomly choose which ones to lose
+    // iterate through lost types, randomly lose 1 or 2 or whatever
 };
 
 export function fordRiver(currentLocation) {
@@ -113,6 +132,9 @@ export function fordRiver(currentLocation) {
     if (fortData[key].isFort === "yes") return console.error("This is a fort, but this should only work for rivers");
     if (fortData[key].depth >= 3.5) {
         // definite failure, lose a bunch of items
+
+        lostItems(loseALot);
+
         infoDiv.innerText = "You attempt to ford the river. Huge mistake."
         eventDiv.innerText = `Guess what, you've just lost a bunch of stuff. You lost:  Press 1 to continue.` // here insert what was lost via random loss function, not yet made
         fortData[key].isFort = "yes" // lets you press 1 to continue now
@@ -125,6 +147,9 @@ export function fordRiver(currentLocation) {
             fortData[key].isFort = "yes" // lets you press 1 to continue now
         }
         else {
+
+            lostItems(loseAFew);
+
             eventDiv.innerText = `You were unlucky! You lose the following:  Press 1 to continue.` // if failed see above but lose less, have to code this
             fortData[key].isFort = "yes" // lets you press 1 to continue now
         }
