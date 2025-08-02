@@ -218,7 +218,7 @@ function townOptions(currentLocationKey) {
     // KEY 1 = this is always 'leave' and you move on to the next route
     // need to if this. if isfort, continue. if not isfort, ford river.
     if (e.key === "1") {
-      if (currentLocationKey.isFort !== "yes") {
+      if (currentLocationKey.isFort === "no") {
       fordRiver(currentLocation);
       }
 
@@ -252,6 +252,9 @@ function townOptions(currentLocationKey) {
         if (nextLocEl) {
           nextLocEl.classList.remove("hide-loc");
         }
+        // clears the text after fording the river or whatever, upon loading next path
+        infoDiv.innerText = ""
+        eventDiv.innerText = ""
 
         // checks if nextRoute exists, if not you've reached the end
         // need to punch this up, it means you've beaten the game!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
