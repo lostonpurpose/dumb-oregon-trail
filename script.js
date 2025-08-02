@@ -67,6 +67,9 @@ const items = document.querySelector(".item-ul");
 // });
 
 // sets the wagons and passengers dynamically
+const partyHeader = document.getElementById("party-header");
+partyHeader.innerText = `${firstParty.name} \n`;
+partyHeader.style.color = "blue"
 const wagonNames = [
   document.querySelector('.wagon-name-1'),
   document.querySelector('.wagon-name-2'),
@@ -172,10 +175,10 @@ function autoMoveWagon(path, step = 10, interval = 500) {
   }, interval);
 }
 
-
+// DID I JUST FIX IT? added !checkfordeath and can't do anything after death... so far at least
 // Toggle animation with spacebar
 document.body.addEventListener("keyup", (e) => {
-    if (e.key === ' ' && !arrived) {
+    if (e.key === ' ' && !arrived && !checkForDeath()) {
         if (autoMoveInterval) {
             clearInterval(autoMoveInterval);
             autoMoveInterval = null;

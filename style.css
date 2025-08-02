@@ -29,7 +29,7 @@ html, body {
 
 #wagon {
     position: absolute;
-    top: 50%;
+    top: 42%;
     left: 0;
     transform: translateY(-50%);
     width: 300px;

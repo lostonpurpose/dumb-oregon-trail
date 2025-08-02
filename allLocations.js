@@ -99,10 +99,13 @@ function fordRiverSuccessChance() {
 };
 
 // determining which and how many items you lose
-function lostItems() {
+const loseALot = Math.floor((Math.random() * 5) + 3); // lose 3-5 item types
+const loseAFew = Math.floor((Math.random() * 3) + 1); // lose 1-3 item types
+function lostItems(amount) {
     const numberOfItems = Object.keys(firstParty.items).length;
-    const loseALot = Math.floor((Math.random() * 5) + 3); // lose 3-5 item types
-    const loseAFew = Math.floor((Math.random() * 3) + 1); // lose 1-3 item types
+    // check if party item types is less than lost amount
+    // if less, lose some of each
+    // if more, randomly choose which ones to lose
 };
 
 export function fordRiver(currentLocation) {
@@ -111,7 +114,8 @@ export function fordRiver(currentLocation) {
     if (fortData[key].depth >= 3.5) {
         // definite failure, lose a bunch of items
         infoDiv.innerText = "You attempt to ford the river. Huge mistake."
-        eventDiv.innerText = `Guess what, you've just lost a bunch of stuff.` // here insert what was lost via random loss function, not yet made
+        eventDiv.innerText = `Guess what, you've just lost a bunch of stuff. You lost:  Press 1 to continue.` // here insert what was lost via random loss function, not yet made
+        fortData[key].isFort = "yes" // lets you press 1 to continue now
     }
     else if (fortData[key].depth >= 2.5) {
         // chance of failure, lose a few items
@@ -121,7 +125,8 @@ export function fordRiver(currentLocation) {
             fortData[key].isFort = "yes" // lets you press 1 to continue now
         }
         else {
-            eventDiv.innerText = `You were unlucky! You lose the following: ` // if failed see above but lose less, have to code this
+            eventDiv.innerText = `You were unlucky! You lose the following:  Press 1 to continue.` // if failed see above but lose less, have to code this
+            fortData[key].isFort = "yes" // lets you press 1 to continue now
         }
     }
     else {
