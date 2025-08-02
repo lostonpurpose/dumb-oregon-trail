@@ -103,12 +103,14 @@ const loseALot = Math.floor((Math.random() * 5) + 3); // lose 3-5 item types
 const loseAFew = Math.floor((Math.random() * 3) + 1); // lose 1-3 item types
 function lostItems(amountToLose) {
     const numberOfItems = Object.keys(firstParty.items).length;
-    let itemsLost; // don't need?
+    console.log(`amountToLose: ${amountToLose}, numberOfItems: ${numberOfItems}`);
+    
     if (amountToLose >= numberOfItems) {
         // use numberOfItems and lose from there
         Object.entries(firstParty.items).forEach(([key, value]) => {
             const loss = Math.floor((Math.random() * 2) + 1); // 1–2
             firstParty.items[key] = Math.max(value - loss, 0); // ensures 0 is the minimum
+            console.log(`Item: ${key}, was: ${value}, lost: ${loss}`);
         });
     }
     else {
@@ -116,8 +118,9 @@ function lostItems(amountToLose) {
         const keys = Object.keys(firstParty.items); // makes array of keys
         const shuffled = keys.sort(() => 0.5 - Math.random()); // returns pos or neg, reorders each pair based on this randomness, somehow
         const randomFew = shuffled.slice(0, amountToLose); // slices off the first few
+        console.log("Selected randomFew keys:", randomFew); 
         randomFew.forEach((key) => {
-            const value = firstParty[key];
+            const value = firstParty.items[key];
             const loss = Math.floor((Math.random() * 2) + 1); // 1–2
             firstParty.items[key] = Math.max(value - loss, 0); // ensures 0 is the minimum
         });
@@ -160,6 +163,7 @@ export function fordRiver(currentLocation) {
         eventDiv.innerText = "You crossed successfully! Press 1 to continue."
         fortData[key].isFort = "yes" // lets you press 1 to continue now
     }
+    console.log(firstParty.items)
 }
 
 export function takeFerry(currentLocation) {
