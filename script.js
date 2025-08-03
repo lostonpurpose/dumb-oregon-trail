@@ -122,7 +122,7 @@ let currentLocationIndex = 0;
 const allRoutes = [route1, route2, route3, route4, route5];
 let currentRouteIndex = 0;
 
-let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
+export let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
 
 // somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
 let currentPath = allPaths[currentPathIndex];
@@ -195,7 +195,7 @@ document.body.addEventListener("keyup", (e) => {
 let flavorText = document.querySelector(".flavor-text");
 let options = document.querySelector(".options");
 
-function newShowLocation(location) {
+export function newShowLocation(location) {
   const key = location.dataset.location.replace(/\s+/g, "");
   const currentLocationKey = fortData[key];
   flavorText.innerText = `${fortData[key].flavorText}`;
@@ -208,10 +208,13 @@ function newShowLocation(location) {
 // has access to location
 
 
+export const gameState = { mode: "default" };
 
 // town logic to continue or use options
-function townOptions(currentLocationKey) {
+export function townOptions(currentLocationKey) {
   document.addEventListener("keydown", (e) => {  
+    // only works if in default mode
+    if (gameState.mode !== "default") return;
     // safety check
     if (!["1", "2", "3", " "].includes(e.key)) {
       return console.error("That is not a valid input");
@@ -273,6 +276,7 @@ function townOptions(currentLocationKey) {
     // KEY 2 = depends on if it's a fort (buy food) or a river (ford river)
     // adjust. if isfort buy food, if no isfort buy ferry (lose money)
     else if (e.key === "2") {
+      gameState.mode = "buyFood";
 
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");

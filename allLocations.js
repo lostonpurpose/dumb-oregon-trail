@@ -1,6 +1,6 @@
 import { Location } from "./Location.js";
 import { firstParty, updateFood } from "./createParty.js";
-import { renderPassengers, fortData, eventDiv, infoDiv, days2, dayDiv, checkForDeath } from "./script.js";
+import { renderPassengers, fortData, eventDiv, infoDiv, days2, dayDiv, checkForDeath, gameState, newShowLocation } from "./script.js";
 
 export const theKansasRiver = {
     isFort: "no",
@@ -79,12 +79,21 @@ export function buyFoodInput(location, currentLocation) {
         const amount = parseInt(document.getElementById("foodAmountField").value, 10);
         console.log("User entered:", amount);
         const cost = amount * fortData[key].foodCost;
-        if (firstParty.items.money < cost) return console.log("You do not have enough money");
-        firstParty.items.money -= amount * fortData[key].foodCost;
+        if (firstParty.money < cost) return console.log("You do not have enough money");
+        firstParty.money -= amount * fortData[key].foodCost;
         firstParty.items.food += amount;
         renderPassengers();
+        gameState.mode = "default"; // reset so 1, 2, 3 are action buttons again.
+
+        // Slight delay before resetting location/options view
+        setTimeout(() => {
+        newShowLocation(currentLocation);
+        }, 50);
     });
     }, 0);
+
+    
+    // newShowLocation(currentLocation);
 }
 
 export function buyItemsInput() {
@@ -175,6 +184,7 @@ export function takeFerry(currentLocation) {
     renderPassengers();
     fortData[key].isFort = "yes"
     eventDiv.innerText = "Press 1 to continue"
+    gameState.mode = "default";
 }
 
 export function hireNative(currentLocation) {
