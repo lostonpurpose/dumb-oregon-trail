@@ -274,11 +274,7 @@ function townOptions(currentLocationKey) {
     // KEY 2 = depends on if it's a fort (buy food) or a river (ford river)
     // adjust. if isfort buy food, if no isfort buy ferry (lose money)
     else if (e.key === "2") {
-      // if (currentLocationKey.isFort !== "yes") {
-      // takeFerry(currentLocation);
-      // }
 
-      // else {
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
       // clearing arrival text
@@ -292,7 +288,7 @@ function townOptions(currentLocationKey) {
         buyFoodInput(location, currentLocation);
       }
       else if (fortData[key].isFort === "no") {
-        takeFerry();
+        takeFerry(currentLocation);
       }
     }
 
@@ -315,7 +311,7 @@ function townOptions(currentLocationKey) {
         buyItemsInput(location, currentLocation);
       }
       else if (fortData[key].isFort === "no") {
-        hireNative();
+        hireNative(currentLocation);
       }
     }
   });
@@ -348,7 +344,7 @@ export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 5) { // currently no events for testing ******************* important to change this back
+    if (eventChance >= 11) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 
