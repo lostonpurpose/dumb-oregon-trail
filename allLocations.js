@@ -140,6 +140,7 @@ export function fordRiver(currentLocation) {
 
         infoDiv.innerText = "You attempt to ford the river. Huge mistake."
         eventDiv.innerText = `Guess what, you've just lost a bunch of stuff. You lost:  Press 1 to continue.` // here insert what was lost via random loss function, not yet made
+        renderPassengers(); // rebuild item list
         fortData[key].isFort = "yes" // lets you press 1 to continue now
     }
     else if (fortData[key].depth >= 2.5) {
@@ -154,6 +155,7 @@ export function fordRiver(currentLocation) {
             lostItems(loseAFew);
 
             eventDiv.innerText = `You were unlucky! You lose the following:  Press 1 to continue.` // if failed see above but lose less, have to code this
+            renderPassengers(); // rebuild item list
             fortData[key].isFort = "yes" // lets you press 1 to continue now
         }
     }
