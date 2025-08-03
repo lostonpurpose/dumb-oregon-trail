@@ -59,13 +59,6 @@ const passengerLists = [
 
 const items = document.querySelector(".item-ul");
 
-// sets the wagon names dynamically MY way, but maybe using the existing class firstParty.wagons would be better
-// let wagonIndex = 0;
-// allWagons.forEach(element => {
-//   element.innerText = firstParty.wagons[wagonIndex].name;
-//   wagonIndex++;
-// });
-
 // sets the wagons and passengers dynamically
 const partyHeader = document.getElementById("party-header");
 partyHeader.innerText = `${firstParty.name} \n`;
@@ -94,6 +87,9 @@ export function renderPassengers() {
 
   // updates items dynamically
   items.innerHTML = "";
+  const moneyLi = document.createElement("li");
+  moneyLi.textContent = `Money : ${firstParty.money}`
+  items.appendChild(moneyLi);
   Object.entries(firstParty.items).forEach(([item, amount]) => {
   const itemLi = document.createElement("li");
   itemLi.textContent = `${item} : ${amount}`;
