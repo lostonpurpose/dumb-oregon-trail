@@ -177,8 +177,31 @@ export function takeFerry(currentLocation) {
 export function hireNative() {
     infoDiv.innerText = `You hire a native guide to take you to a safe crossing. It takes ${fortData[key].nativeDaysLost} days and you lose ${fortData[key].nativeCost} dollars.`
     firstParty.money -= fortData[key].nativeCost
-    
+    generalLostDaysCalculator(fortData[key].nativeDaysLost)
 }
+
+
+
+// general lost days calculator
+export function generalLostDaysCalculator(daysLost) {
+      let i = 0;
+      fakeMoveInterval = setInterval(() => {
+        if (i >= daysLost) {
+          clearInterval(fakeMoveInterval);
+          fakeMoveInterval = null;
+          infoDiv.innerText = "Press spacebar to continue"
+          return;
+        }
+        days ++;
+        dayDiv.innerText = days;
+        i++;
+        updateFood(1); // update for 1 day each tick
+        renderPassengers();
+        // NEW check for death
+        checkForDeath();
+        // END check    
+      }, 500);
+    }
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger
 // if green river, soda springs, fort hall, snake river, fort boise, blue mountains -- fort walla walla or the dulles

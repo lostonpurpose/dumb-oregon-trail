@@ -323,17 +323,7 @@ function townOptions(currentLocationKey) {
 
 // accidents and diseases
 
-let fakeMoveInterval = null;
-export const eventDiv = document.querySelector(".event");
-function randomEvents(e) {
-    eventDiv.innerText = "";
-  const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 11) { // currently no events for testing ******************* important to change this back
-      let chosenAccident = getRandomAccident();
-      eventDiv.innerText = `${chosenAccident.message}`;
-
-
-      // faking time for days lost
+export function lostDaysCalculator(fakeMoveInterval, chosenAccident) {
       let i = 0;
       fakeMoveInterval = setInterval(() => {
         if (i >= chosenAccident.lostDays) {
@@ -351,6 +341,21 @@ function randomEvents(e) {
         checkForDeath();
         // END check    
       }, 500);
+    }
+
+let fakeMoveInterval = null;
+export const eventDiv = document.querySelector(".event");
+function randomEvents(e) {
+    eventDiv.innerText = "";
+  const eventChance = (Math.floor(Math.random() * 10) + 1);
+    if (eventChance >= 5) { // currently no events for testing ******************* important to change this back
+      let chosenAccident = getRandomAccident();
+      eventDiv.innerText = `${chosenAccident.message}`;
+
+
+      // faking time for days lost
+      lostDaysCalculator(fakeMoveInterval, chosenAccident)
+      
 
       // Pause the animation
         if (autoMoveInterval) {
