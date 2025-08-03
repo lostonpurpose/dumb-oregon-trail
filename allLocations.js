@@ -139,7 +139,7 @@ export function fordRiver(currentLocation) {
         lostItems(loseALot);
 
         infoDiv.innerText = "You attempt to ford the river. Huge mistake."
-        eventDiv.innerText = `Guess what, you've just lost a bunch of stuff. You lost:  Press 1 to continue.` // here insert what was lost via random loss function, not yet made
+        eventDiv.innerText = `Guess what, you've just lost a bunch of stuff. Press 1 to continue.` // here insert what was lost via random loss function, not yet made
         renderPassengers(); // rebuild item list
         fortData[key].isFort = "yes" // lets you press 1 to continue now
     }
@@ -154,7 +154,7 @@ export function fordRiver(currentLocation) {
 
             lostItems(loseAFew);
 
-            eventDiv.innerText = `You were unlucky! You lose the following:  Press 1 to continue.` // if failed see above but lose less, have to code this
+            eventDiv.innerText = `You were unlucky! Press 1 to continue.` // if failed see above but lose less, have to code this
             renderPassengers(); // rebuild item list
             fortData[key].isFort = "yes" // lets you press 1 to continue now
         }
@@ -170,12 +170,14 @@ export function fordRiver(currentLocation) {
 
 export function takeFerry(currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
-    infoDiv.innerText = `You take a nearby ferry to cross the river and lose ${fortData[key].ferryCost}`
+    infoDiv.innerText = `You take a nearby ferry to cross the river and lose ${fortData[key].ferryCost}.`
     firstParty.money -= fortData[key].ferryCost
 }
 
 export function hireNative() {
-
+    infoDiv.innerText = `You hire a native guide to take you to a safe crossing. It takes ${fortData[key].nativeDaysLost} days and you lose ${fortData[key].nativeCost} dollars.`
+    firstParty.money -= fortData[key].nativeCost
+    
 }
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger
