@@ -4,7 +4,7 @@ import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 
 let gameOver = false;
 
-function checkForDeath() {
+export function checkForDeath() {
   console.log("checkForDeath called, gameOver =", gameOver);
     if (gameOver) {
       if (fakeMoveInterval) {
@@ -135,8 +135,9 @@ miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.
 // new autoscroll function i didn't code::::::
 let arrived = false;
 let autoMoveInterval = null;
-let days = 0;
-const dayDiv = document.querySelector(".days");
+// let days = 0;
+export let days2 = { dayCounter: 0}
+export const dayDiv = document.querySelector(".days");
 
 function autoMoveWagon(path, step = 10, interval = 500) {
   infoDiv.innerText = "";
@@ -147,8 +148,10 @@ function autoMoveWagon(path, step = 10, interval = 500) {
     checkForDeath();
     // END check for death
 
-    days += 1;
-    dayDiv.innerText = days;
+    // days += 1;
+    days2.dayCounter += 1;
+    // dayDiv.innerText = days;
+    dayDiv.innerText = days2.dayCounter;
     updateFood(1);
     diseaseToHealth(2) // new function does it work??
     renderPassengers();
@@ -300,11 +303,12 @@ function townOptions(currentLocationKey) {
       // removes the - from class and converts to fortData retrievable
       const key = currentLocation.dataset.location.replace(/\s+/g, "");
 
-      purchaseText.innerText = "What will you buy?";
-      purchaseOptions.innerText = fortData[key].buySupplies;
+
 
       if (fortData[key].isFort === "yes") {
         buyItemsInput(location, currentLocation);
+        purchaseText.innerText = "What will you buy?";
+        purchaseOptions.innerText = fortData[key].buySupplies;
       }
       else if (fortData[key].isFort === "no") {
         hireNative(currentLocation);
@@ -325,7 +329,9 @@ export function lostDaysCalculator(fakeMoveInterval, chosenAccident) {
           return;
         }
         days ++;
-        dayDiv.innerText = days;
+        days2.dayCounter ++;
+        // dayDiv.innerText = days;
+        dayDiv.innerText = days2.dayCounter;
         i++;
         updateFood(1); // update for 1 day each tick
         renderPassengers();

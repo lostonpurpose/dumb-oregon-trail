@@ -1,6 +1,6 @@
 import { Location } from "./Location.js";
-import { firstParty } from "./createParty.js";
-import { renderPassengers, fortData, eventDiv, infoDiv } from "./script.js";
+import { firstParty, updateFood } from "./createParty.js";
+import { renderPassengers, fortData, eventDiv, infoDiv, days2, dayDiv, checkForDeath } from "./script.js";
 
 export const theKansasRiver = {
     isFort: "no",
@@ -172,28 +172,36 @@ export function takeFerry(currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
     infoDiv.innerText = `You take a nearby ferry to cross the river and lose ${fortData[key].ferryCost}.`
     firstParty.money -= fortData[key].ferryCost
+    renderPassengers();
+    fortData[key].isFort = "yes"
+    eventDiv.innerText = "Press 1 to continue"
 }
 
-export function hireNative() {
+export function hireNative(currentLocation) {
+    const key = currentLocation.dataset.location.replace(/\s+/g, "");
     infoDiv.innerText = `You hire a native guide to take you to a safe crossing. It takes ${fortData[key].nativeDaysLost} days and you lose ${fortData[key].nativeCost} dollars.`
     firstParty.money -= fortData[key].nativeCost
     generalLostDaysCalculator(fortData[key].nativeDaysLost)
+    renderPassengers();
+    fortData[key].isFort = "yes"
+    eventDiv.innerText = "Press 1 to continue"
 }
 
 
 
 // general lost days calculator
+let fakeMoveInterval = null;
 export function generalLostDaysCalculator(daysLost) {
       let i = 0;
       fakeMoveInterval = setInterval(() => {
         if (i >= daysLost) {
           clearInterval(fakeMoveInterval);
           fakeMoveInterval = null;
-          infoDiv.innerText = "Press spacebar to continue"
+        //   infoDiv.innerText = "Press spacebar to continue"
           return;
         }
-        days ++;
-        dayDiv.innerText = days;
+        days2.dayCounter ++;
+        dayDiv.innerText = days2.dayCounter;
         i++;
         updateFood(1); // update for 1 day each tick
         renderPassengers();
