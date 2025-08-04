@@ -114,11 +114,17 @@ export function buyItemsInput(location, currentLocation) {
     let purchaseText = document.querySelector(".purchase-text");
     let purchaseOptions = document.querySelector(".purchase-options");
     purchaseText.innerText = "What will you buy?";
-    purchaseOptions.insertAdjacentHTML("beforeend", `<form id="itemForm">
-        <label for="itemAmount">${Object.keys(fortData[key].items)[0]} you want: (${Object.values(fortData[key].items)[0]} available):</label>
-        <input type="text" id="foodAmountField" name="foodField"><br><br>
+    let itemsHtml = "";
+    Object.entries(fortData[key].items).forEach(([itemName, itemAmount]) => {
+    itemsHtml += `${itemName} (${itemAmount} available)<input type="text" id="items" name="itemField"<br><br>`;
+    });
+
+    purchaseOptions.insertAdjacentHTML("beforeend", `
+    <form id="itemForm">
+        <label for="itemAmount">${itemsHtml}</label><br>
         <input type="submit" value="Submit">
-        </form>`);    
+    </form>
+    `);   
 
     // Wait for DOM to update
     setTimeout(() => {
