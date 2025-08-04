@@ -75,29 +75,38 @@ export function buyFoodInput(location, currentLocation) {
     const form = document.getElementById("foodForm");
     if (!form) return console.error("Form not found.");
     form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const amount = parseInt(document.getElementById("foodAmountField").value, 10);
-        console.log("User entered:", amount);
-        const cost = amount * fortData[key].foodCost;
-        if (firstParty.money < cost) {
-            eventDiv.innerText = "You don't have enough money!"
-        }
-        firstParty.money -= amount * fortData[key].foodCost;
-        firstParty.items.food += amount;
-        fortData[key].buyFood -= amount * fortData[key].foodCost;
-        renderPassengers();
-        gameState.mode = "default"; // reset so 1, 2, 3 are action buttons again.
+    e.preventDefault();
+    const amount = parseInt(document.getElementById("foodAmountField").value, 10);
+    const cost = amount * fortData[key].foodCost;
 
-        // Slight delay before resetting location/options view
-        setTimeout(() => {
+    if (firstParty.money < cost) {
+        eventDiv.innerText = "You don't have enough money!";
+        return;
+    }
+
+    firstParty.money -= cost;
+    firstParty.items.food += amount;
+    fortData[key].buyFood -= cost;
+    renderPassengers();
+
+    eventDiv.innerText = `${amount} pounds of food purchased! Press spacebar to return to town.`;
+
+    function handleReturn(e) {
+        if (e.key === " ") {
+        gameState.mode = "default";
         newShowLocation(currentLocation);
-        }, 50);
+        document.removeEventListener("keydown", handleReturn);
+        }
+    }
+
+    document.addEventListener("keydown", handleReturn);
     });
+
     }, 0);
 
-    
-    // newShowLocation(currentLocation);
 }
+    // newShowLocation(currentLocation);
+
 
 export function buyItemsInput() {
 
@@ -151,16 +160,16 @@ export function fordRiver(currentLocation) {
         lostItems(loseALot);
 
         infoDiv.innerText = "You attempt to ford the river. Huge mistake."
-        eventDiv.innerText = `Guess what, you've just lost a bunch of stuff. Press 1 to continue.` // here insert what was lost via random loss function, not yet made
+        eventDiv.innerText = `Guess what, you've just lost a bunch of stuff. Press Press 1 to continue.` // here insert what was lost via random loss function, not yet made
         renderPassengers(); // rebuild item list
-        fortData[key].isFort = "yes" // lets you press 1 to continue now
+        fortData[key].isFort = "yes" // lets you Press 1 to continue now
     }
     else if (fortData[key].depth >= 2.5) {
         // chance of failure, lose a few items
         infoDiv.innerText = "You attempt to ford the river. Risky, but possible."
         if (fordRiverSuccessChance()) {
             eventDiv.innerText = `You were lucky and made it across! Press 1 to continue.`
-            fortData[key].isFort = "yes" // lets you press 1 to continue now
+            fortData[key].isFort = "yes" // lets you Press 1 to continue now
         }
         else {
 
@@ -168,14 +177,14 @@ export function fordRiver(currentLocation) {
 
             eventDiv.innerText = `You were unlucky! Press 1 to continue.` // if failed see above but lose less, have to code this
             renderPassengers(); // rebuild item list
-            fortData[key].isFort = "yes" // lets you press 1 to continue now
+            fortData[key].isFort = "yes" // lets you Press 1 to continue now
         }
     }
     else {
         // definite success
         infoDiv.innerText = "You attempt to ford the river."
         eventDiv.innerText = "You crossed successfully! Press 1 to continue."
-        fortData[key].isFort = "yes" // lets you press 1 to continue now
+        fortData[key].isFort = "yes" // lets you Press 1 to continue now
     }
     console.log(firstParty.items)
 }
@@ -210,7 +219,7 @@ export function generalLostDaysCalculator(daysLost) {
         if (i >= daysLost) {
           clearInterval(fakeMoveInterval);
           fakeMoveInterval = null;
-        //   infoDiv.innerText = "Press spacebar to continue"
+        //   infoDiv.innerText = "Press 1 to continue"
           return;
         }
         days2.dayCounter ++;

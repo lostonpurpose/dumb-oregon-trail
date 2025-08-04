@@ -116,10 +116,10 @@ export const fortData = {
 const allPaths = [path1, path2, path3, path4, path5, path6];
 let currentPathIndex = 0;
 // not using currently
-const allLocations = [loc1, loc2, loc3, loc4, loc5];
+const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6];
 let currentLocationIndex = 0;
 // not using currently
-const allRoutes = [route1, route2, route3, route4, route5];
+const allRoutes = [route1, route2, route3, route4, route5, route6];
 let currentRouteIndex = 0;
 
 export let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
@@ -220,8 +220,9 @@ export function townOptions(currentLocationKey) {
       return console.error("That is not a valid input");
     }
     
-    // KEY 1 = this is always 'leave' and you move on to the next route
+    // KEY 1 = this is always 'leave' and you move on to the next route !!!!!!!!!!!!!!!!!!!!!!!!!1
     // need to if this. if isfort, continue. if not isfort, ford river.
+    // change to spacebar
     if (e.key === "1") {
       if (currentLocationKey.isFort === "no") {
       fordRiver(currentLocation);
@@ -332,7 +333,7 @@ export function lostDaysCalculator(fakeMoveInterval, chosenAccident) {
           infoDiv.innerText = "Press spacebar to continue"
           return;
         }
-        days ++;
+        // days ++
         days2.dayCounter ++;
         // dayDiv.innerText = days;
         dayDiv.innerText = days2.dayCounter;
@@ -385,20 +386,14 @@ export function totalDeath() {
 // death stuff is coded. works. but, eventDiv text doesn't show and wagon moves one more step. the latter prob causes the former
 // also, it doesn't work. i can keep pressing spacebar and game continues after death.
 
-// i got hung up on the above while coding the fording and ferry stuff. somehow. need to finish that
-// and of course remove option 1 from rivers. hmm. that eliminates the possibility of having every location have 1,2,3 key options because
-// 1 is invalid for rivers. damn it. need to split my key login into iRiver or isNotRiver
 
-// TODO: add rivers, options. code success/failure chances.
-// ok i started on moving purchase options to alllocations, but i'm separating out food to option 2, but that will get overridden by
-// the '2' in this file, so i should move all the town logic to locations. i need to make 2 be food, 3 be buy supplies and go from there. 
-// but ran out of time at the moment. 
+// TODO: buy supplies at forts
+// diseases affect health until death
+// buy food and buy supplies, submit sends you back to main menu. make spacebar do it, but i need an event listener for those options
+
 // make buying supplies possible, add to inventory
-// add money!
 // allow recovery (doctor eventually) or spontaneous (random). 
 // do to oxen exactly what i did to people. they have health too... certain diseases for people/oxen kill them outright. 
 // if wagon destroyed move people to other wagons, but overcrowding affects health. 
-
-// move passenger/wagon dynamic creation to party file, then import. simplify
 
 // need to make spacebar not available while waiting out an event
