@@ -210,6 +210,15 @@ export function newShowLocation(location) {
 
 export const gameState = { mode: "default" };
 
+// global spacebar - return to menu listener. only fires when not in 'default mode', aka only when in a location
+document.addEventListener("keydown", (e) => {
+  if (e.key === " " && gameState.mode !== "default") {
+    gameState.mode = "default";
+    newShowLocation(currentLocation);
+  }
+});
+
+
 // town logic to continue or use options
 export function townOptions(currentLocationKey) {
   document.addEventListener("keydown", (e) => {  
@@ -299,6 +308,7 @@ export function townOptions(currentLocationKey) {
     // KEY 3 = buys supplies options (if fort) and take ferry (if river)
     // adjust. if isfort buy supplies. if not isfort hire native (lose time and money)
     else if (e.key === "3") {
+      gameState.mode = "buyItems";
       let purchaseText = document.querySelector(".purchase-text");
       let purchaseOptions = document.querySelector(".purchase-options");
       // clearing arrival text
@@ -308,12 +318,10 @@ export function townOptions(currentLocationKey) {
       // removes the - from class and converts to fortData retrievable
       const key = currentLocation.dataset.location.replace(/\s+/g, "");
 
-
-
       if (fortData[key].isFort === "yes") {
         buyItemsInput(location, currentLocation);
-        purchaseText.innerText = "What will you buy?";
-        purchaseOptions.innerText = fortData[key].buySupplies;
+        // purchaseText.innerText = "What will you buy?";
+        // purchaseOptions.innerText = fortData[key].buySupplies;
       }
       else if (fortData[key].isFort === "no") {
         hireNative(currentLocation);
@@ -387,7 +395,7 @@ export function totalDeath() {
 // also, it doesn't work. i can keep pressing spacebar and game continues after death.
 
 
-// TODO: buy supplies at forts
+// TODO: buy supplies at forts - think i'll do this like food, with input fields and one submit
 // diseases affect health until death
 // buy food and buy supplies, submit sends you back to main menu. make spacebar do it, but i need an event listener for those options
 

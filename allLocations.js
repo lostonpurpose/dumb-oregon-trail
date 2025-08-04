@@ -20,7 +20,8 @@ export const fortKearney = {
     options: "1. Continue on the trail\n2. Buy Food\n3. Buy Supplies",
     buyFood: 1800,
     foodCost: 2,
-    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels"
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels",
+    items: {"wagon wheels": 4, "ox yokes": 6}
 };
 
 export const fortLaramie = {
@@ -105,10 +106,53 @@ export function buyFoodInput(location, currentLocation) {
     }, 0);
 
 }
-    // newShowLocation(currentLocation);
 
+export function buyItemsInput(location, currentLocation) {
+    const key = currentLocation.dataset.location.replace(/\s+/g, "");
+    if (fortData[key].isFort === "no") return
 
-export function buyItemsInput() {
+    let purchaseText = document.querySelector(".purchase-text");
+    let purchaseOptions = document.querySelector(".purchase-options");
+    purchaseText.innerText = "What will you buy?";
+    purchaseOptions.insertAdjacentHTML("beforeend", `<form id="itemForm">
+        <label for="itemAmount">${Object.keys(fortData[key].items)[0]} you want: (${Object.values(fortData[key].items)[0]} available):</label>
+        <input type="text" id="foodAmountField" name="foodField"><br><br>
+        <input type="submit" value="Submit">
+        </form>`);    
+
+    // Wait for DOM to update
+    setTimeout(() => {
+    const form = document.getElementById("foodForm");
+    if (!form) return console.error("Form not found.");
+    form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const amount = parseInt(document.getElementById("foodAmountField").value, 10);
+    const cost = amount * fortData[key].foodCost;
+
+    if (firstParty.money < cost) {
+        eventDiv.innerText = "You don't have enough money!";
+        return;
+    }
+
+    firstParty.money -= cost;
+    firstParty.items.food += amount;
+    fortData[key].buyFood -= cost;
+    renderPassengers();
+
+    eventDiv.innerText = `${amount} pounds of food purchased! Press spacebar to return to town.`;
+
+    function handleReturn(e) {
+        if (e.key === " ") {
+        gameState.mode = "default";
+        newShowLocation(currentLocation);
+        document.removeEventListener("keydown", handleReturn);
+        }
+    }
+
+    document.addEventListener("keydown", handleReturn);
+    });
+
+    }, 0);
 
 };
 
