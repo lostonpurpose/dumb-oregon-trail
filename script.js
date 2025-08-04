@@ -71,7 +71,7 @@ const wagonNames = [
 
 export function renderPassengers() {
   firstParty.wagons.forEach((wagon, i) => {
-    wagonNames[i].innerText = wagon.name;
+    wagonNames[i].innerText = `${wagon.name} \n\n Name: Health`;
     const ul = passengerLists[i];
     ul.innerHTML = "";
     wagon.passengers.forEach(passenger => {

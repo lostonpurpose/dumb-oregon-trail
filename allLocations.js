@@ -79,9 +79,12 @@ export function buyFoodInput(location, currentLocation) {
         const amount = parseInt(document.getElementById("foodAmountField").value, 10);
         console.log("User entered:", amount);
         const cost = amount * fortData[key].foodCost;
-        if (firstParty.money < cost) return console.log("You do not have enough money");
+        if (firstParty.money < cost) {
+            eventDiv.innerText = "You don't have enough money!"
+        }
         firstParty.money -= amount * fortData[key].foodCost;
         firstParty.items.food += amount;
+        fortData[key].buyFood -= amount * fortData[key].foodCost;
         renderPassengers();
         gameState.mode = "default"; // reset so 1, 2, 3 are action buttons again.
 
