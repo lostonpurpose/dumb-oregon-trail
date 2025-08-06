@@ -395,7 +395,7 @@ export function totalDeath() {
 // also, it doesn't work. i can keep pressing spacebar and game continues after death.
 
 
-// TODO: buy supplies at forts - think i'll do this like food, with input fields and one submit
+// TODO: buy supplies at forts - need to subtract from party items
 // diseases affect health until death
 // buy food and buy supplies, submit sends you back to main menu. make spacebar do it, but i need an event listener for those options
 

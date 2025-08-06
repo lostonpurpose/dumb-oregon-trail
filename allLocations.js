@@ -21,7 +21,8 @@ export const fortKearney = {
     buyFood: 1800,
     foodCost: 2,
     buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels",
-    items: {"wagon wheels": 4, "ox yokes": 6}
+    items: {"wagon wheels": 4, "ox yokes": 6},
+    itemCost: {"wagon wheels": 20, "ox yokes": 10}
 };
 
 export const fortLaramie = {
@@ -104,7 +105,6 @@ export function buyFoodInput(location, currentLocation) {
     });
 
     }, 0);
-
 }
 
 export function buyItemsInput(location, currentLocation) {
@@ -116,7 +116,8 @@ export function buyItemsInput(location, currentLocation) {
     purchaseText.innerText = "What will you buy?";
     let itemsHtml = "";
     Object.entries(fortData[key].items).forEach(([itemName, itemAmount]) => {
-    itemsHtml += `${itemName} (${itemAmount} available)<input type="text" id="items" name="itemField"<br><br>`;
+        const itemPrice = fortData[key].itemCost[itemName];
+        itemsHtml += `${itemName}: $${itemPrice} - (${itemAmount} available)<input type="text" id="itemAmountField" name="itemField"<br><br>`;
     });
 
     purchaseOptions.insertAdjacentHTML("beforeend", `
@@ -124,16 +125,35 @@ export function buyItemsInput(location, currentLocation) {
         <label for="itemAmount">${itemsHtml}</label><br>
         <input type="submit" value="Submit">
     </form>
-    `);   
+    `);
+
 
     // Wait for DOM to update
     setTimeout(() => {
-    const form = document.getElementById("foodForm");
+    const form = document.getElementById("itemForm");
     if (!form) return console.error("Form not found.");
+
     form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const amount = parseInt(document.getElementById("foodAmountField").value, 10);
-    const cost = amount * fortData[key].foodCost;
+
+    let totalCost = 0;
+    let purchasedItems = {};
+
+    Object.entries(fortData[key].items.forEach(([itemName]) => {
+        const input = form.elements[itemName];
+        const quantity = parseInt(input.value, 10) || 0;
+        const price = fortData[key].itemCost[itemName];
+
+        totalCost = quantity * price;
+        purchasedItems[itemName] = quantity;
+    }))
+
+
+
+
+
+    const amount = parseInt(document.getElementById("itemAmountField").value, 10);
+    const cost = amount * fortData[key].itemCost;
 
     if (firstParty.money < cost) {
         eventDiv.innerText = "You don't have enough money!";
@@ -157,9 +177,7 @@ export function buyItemsInput(location, currentLocation) {
 
     document.addEventListener("keydown", handleReturn);
     });
-
     }, 0);
-
 };
 
 // 70% chance of success for rivers slightly deep
