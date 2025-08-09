@@ -117,7 +117,7 @@ export function buyItemsInput(location, currentLocation) {
     let itemsHtml = "";
     Object.entries(fortData[key].items).forEach(([itemName, itemAmount]) => {
         const itemPrice = fortData[key].itemCost[itemName];
-        itemsHtml += `${itemName}: $${itemPrice} - (${itemAmount} available)<input type="text" id="itemAmountField" name="itemField"<br><br>`;
+        itemsHtml += `<label>${itemName}: $${itemPrice} - (${itemAmount} available)</label><input type="text" id="${itemName}" name="${itemName}"<br><br>`;
     });
 
     purchaseOptions.insertAdjacentHTML("beforeend", `
@@ -139,16 +139,39 @@ export function buyItemsInput(location, currentLocation) {
     let totalCost = 0;
     let purchasedItems = {};
 
-    Object.entries(fortData[key].items.forEach(([itemName]) => {
+    Object.entries(fortData[key].items).forEach(([itemName]) => {
         const input = form.elements[itemName];
         const quantity = parseInt(input.value, 10) || 0;
         const price = fortData[key].itemCost[itemName];
 
         totalCost = quantity * price;
         purchasedItems[itemName] = quantity;
-    }))
+    });
+
+    // iterate through purchased and add them to existing
+    // on submit must say 'you purchased X'
+
+    if (totalCost > firstParty.money) {
+        eventDiv.innerText = "You don't have enough money!";
+        return;
+    };
+
+    firstParty.money -= totalCost;
+
+    let youBoughtText = "You bought:" + `${addedText}` + ".";
+    let addedText = '' + `,`
+
+    Object.entries(purchasedItems).forEach((itemName, itemValue) => {
+
+        // add to existing
+        fortData[key].items[itemName] += itemValue;
+
+        // write what was purchased
+        addedText += `${itemName} ${itemValue}`;
+    });
 
 
+    
 
 
 
