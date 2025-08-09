@@ -359,7 +359,7 @@ export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 11) { // currently no events for testing ******************* important to change this back
+    if (eventChance >= 9) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 
