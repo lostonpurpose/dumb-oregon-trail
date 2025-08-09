@@ -108,16 +108,16 @@ export function buyFoodInput(location, currentLocation) {
 }
 
 export function buyItemsInput(location, currentLocation) {
-    const key = currentLocation.dataset.location.replace(/\s+/g, "");
-    if (fortData[key].isFort === "no") return
+    const key = currentLocation.dataset.location.replace(/\s+/g, ""); // this creates a key to get the current location's object info (above)
+    if (fortData[key].isFort === "no") return // safeguard, if it's not a fort then you can't run this buyItems function
 
-    let purchaseText = document.querySelector(".purchase-text");
-    let purchaseOptions = document.querySelector(".purchase-options");
-    purchaseText.innerText = "What will you buy?";
-    let itemsHtml = "";
-    Object.entries(fortData[key].items).forEach(([itemName, itemAmount]) => {
-        const itemPrice = fortData[key].itemCost[itemName];
-        itemsHtml += `<label>${itemName}: $${itemPrice} - (${itemAmount} available)</label><input type="text" id="${itemName}" name="${itemName}"<br><br>`;
+    let purchaseText = document.querySelector(".purchase-text"); // grabs that dom element
+    let purchaseOptions = document.querySelector(".purchase-options"); // grabs that dom element
+    purchaseText.innerText = "What will you buy?"; // rewrites for buying items
+    let itemsHtml = ""; // placeholder before we iterate through the available items at this location
+    Object.entries(fortData[key].items).forEach(([itemName, itemAmount]) => { // start iterating through items
+        const itemPrice = fortData[key].itemCost[itemName]; // gets the cost for each item
+        itemsHtml += `<label>${itemName}: $${itemPrice} - (${itemAmount} available)</label><input type="text" id="${itemName}" name="${itemName}"><br><br>`; // builds the type, price, and amount available for each item that exists with a field to input
     });
 
     purchaseOptions.insertAdjacentHTML("beforeend", `
@@ -125,27 +125,27 @@ export function buyItemsInput(location, currentLocation) {
         <label for="itemAmount">${itemsHtml}</label><br>
         <input type="submit" value="Submit">
     </form>
-    `);
+    `); // this generates the form and inputs the item info built above
 
 
     // Wait for DOM to update
     setTimeout(() => {
-    const form = document.getElementById("itemForm");
-    if (!form) return console.error("Form not found.");
+    const form = document.getElementById("itemForm"); // grabs the form element created above
+    if (!form) return console.error("Form not found."); // if there isn't an element, throw error
 
-    form.addEventListener("submit", (e) => {
-    e.preventDefault();
+    form.addEventListener("submit", (e) => { // listens for when the form is submitted
+    e.preventDefault(); // i think prevents refresh
 
-    let totalCost = 0;
-    let purchasedItems = {};
+    let totalCost = 0; // starts counting cost of items
+    let purchasedItems = {}; // starts making an object of purchased items
 
-    Object.entries(fortData[key].items).forEach(([itemName]) => {
-        const input = form.elements[itemName];
-        const quantity = parseInt(input.value, 10) || 0;
-        const price = fortData[key].itemCost[itemName];
+    Object.entries(fortData[key].items).forEach(([itemName]) => { // starts iterating through the fort's items again
+        const input = form.elements[itemName]; // trying to take the name of each item (key)
+        const quantity = parseInt(input.value, 10) || 0; // trying to get the number for each available item user inputted
+        const price = fortData[key].itemCost[itemName]; // trying to get the cost for a specific item, using its key
 
-        totalCost = quantity * price;
-        purchasedItems[itemName] = quantity;
+        totalCost += quantity * price; // updates total cost based on overall items bought
+        purchasedItems[itemName] = quantity; // attempting to update the blank object with what was bought and how many
     });
 
     // iterate through purchased and add them to existing
@@ -154,54 +154,29 @@ export function buyItemsInput(location, currentLocation) {
     if (totalCost > firstParty.money) {
         eventDiv.innerText = "You don't have enough money!";
         return;
-    };
+    }; // warning in case you try to buy too much
 
-    firstParty.money -= totalCost;
+    firstParty.money -= totalCost; // otherwise, spend the money
 
-    let youBoughtText = "You bought:" + `${addedText}` + ".";
-    let addedText = '' + `,`
+    let addedText = '' + `,` // attempt to make variable that will update the text with what you bought
+    let youBoughtText = "You bought:" + `${addedText}` + "."; // template with bought items inserted
+    
 
-    Object.entries(purchasedItems).forEach((itemName, itemValue) => {
+    Object.entries(purchasedItems).forEach((itemName, itemValue) => { // now we get to the purchased items object, and want to 
 
         // add to existing
-        fortData[key].items[itemName] += itemValue;
+        firstParty.items[itemName] += itemValue;
 
         // write what was purchased
         addedText += `${itemName} ${itemValue}`;
+        renderPassengers(); // rebuild party info
     });
 
-
-    
-
-
-
-    const amount = parseInt(document.getElementById("itemAmountField").value, 10);
-    const cost = amount * fortData[key].itemCost;
-
-    if (firstParty.money < cost) {
-        eventDiv.innerText = "You don't have enough money!";
-        return;
-    }
-
-    firstParty.money -= cost;
-    firstParty.items.food += amount;
-    fortData[key].buyFood -= cost;
-    renderPassengers();
-
-    eventDiv.innerText = `${amount} pounds of food purchased! Press spacebar to return to town.`;
-
-    function handleReturn(e) {
-        if (e.key === " ") {
-        gameState.mode = "default";
-        newShowLocation(currentLocation);
-        document.removeEventListener("keydown", handleReturn);
         }
-    }
 
-    document.addEventListener("keydown", handleReturn);
-    });
-    }, 0);
-};
+    , 0)})};
+
+
 
 // 70% chance of success for rivers slightly deep
 function fordRiverSuccessChance() {
