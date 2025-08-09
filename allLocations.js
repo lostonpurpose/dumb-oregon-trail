@@ -159,8 +159,7 @@ export function buyItemsInput(location, currentLocation) {
     firstParty.money -= totalCost; // otherwise, spend the money
 
     let addedText = '' + `,` // attempt to make variable that will update the text with what you bought
-    let youBoughtText = "You bought:" + `${addedText}` + "."; // template with bought items inserted
-    
+
 
     Object.entries(purchasedItems).forEach(([itemName, itemValue]) => { // now we get to the purchased items object, and want to 
 
@@ -173,8 +172,10 @@ export function buyItemsInput(location, currentLocation) {
 
         // write what was purchased
         addedText += `${itemName} ${itemValue}`;
-        renderPassengers(); // rebuild party info
     });
+    renderPassengers(); // rebuild party info after object.entries loop (it worked inside the loop)
+    let youBoughtText = "You bought:" + `${addedText}` + "."; // template with bought items inserted
+    eventDiv.innerText = youBoughtText;
 
         }
 
