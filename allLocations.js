@@ -162,7 +162,11 @@ export function buyItemsInput(location, currentLocation) {
     let youBoughtText = "You bought:" + `${addedText}` + "."; // template with bought items inserted
     
 
-    Object.entries(purchasedItems).forEach((itemName, itemValue) => { // now we get to the purchased items object, and want to 
+    Object.entries(purchasedItems).forEach(([itemName, itemValue]) => { // now we get to the purchased items object, and want to 
+
+        if (!firstParty.items[itemName]) {
+        firstParty.items[itemName] = 0; // safeguard in case nothing is entered
+        }
 
         // add to existing
         firstParty.items[itemName] += itemValue;
