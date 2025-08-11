@@ -45,3 +45,16 @@ export function diseaseToHealth(subtractedHealth) {
         })
     }
 )};
+
+export function deadPerson() {
+    firstParty.wagons.forEach(wagon => {
+        wagon.passengers.forEach(person => {
+            if (!person.isAlive) {
+                person.disease = "dead";
+                person.health = 0;
+                person.age = null;
+                person.sex = null;
+            }
+        })
+    });
+};

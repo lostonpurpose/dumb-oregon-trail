@@ -86,6 +86,9 @@ export function renderPassengers() {
           li.classList.add("passenger-info-text");
         }
       }
+      else if (passenger.isAlive === false) { // if passenger is dead
+        li.textContent = `${passenger.name}: "is dead"`
+      }
       else { li.textContent = `${passenger.name}: (${passenger.health})`}; // eventually fix this, make two separate columns for each, aligned
       ul.appendChild(li);
     });
@@ -408,12 +411,16 @@ export function totalDeath() {
 // also, it doesn't work. i can keep pressing spacebar and game continues after death.
 
 
-// TODO: diseases affect health until death
+// TODO: diseases affect health until death based on disease severity
+// make passenger die after reaching 0 health or just dying outright
+// make event like 'attacked by mountain lion' which kills passenger outright
+// don't know if i finished losing supplies and displaying on screen
 // buy food and buy supplies, submit sends you back to main menu. make spacebar do it, but i need an event listener for those options
 
-// make buying supplies possible, add to inventory
 // allow recovery (doctor eventually) or spontaneous (random). 
 // do to oxen exactly what i did to people. they have health too... certain diseases for people/oxen kill them outright. 
 // if wagon destroyed move people to other wagons, but overcrowding affects health. 
+
+// make a few good events. discover an abandoned wagon with wheels, etc. berry bushes. travelling doctor.
 
 // need to make spacebar not available while waiting out an event
