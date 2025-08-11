@@ -88,12 +88,18 @@ export function renderPassengers() {
   // updates items dynamically
   items.innerHTML = "";
   const moneyLi = document.createElement("li");
-  moneyLi.textContent = `Money : ${firstParty.money}`
+  moneyLi.textContent = `Money : $${firstParty.money}`
   items.appendChild(moneyLi);
   Object.entries(firstParty.items).forEach(([item, amount]) => {
   const itemLi = document.createElement("li");
+  if (item === "food") { // this makes it so food has lbs as a suffix
+    itemLi.textContent = `${item} : ${amount} lbs`;
+    items.appendChild(itemLi);
+  }
+  else {
   itemLi.textContent = `${item} : ${amount}`;
   items.appendChild(itemLi);
+  }
 });
 
 };
@@ -395,8 +401,7 @@ export function totalDeath() {
 // also, it doesn't work. i can keep pressing spacebar and game continues after death.
 
 
-// TODO: buy supplies at forts - need to add to party items
-// diseases affect health until death
+// TODO: diseases affect health until death
 // buy food and buy supplies, submit sends you back to main menu. make spacebar do it, but i need an event listener for those options
 
 // make buying supplies possible, add to inventory
