@@ -76,9 +76,15 @@ export function renderPassengers() {
     ul.innerHTML = "";
     wagon.passengers.forEach(passenger => {
       const li = document.createElement("li");
-      if (passenger.disease != "none") {
-        li.textContent = `${passenger.name} ${passenger.disease} ${passenger.health}`;
-        li.classList.add("passenger-info-text");
+      if (passenger.disease != "none") { // this is when they have a disease
+        if (passenger.disease.includes(" a ")) { // this is to make the disease in party details grammatically sound, wow, works
+          li.textContent = `${passenger.name}: ${passenger.disease.slice(3)} ${passenger.health}`;
+          li.classList.add("passenger-info-text");
+        }
+        else {
+          li.textContent = `${passenger.name}: ${passenger.disease} ${passenger.health}`;
+          li.classList.add("passenger-info-text");
+        }
       }
       else { li.textContent = `${passenger.name}: (${passenger.health})`}; // eventually fix this, make two separate columns for each, aligned
       ul.appendChild(li);
@@ -159,7 +165,7 @@ function autoMoveWagon(path, step = 10, interval = 500) {
     // dayDiv.innerText = days;
     dayDiv.innerText = days2.dayCounter;
     updateFood(1);
-    diseaseToHealth(2) // new function does it work??
+    diseaseToHealth(2) // new function does it work?? it does! from create party. need to remove 2 and add in the disease severity
     renderPassengers();
     milesLeft -= step;
     if (milesLeft < 0) milesLeft = 0;
@@ -353,6 +359,7 @@ export function lostDaysCalculator(fakeMoveInterval, chosenAccident) {
         dayDiv.innerText = days2.dayCounter;
         i++;
         updateFood(1); // update for 1 day each tick
+        diseaseToHealth(2) // updates for diseases. change 2 to disease severity
         renderPassengers();
         // NEW check for death
         checkForDeath();
@@ -365,7 +372,7 @@ export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 9) { // currently no events for testing ******************* important to change this back
+    if (eventChance >= 5) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 

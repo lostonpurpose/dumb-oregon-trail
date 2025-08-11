@@ -1,6 +1,6 @@
 import { firstParty } from "./createParty.js";
 
-export const diseases = [" has measles", " has dysentery", " has severe diarrhea", " has a ruptured spleen", " has giant turds"];
+export const diseases = [" measles", " dysentery", " severe diarrhea", " a ruptured spleen", " giant turds", " a buttock rash", " a rotten tooth"];
 export const accidents = [" has a broken axle", " caught on fire", " was attacked by bears", " was engulfed by magma from an erupting volcano"];
 export const lostDays = Math.floor(Math.random() * 10) + 2;
 
@@ -25,7 +25,7 @@ export function getRandomAccident() {
         // select passenger to have disease
         const chosenDisease = diseases[diseaseIndex];
         firstParty.wagons[wagonIndex].passengers[passengerIndex].disease = chosenDisease;
-        message =  `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + chosenDisease + ". You have lost " + lostDays + " days."}`;
+        message =  `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + " has" + chosenDisease + ". You have lost " + lostDays + " days."}`;
     }
 
     return { message, lostDays };
