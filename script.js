@@ -169,6 +169,7 @@ function autoMoveWagon(path, step = 10, interval = 500) {
     dayDiv.innerText = days2.dayCounter;
     updateFood(1);
     diseaseToHealth(2) // new function does it work?? it does! from create party. need to remove 2 and add in the disease severity
+    // currently subtracts health if character is dead, but fixing the above will fix this issue (dead severity = 0, ironically)
     renderPassengers();
     milesLeft -= step;
     if (milesLeft < 0) milesLeft = 0;
