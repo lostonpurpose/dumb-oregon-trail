@@ -5,48 +5,13 @@ import locations.css
 }
 
 html, body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centers vertically */
     height: 100vh;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
 }
-
-.party-info {
-    background-color: cornflowerblue;
-    display: grid;
-    height: 30vh;
-}
-
-.party-info h3 {
-    text-align: center;
-}
-
-.spacer-1 {
-    background-color: aqua;
-    height: 5vh;
-}
-
-.routes-container {
-    background-color: rgb(136, 255, 174);
-    display: grid;
-    height: 20vh;
-}
-
-.info-container {
-    background-color: bisque;
-    display: grid;
-    height: 10vh;
-}
-
-.town-container {
-    background-color: darkcyan;
-    display: grid;
-    height: 35vh;
-}
-
-
-
-
-
 
 .miles {
     color: blue;
@@ -55,7 +20,12 @@ html, body {
     width: 100%;
 }
 
-
+.routes-container {
+    position: relative;
+    height: 20vh;
+    display: flex;
+    align-items: center;
+}
 
 #wagon {
     position: absolute;
@@ -122,7 +92,18 @@ html, body {
     color: red;
 }
 
+.party-info {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
 
+.party-info h3 {
+    text-align: center;
+}
 
 .wagons {
     display: flex;

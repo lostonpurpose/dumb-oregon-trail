@@ -1,0 +1,87 @@
+import locations.css
+
+* {
+    box-sizing: border-box;
+}
+
+.grid-container {
+    background-color: gray;
+    display: grid;
+    height: calc(40vh - 1.2vh);
+    gap: 10px;
+    grid-auto-rows: repeat(4, 1fr);
+    grid-template-areas: 
+        'header header header header '
+        'party1 party2 items .'
+        'party1 party2 items .'
+        'party1 party2 items .'
+        'party1 party2 items .';
+}
+
+.grid-container-2 {
+    background-color: azure;
+    display: grid;
+    height: calc(40vh - 1.2vh);
+    gap: 10px;
+    grid-auto-rows: repeat(6, 1fr);
+    grid-template-areas: 
+        'info event miles miles'
+        'loc loc loc loc'
+        'loc loc loc loc'
+        'loc loc loc loc'
+        'loc loc loc loc'
+        'loc loc loc loc'
+    ;
+}
+
+.grid-container div {
+    text-align: center;
+    padding: 10px;
+}
+
+.item-1 {
+    background-color: red;
+    grid-area: header;
+}
+
+.item-2 {
+    background-color: blue;
+    grid-area: party1;
+    display: grid;
+    place-items: center;
+}
+
+.item-3 {
+    background-color: green;
+    grid-area: party2;
+}
+
+.item-4 {
+    background-color: blueviolet;
+    grid-area: items;
+}
+
+.item-5 {
+    background-color: chartreuse;
+    height: 20vh;
+}
+
+.item-6 {
+    background-color: cadetblue;
+    grid-area: info;
+}
+
+.item-7 {
+    background-color: rgb(255, 0, 0);
+    grid-area: event;
+}
+
+.item-8 {
+    background-color: rgb(155, 105, 255);
+    grid-area: miles;
+}
+
+.item-9 {
+    background-color: rgb(255, 216, 235);
+    grid-area: loc;
+}
