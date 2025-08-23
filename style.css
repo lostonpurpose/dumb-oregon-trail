@@ -53,6 +53,11 @@ html, body {
     color: red;
 }
 
+/* this just makes it so the dynamically gen party text respects extra spaces */
+.wagon-name-1, .wagon-name-2, .wagon-name-3, .item-span {
+    white-space: pre;
+}
+
 .spacer-1 {
     background-color: aqua;
     height: 5vh;
@@ -178,10 +183,7 @@ html, body {
     justify-content: space-between;
 } */
 
-/* .wagon-name-1, .wagon-name-2, .wagon-name-3, .item-span {
-    display: block;
-    margin-bottom: 12px;
-} */
+
 
 
 ul {
