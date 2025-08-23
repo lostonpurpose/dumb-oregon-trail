@@ -8,14 +8,25 @@ html, body {
     height: 100vh;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: antiquewhite;
+}
+
+#party-header {
+    display: grid;
+    height: 5vh;
+    place-items: center; /* centers both vertically and horizontally */
+    margin: 0;
 }
 
 .party-info {
     background-color: cornflowerblue;
+    border: 10px solid gray;
     display: grid;
     height: 30vh;
-    gap: 10px;
-    grid-template-rows: repeat(6, 1fr);
+    column-gap: 30px; /* horizontal only */
+    row-gap: 10px;       /* optional: vertical gap */
+    margin: 0% 8% 0% 8%;
+    grid-template-rows: repeat(5, 1fr);
     grid-template-areas: 
         'header header header header'
         'wagon-1 wagon-2 wagon-3 items'
@@ -34,7 +45,7 @@ html, body {
 .wagon-1, .wagon-2, .wagon-3, .items {
     background-color: rgb(190, 190, 190);
     padding: 8px;
-    box-shadow: 5px 5px 15px rgb(194, 194, 194);
+    /* box-shadow: 5px 5px 15px rgb(194, 194, 194); */
 }
 
 /* for when passenger is sick */
@@ -47,11 +58,12 @@ html, body {
     height: 5vh;
 }
 
-/* .routes-container {
-    background-color: rgb(136, 255, 174);
-    display: grid;
+.routes-container {
     height: 20vh;
-} */
+    position: relative;
+    display: flex;
+    align-items: center;
+}
 
 .info-container {
     background-color: bisque;
@@ -59,6 +71,7 @@ html, body {
     height: 10vh;
     gap: 10px;
     grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-template-areas: 
         'info info event event miles miles'
         'days . . . . .';
@@ -77,6 +90,8 @@ html, body {
 .miles {
     color: blue;
     grid-area: miles;
+    display: grid;
+    place-items: center;
 }
 
 .days {
@@ -100,14 +115,14 @@ html, body {
     transform: translateY(-50%);
     width: 300px;
     height: 150px;
-    background-image: url("images/ot\ oxen.png");
+    background-image: url("images/ot-oxen.png");
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 2;
 }
 
 .route-1, .route-2, .route-3, .route-4, .route-5, .route-6, #background-bar {
-    height: 50%;
+    height: 100%;
     background-color: rgb(217, 176, 255);
     display: flex;
     align-items: stretch;
@@ -117,6 +132,7 @@ html, body {
 #background-bar {
     width: 100vw;
     position: inherit;
+    background-repeat: no-repeat;
     /* flex-wrap: wrap; */
     background-image: url("./images/mountains.png");
 }
@@ -124,6 +140,7 @@ html, body {
 .path-1, .path-2, .path-3, .path-4, .path-5, .path-6 {
     height: 100%;
     background-color: rgb(217, 176, 255);
+    background-repeat: no-repeat;
     background-image: url("./images/mountains.png");
 }
 
@@ -144,6 +161,7 @@ html, body {
     background-color: rgb(217, 176, 255);
     margin: 0;
     background-image: url("./images/ot\ river.png");
+    background-repeat: no-repeat;
 }
 
 .hide-path, .hide-loc, .hide-route{
@@ -155,19 +173,15 @@ html, body {
 } */
 
 
-
-
-
-.wagons {
+/* .wagons {
     display: flex;
     justify-content: space-between;
-}
+} */
 
-.wagon-name-1, .wagon-name-2, .wagon-name-3, .item-span {
+/* .wagon-name-1, .wagon-name-2, .wagon-name-3, .item-span {
     display: block;
     margin-bottom: 12px;
-}
-
+} */
 
 
 ul {
@@ -178,4 +192,3 @@ ul {
 li {
     list-style-type: none;
 }
-

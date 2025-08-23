@@ -61,7 +61,7 @@ const items = document.querySelector(".item-ul");
 
 // sets the wagons and passengers dynamically
 const partyHeader = document.getElementById("party-header");
-partyHeader.innerText = `${firstParty.name} \n`;
+partyHeader.innerText = `${firstParty.name}`;
 partyHeader.style.color = "blue"
 const wagonNames = [
   document.querySelector('.wagon-name-1'),
@@ -71,7 +71,7 @@ const wagonNames = [
 
 export function renderPassengers() {
   firstParty.wagons.forEach((wagon, i) => {
-    wagonNames[i].innerText = `${wagon.name} \n\n Name: Health`;
+    wagonNames[i].innerText = `${wagon.name} \n\n Name: Health \n\n`;
     const ul = passengerLists[i];
     ul.innerHTML = "";
     wagon.passengers.forEach(passenger => {
@@ -376,7 +376,7 @@ export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 5) { // currently no events for testing ******************* important to change this back
+    if (eventChance >= 11) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 
