@@ -16,15 +16,16 @@ html, body {
     height: 5vh;
     place-items: center; /* centers both vertically and horizontally */
     margin: 0;
+    border-bottom: 10px solid gray;
 }
 
 .party-info {
-    background-color: cornflowerblue;
+    background-color: rgb(56, 56, 56);
     border: 10px solid gray;
     display: grid;
     height: 30vh;
     column-gap: 30px; /* horizontal only */
-    row-gap: 10px;       /* optional: vertical gap */
+    row-gap: 0
     margin: 0% 8% 0% 8%;
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas: 
@@ -73,13 +74,12 @@ html, body {
 .info-container {
     background-color: bisque;
     display: grid;
-    height: 10vh;
+    height: 5vh;
     gap: 10px;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(6, 1fr);
     grid-template-areas: 
-        'info info event event miles miles'
-        'days . . . . .';
+        'info info event days miles miles'
 }
 
 .info-div {
@@ -102,14 +102,16 @@ html, body {
 .days {
     color: rgb(49, 49, 49);
     grid-area: days;
+    display: grid;
+    place-items: center;
 }
 
 .town-container {
     background-color: darkcyan;
     display: grid;
-    height: 35vh;
+    height: 37vh;
 }
-
+/* alter vh as needed to fill entire space */
 
 
 

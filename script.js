@@ -62,7 +62,7 @@ const items = document.querySelector(".item-ul");
 // sets the wagons and passengers dynamically
 const partyHeader = document.getElementById("party-header");
 partyHeader.innerText = `${firstParty.name}`;
-partyHeader.style.color = "blue"
+partyHeader.style.color = "violet"
 
 const wagonNames = [
   document.querySelector('.wagon-name-1'),
