@@ -11,12 +11,19 @@ html, body {
     background-color: antiquewhite;
 }
 
+#sky {
+    width: 100vw;
+    height: 50vh;
+    position: absolute;
+}
+
 #party-header {
     display: grid;
     height: 5vh;
     place-items: center; /* centers both vertically and horizontally */
     margin: 0;
     border-bottom: 10px solid gray;
+    position: relative;
 }
 
 .party-info {
@@ -27,6 +34,7 @@ html, body {
     column-gap: 30px; /* horizontal only */
     row-gap: 0;
     margin: 0% 8% 0% 8%;
+    position: relative;
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas: 
         'header header header header'

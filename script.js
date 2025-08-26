@@ -20,6 +20,9 @@ export function checkForDeath() {
   return false;
 };
 
+const sky = document.getElementById("sky");
+sky.style.backgroundColor = 'blue'
+
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
 const miles = document.querySelector(".miles");
