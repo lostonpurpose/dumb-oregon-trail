@@ -182,6 +182,12 @@ export function buyItemsInput(location, currentLocation) {
     , 0)})};
 
 
+    // FIXED buying items is not working properly. message of what you bought pops up in event div. but i get duplicate items = ah, name is plural.
+    // and wording in event div is bad
+    // for hiring native, 'press 1' option appears event div, but nothing happens on 1 press. spacebar repeats river menu. then 1 works. fix.
+    // after getting back to path, need 'press spacebar' to appear
+
+
 
 // 70% chance of success for rivers slightly deep
 function fordRiverSuccessChance() {

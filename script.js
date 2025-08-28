@@ -20,8 +20,12 @@ export function checkForDeath() {
   return false;
 };
 
+// to change sky color as you go.
 const sky = document.getElementById("sky");
-sky.style.backgroundColor = 'blue'
+sky.style.backgroundColor = "rgb(211, 211, 255)";
+const skyEnd = "rgb(0, 6, 69)"
+
+// write function to increment sky color. tie it to miles. will have to figure out entire length of trail first. see above for colors.
 
 const wagon = document.querySelector("#wagon");
 const paths = document.querySelectorAll(".paths");
