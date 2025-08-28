@@ -10,7 +10,6 @@ export const theKansasRiver = {
     ferryCost: 15,
     nativeCost: 8,
     nativeDaysLost: 2
-    // buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Wheels"
 };
 
 export const fortKearney = {
@@ -25,38 +24,63 @@ export const fortKearney = {
 };
 
 export const fortLaramie = {
+    isFort: "yes",
     flavorText: "You have reached Fort Laramie! This is rugged town struggling to get by. What would you like to do?",
-    options: "1. Continue on the trail\n2. Buy Supplies",
+    options: "1. Continue on the trail\n2. Buy Food\n3. Buy Supplies",
     buyFood: 1500,
-    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Axle"
+    foodCost: 3,
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Axle",
+    items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
+    itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
 };
 
 export const fortBridger = {
+    isFort: "yes",
     flavorText: "You have reached Fort Bridger! It's nothing more than a wooden palisade and stray chickens. What would you like to do?",
-    options: "1. Continue on the trail\n2. Buy Supplies",
+    options: "1. Continue on the trail\n2. Buy Food\n3. Buy Supplies",
     buyFood: 1200,
-    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Yoke"
+    buySupplies: "1. Leave\n2. Buy Food\n3. Buy Wagon Yoke",
+    items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
+    itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
+};
+
+export const theGreenRiver = {
+    isFort: "no",
+    flavorText: "You have reached the Green River! It is 160 feet wide and 1.6 feet deep. What will you do?",
+    options: "1. Attempt to ford the river\n2. Pay for a ferry ($12)\n3. Hire a native to find a suitable crossing ($5, lose 1 days)",
+    width: 160,
+    depth: 1.6,
+    ferryCost: 15,
+    nativeCost: 5,
+    nativeDaysLost: 1
 };
 
 export const fortHall = {
+    isFort: "yes",
     flavorText: "You have reached Fort Hall! It's nothing more than a wooden palisade and stray chickens. What would you like to do?",
-    options: "1. Continue on the trail\n2. Buy Supplies",
+    options: "1. Continue on the trail\n2. Buy Food\n3. Buy Supplies",
     buyFood: 800,
     buySupplies: "1. Leave\n2. Buy Food\n3. Buy a Hall",
 };
 
+export const theSnakeRiver = {
+    isFort: "no",
+    flavorText: "You have reached the Snake River! It is 290 feet wide and 5.8 feet deep. What will you do?",
+    options: "1. Attempt to ford the river\n2. Pay for a ferry ($20)\n3. Hire a native to find a suitable crossing ($10, lose 4 days)",
+    width: 290,
+    depth: 5.8,
+    ferryCost: 27,
+    nativeCost: 10,
+    nativeDaysLost: 4
+};
+
 export const fortBoise = {
+    isFort: "yes",
     flavorText: "You have reached Fort Boise! Turds alive! It's Built to Spill! What would you like to do?",
-    options: "1. Continue on the trail\n2. Buy Supplies",
+    options: "1. Continue on the trail\n2. Buy Food\n3. Buy Supplies",
     foodAvailable: 500,
     buySupplies: "1. Leave\n2. Buy Food\n3. Buy Perfect From Now On"
 };
-
-// need the buy supplies function here. 1. leave, 2. buy food, 3. buy supplies (becomes a new menu with wagon parts, medicine, etc)
-// start with 2, update part food. then make new menu, code number options to throw items into array
-
-// on buySupplies screen, logic to purchase things or leave
-
 
 
 // RIVERSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS

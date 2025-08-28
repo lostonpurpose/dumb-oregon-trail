@@ -1,4 +1,4 @@
-import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, } from "./allLocations.js";
+import { theKansasRiver, fortLaramie, fortKearney, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise, } from "./allLocations.js";
 import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
@@ -39,6 +39,8 @@ const route3 = document.querySelector(".route-3");
 const route4 = document.querySelector(".route-4");
 const route5 = document.querySelector(".route-5");
 const route6 = document.querySelector(".route-6");
+const route7 = document.querySelector(".route-7");
+const route8 = document.querySelector(".route-8");
 
 
 const path1 = document.querySelector(".path-1");
@@ -47,6 +49,8 @@ const path3 = document.querySelector(".path-3");
 const path4 = document.querySelector(".path-4");
 const path5 = document.querySelector(".path-5");
 const path6 = document.querySelector(".path-6");
+const path7 = document.querySelector(".path-7");
+const path8 = document.querySelector(".path-8");
 
 const loc1 = document.getElementById("loc-1");
 const loc2 = document.getElementById("loc-2");
@@ -54,6 +58,8 @@ const loc3 = document.getElementById("loc-3");
 const loc4 = document.getElementById("loc-4");
 const loc5 = document.getElementById("loc-5");
 const loc6 = document.getElementById("loc-6");
+const loc7 = document.getElementById("loc-7");
+const loc8 = document.getElementById("loc-8");
 
 export const infoDiv = document.querySelector(".info-div");
 
@@ -132,21 +138,28 @@ setTimeout(() => {
 }, 100);
 
 
+
+
 // assigning correct casing for allLocation.js lookup
 export const fortData = {
   "theKansasRiver": theKansasRiver,
   "FortKearney": fortKearney,
   "FortLaramie": fortLaramie,
   "FortBridger": fortBridger,
+  "theGreenRiver": theGreenRiver,
   "FortHall": fortHall,
+  "theSnakeRiver": theSnakeRiver,
   "FortBoise": fortBoise,
 };
 
+
+
+
 // using this to check each path for miles left
-const allPaths = [path1, path2, path3, path4, path5, path6];
+const allPaths = [path1, path2, path3, path4, path5, path6, path7, path8];
 let currentPathIndex = 0;
 // not using currently
-const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6];
+const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8];
 let currentLocationIndex = 0;
 // not using currently
 const allRoutes = [route1, route2, route3, route4, route5, route6];
@@ -243,7 +256,7 @@ export function newShowLocation(location) {
 
 export const gameState = { mode: "default" };
 
-// global spacebar - return to menu listener. only fires when not in 'default mode', aka only when in a location
+// global spacebar - return to fort menu listener. only fires when not in 'default mode', aka only when in a location
 document.addEventListener("keydown", (e) => {
   if (e.key === " " && gameState.mode !== "default") {
     gameState.mode = "default";
@@ -261,7 +274,8 @@ export function townOptions(currentLocationKey) {
     if (!["1", "2", "3", " "].includes(e.key)) {
       return console.error("That is not a valid input");
     }
-      infoDiv.innerText = "Press spacebar to continue"; // this works in a fort after purchasing items, but on the main screen it still shows up.
+      // infoDiv.innerText = "Press spacebar to continue poo";
+       // this works in a fort after purchasing items, but on the main screen it still shows up.
       // it should not be there, since 1 returns to trail. however, after back on trail this message does show, which it should.
       // issue is after rivers this message does not show yet. similar notes to these in alllocations
     
