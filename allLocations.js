@@ -158,7 +158,6 @@ export function buyItemsInput(location, currentLocation) {
 
     firstParty.money -= totalCost; // otherwise, spend the money
 
-    let addedText = '' // attempt to make variable that will update the text with what you bought
     let addedText2 = []; // if this works get rid of the first one
 
 
@@ -172,15 +171,12 @@ export function buyItemsInput(location, currentLocation) {
         firstParty.items[itemName] += itemCount;
 
         // write what was purchased
-        addedText += `${itemCount} ${itemName}`;
         addedText2.push(`${itemCount} ${itemName}`)
 
     });
     renderPassengers(); // rebuild party info after object.entries loop (it worked inside the loop)
-    let youBoughtText = "You bought:" + `${addedText}` + "."; // template with bought items inserted
     let youBoughtText2 = "You bought: " + addedText2.join(", ")
 
-    // eventDiv.innerText = youBoughtText;
     eventDiv.innerText = youBoughtText2;
         }
 
@@ -286,8 +282,6 @@ export function hireNative(currentLocation) {
     eventDiv.innerText = "Press 1 to continue"
     gameState.mode = "default";
 }
-
-    // after getting back to path, need 'press spacebar' to appear
 
 
 // general lost days calculator

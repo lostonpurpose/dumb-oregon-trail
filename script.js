@@ -166,6 +166,7 @@ let autoMoveInterval = null;
 // let days = 0;
 export let days2 = { dayCounter: 0}
 export const dayDiv = document.querySelector(".days");
+infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game. 
 
 function autoMoveWagon(path, step = 10, interval = 500) {
   infoDiv.innerText = "";
@@ -210,6 +211,7 @@ document.body.addEventListener("keyup", (e) => {
         if (autoMoveInterval) {
             clearInterval(autoMoveInterval);
             autoMoveInterval = null;
+            infoDiv.innerText = "Press spacebar to continue" // added this and works as intended but only when pausing with spacebar first, not at start of trail
         } else {
             autoMoveWagon(allPaths[currentPathIndex]);
         }
@@ -257,6 +259,9 @@ export function townOptions(currentLocationKey) {
     if (!["1", "2", "3", " "].includes(e.key)) {
       return console.error("That is not a valid input");
     }
+      infoDiv.innerText = "Press spacebar to continue"; // this works in a fort after purchasing items, but on the main screen it still shows up.
+      // it should not be there, since 1 returns to trail. however, after back on trail this message does show, which it should.
+      // issue is after rivers this message does not show yet. similar notes to these in alllocations
     
     // KEY 1 = this is always 'leave' and you move on to the next route !!!!!!!!!!!!!!!!!!!!!!!!!1
     // need to if this. if isfort, continue. if not isfort, ford river.
@@ -299,6 +304,7 @@ export function townOptions(currentLocationKey) {
         // clears the text after fording the river or whatever, upon loading next path
         infoDiv.innerText = ""
         eventDiv.innerText = ""
+        infoDiv.innerText = "Press spacebar to continue" // this makes spacebar appear correctly after crossing a river!
 
         // checks if nextRoute exists, if not you've reached the end
         // need to punch this up, it means you've beaten the game!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -425,7 +431,8 @@ export function totalDeath() {
 // also, it doesn't work. i can keep pressing spacebar and game continues after death.
 
 
-// TODO: diseases affect health until death based on disease severity
+// TODO: finish fixing 'press spacebar' message. shows during town when it shouldn't. says 'continue' when it should say 'return to town menu'.
+// diseases affect health until death based on disease severity
 // make passenger die after reaching 0 health or just dying outright
 // make event like 'attacked by mountain lion' which kills passenger outright
 // don't know if i finished losing supplies and displaying on screen
