@@ -40,6 +40,46 @@ export function fordRiver(currentLocation) {
     console.log(firstParty.items)
 }
 
+// 70% chance of success for rivers slightly deep
+function fordRiverSuccessChance() {
+    const result = Math.random()
+    if (result <= .7) return true;
+    else return false;
+};
+
+
+// determining which and how many items you lose
+const loseALot = Math.floor((Math.random() * 5) + 3); // lose 3-5 item types
+const loseAFew = Math.floor((Math.random() * 3) + 1); // lose 1-3 item types
+function lostItems(amountToLose) {
+    const numberOfItems = Object.keys(firstParty.items).length;
+    console.log(`amountToLose: ${amountToLose}, numberOfItems: ${numberOfItems}`);
+    
+    if (amountToLose >= numberOfItems) {
+        // use numberOfItems and lose from there
+        Object.entries(firstParty.items).forEach(([key, value]) => {
+            const loss = Math.floor((Math.random() * 2) + 1); // 1–2
+            firstParty.items[key] = Math.max(value - loss, 0); // ensures 0 is the minimum
+            console.log(`Item: ${key}, was: ${value}, lost: ${loss}`);
+        });
+    }
+    else {
+        // calc the difference, randomize which item types, then lose from there
+        const keys = Object.keys(firstParty.items); // makes array of keys
+        const shuffled = keys.sort(() => 0.5 - Math.random()); // returns pos or neg, reorders each pair based on this randomness, somehow
+        const randomFew = shuffled.slice(0, amountToLose); // slices off the first few
+        console.log("Selected randomFew keys:", randomFew); 
+        randomFew.forEach((key) => {
+            const value = firstParty.items[key];
+            const loss = Math.floor((Math.random() * 2) + 1); // 1–2
+            firstParty.items[key] = Math.max(value - loss, 0); // ensures 0 is the minimum
+        });
+    }
+}
+
+
+
+
 export function takeFerry(currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
     infoDiv.innerText = `You take a nearby ferry to cross the river and lose ${fortData[key].ferryCost}.`
@@ -81,5 +121,5 @@ export function generalLostDaysCalculator(daysLost) {
         // NEW check for death
         checkForDeath();
         // END check    
-      }, 500);
+    }, 500);
     }

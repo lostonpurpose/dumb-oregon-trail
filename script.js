@@ -1,4 +1,5 @@
-import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, buyFoodInput, buyItemsInput } from "./allLocations.js";
+import { theKansasRiver, fortLaramie, fortKearney, fortBridger, fortHall, fortBoise, } from "./allLocations.js";
+import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
 import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
