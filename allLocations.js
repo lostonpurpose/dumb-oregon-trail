@@ -186,13 +186,6 @@ export function buyItemsInput(location, currentLocation) {
 
     , 0)})};
 
-
-    // for hiring native, 'press 1' option appears event div, but nothing happens on 1 press. spacebar repeats river menu. then 1 works. fix.
-    // by the way, it works perfectly for fording and ferrying
-    // after getting back to path, need 'press spacebar' to appear
-
-
-
 // 70% chance of success for rivers slightly deep
 function fordRiverSuccessChance() {
     const result = Math.random()
@@ -231,6 +224,9 @@ function lostItems(amountToLose) {
     // if more, randomly choose which ones to lose
     // iterate through lost types, randomly lose 1 or 2 or whatever
 };
+
+// RIVERSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+// RIVERSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 
 export function fordRiver(currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
@@ -288,8 +284,10 @@ export function hireNative(currentLocation) {
     renderPassengers();
     fortData[key].isFort = "yes"
     eventDiv.innerText = "Press 1 to continue"
+    gameState.mode = "default";
 }
 
+    // after getting back to path, need 'press spacebar' to appear
 
 
 // general lost days calculator
