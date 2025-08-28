@@ -158,33 +158,37 @@ export function buyItemsInput(location, currentLocation) {
 
     firstParty.money -= totalCost; // otherwise, spend the money
 
-    let addedText = '' + `,` // attempt to make variable that will update the text with what you bought
+    let addedText = '' // attempt to make variable that will update the text with what you bought
+    let addedText2 = []; // if this works get rid of the first one
 
 
-    Object.entries(purchasedItems).forEach(([itemName, itemValue]) => { // now we get to the purchased items object, and want to 
+    Object.entries(purchasedItems).forEach(([itemName, itemCount]) => { // now we get to the purchased items object and itemCount is how many
 
         if (!firstParty.items[itemName]) {
         firstParty.items[itemName] = 0; // safeguard in case nothing is entered
         }
 
         // add to existing
-        firstParty.items[itemName] += itemValue;
+        firstParty.items[itemName] += itemCount;
 
         // write what was purchased
-        addedText += `${itemName} ${itemValue}`;
+        addedText += `${itemCount} ${itemName}`;
+        addedText2.push(`${itemCount} ${itemName}`)
+
     });
     renderPassengers(); // rebuild party info after object.entries loop (it worked inside the loop)
     let youBoughtText = "You bought:" + `${addedText}` + "."; // template with bought items inserted
-    eventDiv.innerText = youBoughtText;
+    let youBoughtText2 = "You bought: " + addedText2.join(", ")
 
+    // eventDiv.innerText = youBoughtText;
+    eventDiv.innerText = youBoughtText2;
         }
 
     , 0)})};
 
 
-    // FIXED buying items is not working properly. message of what you bought pops up in event div. but i get duplicate items = ah, name is plural.
-    // and wording in event div is bad
     // for hiring native, 'press 1' option appears event div, but nothing happens on 1 press. spacebar repeats river menu. then 1 works. fix.
+    // by the way, it works perfectly for fording and ferrying
     // after getting back to path, need 'press spacebar' to appear
 
 
