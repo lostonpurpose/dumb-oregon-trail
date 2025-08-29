@@ -339,6 +339,7 @@ export function townOptions(currentLocationKey) {
       const key = currentLocation.dataset.location.replace(/\s+/g, "");
 
       if (fortData[key].isFort === "no") {
+        gameState.mode = "takeFerry"
         console.log("takeFerry only");
         takeFerry(currentLocation);
         return; // STOP here

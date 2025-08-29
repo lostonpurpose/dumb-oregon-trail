@@ -81,6 +81,7 @@ function lostItems(amountToLose) {
 
 
 export function takeFerry(currentLocation) {
+    if (gameState.mode != "takeFerry") return;
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
     infoDiv.innerText = `You take a nearby ferry to cross the river and lose ${fortData[key].ferryCost}.`
     firstParty.money -= fortData[key].ferryCost
