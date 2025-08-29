@@ -1,10 +1,11 @@
-import { theKansasRiver, fortLaramie, fortKearney, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise, } from "./allLocations.js";
+import { theKansasRiver, testRiver, fortKearney, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
 import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
 import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 
 let gameOver = false;
+
 
 export function checkForDeath() {
   console.log("checkForDeath called, gameOver =", gameOver);
@@ -144,7 +145,8 @@ setTimeout(() => {
 export const fortData = {
   "theKansasRiver": theKansasRiver,
   "FortKearney": fortKearney,
-  "FortLaramie": fortLaramie,
+  "TestRiver": testRiver,
+  // "FortLaramie": fortLaramie,
   "FortBridger": fortBridger,
   "theGreenRiver": theGreenRiver,
   "FortHall": fortHall,
@@ -267,6 +269,7 @@ document.addEventListener("keydown", (e) => {
 
 // town logic to continue or use options
 export function townOptions(currentLocationKey) {
+
   document.addEventListener("keydown", (e) => {  
     // only works if in default mode
     if (gameState.mode !== "default") return;
@@ -274,10 +277,6 @@ export function townOptions(currentLocationKey) {
     if (!["1", "2", "3", " "].includes(e.key)) {
       return console.error("That is not a valid input");
     }
-      // infoDiv.innerText = "Press spacebar to continue poo";
-       // this works in a fort after purchasing items, but on the main screen it still shows up.
-      // it should not be there, since 1 returns to trail. however, after back on trail this message does show, which it should.
-      // issue is after rivers this message does not show yet. similar notes to these in alllocations
     
     // KEY 1 = this is always 'leave' and you move on to the next route !!!!!!!!!!!!!!!!!!!!!!!!!1
     // need to if this. if isfort, continue. if not isfort, ford river.
@@ -337,24 +336,24 @@ export function townOptions(currentLocationKey) {
     // KEY 2 = depends on if it's a fort (buy food) or a river (ford river)
     // adjust. if isfort buy food, if no isfort buy ferry (lose money)
     else if (e.key === "2") {
-      gameState.mode = "buyFood";
-
-      let purchaseText = document.querySelector(".purchase-text");
-      let purchaseOptions = document.querySelector(".purchase-options");
-      // clearing arrival text
-      flavorText.innerText = "";
-      options.innerText = "";
-
-      // removes the - from class and converts to fortData retrievable
       const key = currentLocation.dataset.location.replace(/\s+/g, "");
 
-      if (fortData[key].isFort === "yes") {
-        buyFoodInput(location, currentLocation);
-      }
-      else if (fortData[key].isFort === "no") {
+      if (fortData[key].isFort === "no") {
+        console.log("takeFerry only");
         takeFerry(currentLocation);
+        return; // STOP here
+      }
+      else {
+      // FORTS only—never rivers
+      gameState.mode = "buyFood";
+      console.log("buyFoodInput firing");
+      flavorText.innerText = "";
+      options.innerText = "";
+      buyFoodInput(location, currentLocation);
       }
     }
+
+
 
     // KEY 3 = buys supplies options (if fort) and take ferry (if river)
     // adjust. if isfort buy supplies. if not isfort hire native (lose time and money)

@@ -124,11 +124,30 @@ html, body {
 .town-container {
     background-color: darkcyan;
     display: grid;
-    height: 37vh;
+    height: 42vh;
 }
 /* alter vh as needed to fill entire space */
 
+.loc-title {
+    display: grid;
+    height: 5vh;
+}
 
+.flavor-text {
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.purchase-options {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.bottom-most-text {
+    display: grid;
+    align-items: top;
+    height: 30vh;
+}
 
 #wagon {
     position: absolute;
