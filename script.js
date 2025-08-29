@@ -1,4 +1,4 @@
-import { theKansasRiver, testRiver, fortKearney, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
+import { theKansasRiver, fortKearney, fortLaramie, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
 import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
 import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
@@ -145,8 +145,7 @@ setTimeout(() => {
 export const fortData = {
   "theKansasRiver": theKansasRiver,
   "FortKearney": fortKearney,
-  "TestRiver": testRiver,
-  // "FortLaramie": fortLaramie,
+  "FortLaramie": fortLaramie,
   "FortBridger": fortBridger,
   "theGreenRiver": theGreenRiver,
   "FortHall": fortHall,
@@ -375,6 +374,7 @@ export function townOptions(currentLocationKey) {
         // purchaseOptions.innerText = fortData[key].buySupplies;
       }
       else if (fortData[key].isFort === "no") {
+        gameState.mode = "hireNative"
         hireNative(currentLocation);
       }
     }

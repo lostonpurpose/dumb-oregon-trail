@@ -78,10 +78,8 @@ function lostItems(amountToLose) {
 }
 
 
-
-
 export function takeFerry(currentLocation) {
-    if (gameState.mode != "takeFerry") return;
+    if (gameState.mode !== "takeFerry") return;
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
     infoDiv.innerText = `You take a nearby ferry to cross the river and lose ${fortData[key].ferryCost}.`
     firstParty.money -= fortData[key].ferryCost
@@ -92,6 +90,7 @@ export function takeFerry(currentLocation) {
 }
 
 export function hireNative(currentLocation) {
+    if (gameState.mode !== "hireNative") return;
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
     infoDiv.innerText = `You hire a native guide to take you to a safe crossing. It takes ${fortData[key].nativeDaysLost} days and you lose ${fortData[key].nativeCost} dollars.`
     firstParty.money -= fortData[key].nativeCost

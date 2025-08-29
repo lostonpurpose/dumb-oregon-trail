@@ -4,7 +4,8 @@ import { renderPassengers, fortData, eventDiv, infoDiv, days2, dayDiv, checkForD
 export function buyFoodInput(location, currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");
     if (fortData[key].isFort === "no") return;
-    if (gameState.mode != buyFood) return; // I just fixed the issue of ferrying a river making the buy food options display!!!!!!!!
+    if (gameState.mode !== "buyFood") return; //... i thought i fixed rivers displaying buy food... but instead i had accidentally broke forts
+    // that's why it was 'working'. now it's broken again.
 
     let purchaseText = document.querySelector(".purchase-text");
     let purchaseOptions = document.querySelector(".purchase-options");
@@ -55,6 +56,7 @@ export function buyFoodInput(location, currentLocation) {
 export function buyItemsInput(location, currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, ""); // this creates a key to get the current location's object info (above)
     if (fortData[key].isFort === "no") return // safeguard, if it's not a fort then you can't run this buyItems function
+    if (gameState.mode !== "buyItems") return; 
 
     let purchaseText = document.querySelector(".purchase-text"); // grabs that dom element
     let purchaseOptions = document.querySelector(".purchase-options"); // grabs that dom element
