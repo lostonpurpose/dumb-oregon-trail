@@ -74,6 +74,7 @@ const passengerLists = [
 ];
 
 const items = document.querySelector(".item-ul");
+const itemTitle = document.querySelector(".item-span");
 
 // sets the wagons and passengers dynamically
 const partyHeader = document.getElementById("party-header");
@@ -88,11 +89,12 @@ const wagonNames = [
 
 export function renderPassengers() {
   firstParty.wagons.forEach((wagon, i) => {
-    wagonNames[i].innerText = `${wagon.name} \n\n Name:            Health \n\n`;
+    // wagonNames[i].innerText = `${wagon.name} \n\nName:  Health \n\n`; //original formatting
+    wagonNames[i].innerText = `${wagon.name}  \n\n`; // do i even NEED 'name'?
 
     // the following 2 alter the css of each wagon contents
     wagonNames[i].style.display = "block";  // or "inline-block"
-    wagonNames[i].style.textAlign = "center"
+    // wagonNames[i].style.textAlign = "center"   // removed centering of wagon names
 
     const ul = passengerLists[i];
     ul.innerHTML = "";
@@ -121,6 +123,7 @@ export function renderPassengers() {
   const moneyLi = document.createElement("li");
   moneyLi.textContent = `Money : $${firstParty.money}`
   items.appendChild(moneyLi);
+  itemTitle.innerText = "Items \n\n"
   Object.entries(firstParty.items).forEach(([item, amount]) => {
   const itemLi = document.createElement("li");
   if (item === "food") { // this makes it so food has lbs as a suffix
@@ -338,7 +341,7 @@ export function townOptions(currentLocationKey) {
       const key = currentLocation.dataset.location.replace(/\s+/g, "");
 
       if (fortData[key].isFort === "no") {
-        gameState.mode = "takeFerry"
+        gameState.mode = "takeFerry";
         console.log("takeFerry only");
         takeFerry(currentLocation);
         return; // STOP here

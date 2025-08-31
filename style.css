@@ -12,9 +12,11 @@ html, body {
 }
 
 #sky {
-    width: 100vw;
-    height: 50vh;
+    width: 100%; 
+    height: 45vh;
     position: absolute;
+    top: 0;
+    margin: 0;
 }
 
 #party-header {
@@ -30,10 +32,10 @@ html, body {
     background-color: rgb(56, 56, 56);
     border: 10px solid gray;
     display: grid;
-    height: 30vh;
+    height: 32vh;
     column-gap: 30px; /* horizontal only */
     row-gap: 0;
-    margin: 0% 8% 0% 8%;
+    margin: 1% 8% 0% 8%;
     position: relative;
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas: 
@@ -52,8 +54,10 @@ html, body {
 }
 
 .wagon-1, .wagon-2, .wagon-3, .items {
-    background-color: rgb(190, 190, 190);
+    background-color: rgb(56, 56, 56);
     padding: 8px;
+    color: rgb(197, 88, 197);
+    font-weight: bold;
     /* box-shadow: 5px 5px 15px rgb(194, 194, 194); */
 }
 
@@ -73,10 +77,11 @@ html, body {
 }
 
 .routes-container {
-    height: 20vh;
+    height: 15vh;
     position: relative;
     display: flex;
     align-items: center;
+    top: 7vh;
 }
 
 .info-container {
@@ -124,7 +129,9 @@ html, body {
 .town-container {
     background-color: darkcyan;
     display: grid;
+    margin: 0;
     height: 42vh;
+    /* border: 10px solid rgb(50, 50, 50); */
 }
 /* alter vh as needed to fill entire space */
 
@@ -151,10 +158,10 @@ html, body {
 
 #wagon {
     position: absolute;
-    top: 42%;
+    top: 66%;
     left: 0;
     transform: translateY(-50%);
-    width: 300px;
+    width: 270px;
     height: 150px;
     background-image: url("images/ot-oxen.png");
     background-size: contain;
@@ -203,6 +210,8 @@ html, body {
     margin: 0;
     background-image: url("./images/ot\ river.png");
     background-repeat: no-repeat;
+    background-size: 100% 60%;
+    background-position: bottom;
 }
 
 .hide-path, .hide-loc, .hide-route{

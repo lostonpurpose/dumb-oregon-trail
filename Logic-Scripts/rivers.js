@@ -123,3 +123,110 @@ export function generalLostDaysCalculator(daysLost) {
         // END check    
     }, 500);
     }
+
+
+
+//     🧨 But Here’s the Real Problem
+
+// You’re calling townOptions(currentLocationKey) inside newShowLocation(), which is called every time you arrive at a new location, and it contains this:
+
+// document.addEventListener("keydown", (e) => {
+//   // ... handles keys 1, 2, 3
+// });
+
+
+// This means you're stacking multiple event listeners every time a new location is reached.
+
+// So:
+
+// You arrive at Kansas River → 1 listener
+
+// Then Fort Kearney → 2 listeners
+
+// Then Fort Laramie → 3 listeners
+
+// Then Green River → now 4 listeners all firing in parallel.
+
+// ➡️ Result: Even though the correct logic executes, a previous listener (from a fort) is also still alive, and its buyFoodInput() call is still running, because it's tied to an older closure.
+
+// ✅ Solution: Remove old keydown listeners before adding new ones.
+
+// Update your townOptions() function like this:
+
+// ✅ Step 1: Move the handler to a named function
+// let townKeyListener;
+
+// export function townOptions(currentLocationKey) {
+//   // Remove old listener if it exists
+//   if (townKeyListener) {
+//     document.removeEventListener("keydown", townKeyListener);
+//   }
+
+//   townKeyListener = function (e) {
+//     if (gameState.mode !== "default") return;
+//     if (!["1", "2", "3", " "].includes(e.key)) return;
+
+//     const key = currentLocation.dataset.location.replace(/\s+/g, "");
+
+//     if (e.key === "1") {
+//       if (fortData[key].isFort === "no") {
+//         fordRiver(currentLocation);
+//       } else {
+//         // advance to next path
+//         // your existing code here
+//       }
+//     }
+
+//     else if (e.key === "2") {
+//       if (!fortData[key]) return console.warn(`Location "${key}" not found`);
+//       if (fortData[key].isFort === "no") {
+//         gameState.mode = "takeFerry";
+//         takeFerry(currentLocation);
+//         return;
+//       } else {
+//         gameState.mode = "buyFood";
+//         buyFoodInput(location, currentLocation);
+//       }
+//     }
+
+//     else if (e.key === "3") {
+//       if (fortData[key].isFort === "no") {
+//         gameState.mode = "hireNative";
+//         hireNative(currentLocation);
+//       } else {
+//         gameState.mode = "buyItems";
+//         buyItemsInput(location, currentLocation);
+//       }
+//     }
+//   };
+
+//   // Add the new listener
+//   document.addEventListener("keydown", townKeyListener);
+// }
+
+// ✅ Why this works
+
+// By saving the current key listener as a variable and removing it before adding a new one, you avoid accumulating zombie listeners from previous locations.
+
+// 🧪 How to Verify
+
+// Go to Green River
+
+// Press "2"
+
+// Only takeFerry() should fire
+
+// buyFoodInput() should not trigger anymore
+
+// No double or incorrect input handling should happen
+
+// 🧼 Optional: Add Logging
+
+// Add this temporarily in your key handler to see which listeners are firing:
+
+// console.log("Key 2 pressed at", currentLocation.dataset.location);
+
+
+// If you see multiple logs per press, that confirms the stacking issue.
+
+// Let me know if you want to refactor the input mode system next — you've got a solid structure, and it wouldn't take much to make it airtight.
