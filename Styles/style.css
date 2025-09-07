@@ -163,7 +163,7 @@ html, body {
     transform: translateY(-50%);
     width: 270px;
     height: 150px;
-    background-image: url("images/ot-oxen.png");
+    background-image: url("../images/ot-oxen.png");
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 2;
@@ -182,14 +182,14 @@ html, body {
     position: inherit;
     background-repeat: no-repeat;
     /* flex-wrap: wrap; */
-    background-image: url("./images/mountains.png");
+    background-image: url("../images/mountains.png");
 }
 
 .path-1, .path-2, .path-3, .path-4, .path-5, .path-6, .path-7, .path-8 {
     height: 100%;
     background-color: rgb(217, 176, 255);
     background-repeat: no-repeat;
-    background-image: url("./images/mountains.png");
+    background-image: url("../images/mountains.png");
 }
 
 
@@ -199,7 +199,7 @@ html, body {
     height: 100%;
     background-color: rgb(217, 176, 255);
     margin: 0;
-    background-image: url("./images/fort.png");
+    background-image: url("../images/fort.png");
 }
 
 /* rivers only */
@@ -208,7 +208,7 @@ html, body {
     height: 100%;
     background-color: rgb(217, 176, 255);
     margin: 0;
-    background-image: url("./images/ot\ river.png");
+    background-image: url("../images/ot\ river.png");
     background-repeat: no-repeat;
     background-size: 100% 60%;
     background-position: bottom;
@@ -237,3 +237,5 @@ ul {
 li {
     list-style-type: none;
 }
+
+/* must be a way to have mountains fade in? */
