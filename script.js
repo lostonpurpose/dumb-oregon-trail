@@ -174,7 +174,7 @@ export let currentLocation = document.getElementById(`loc-${currentLocationIndex
 // somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
 let currentPath = allPaths[currentPathIndex];
 let milesLeft = parseInt(currentPath.dataset.miles, 10);
-miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}` 
+miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}` 
 
 
 

@@ -102,6 +102,7 @@ html, body {
     display: grid;
     align-items: center;
     justify-items: start;
+    font-size: 0.8rem;
 }
 
 .event {
@@ -109,7 +110,8 @@ html, body {
     grid-area: event;
     display: grid;
     align-items: center;
-    justify-items: start; 
+    justify-items: start;
+    font-size: 0.8rem;
 }
 
 .miles {
@@ -118,6 +120,7 @@ html, body {
     display: grid;
     align-items: center;
     justify-items: end;
+    font-size: 0.8rem;
 }
 
 .days {
@@ -125,6 +128,7 @@ html, body {
     grid-area: days;
     display: grid;
     place-items: center;
+    font-size: 0.8rem;
 }
 
 .town-container {
@@ -132,6 +136,7 @@ html, body {
     display: grid;
     margin: 0;
     height: 42vh;
+    font-size: 0.8rem;
     /* border: 10px solid rgb(50, 50, 50); */
 }
 /* alter vh as needed to fill entire space */
@@ -144,6 +149,7 @@ html, body {
 .flavor-text {
     margin-top: 12px;
     margin-bottom: 0;
+    font-size: 1rem;
 }
 
 .purchase-options {
