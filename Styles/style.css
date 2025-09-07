@@ -13,26 +13,27 @@ html, body {
 
 #sky {
     width: 100%; 
-    height: 45vh;
+    height: 50vh;
     position: absolute;
     top: 0;
     margin: 0;
 }
 
 #party-header {
-    display: grid;
+    /* display: grid; don't know why removing this centers text correctly after adding font size */
     height: 5vh;
     place-items: center; /* centers both vertically and horizontally */
-    margin: 0;
+    margin: 15px 0 0 0;
     border-bottom: 10px solid gray;
     position: relative;
+    font-size: 1.5rem;
 }
 
 .party-info {
     background-color: rgb(56, 56, 56);
     border: 10px solid gray;
     display: grid;
-    height: 32vh;
+    height: 36vh;
     column-gap: 30px; /* horizontal only */
     row-gap: 0;
     margin: 1% 8% 0% 8%;
@@ -81,7 +82,7 @@ html, body {
     position: relative;
     display: flex;
     align-items: center;
-    top: 7vh;
+    top: 0vh;
 }
 
 .info-container {
@@ -236,6 +237,12 @@ ul {
 
 li {
     list-style-type: none;
+    margin: 10px 0px;
+    font-size: 0.8rem;
+}
+
+span, .item-span {
+    font-size: 1.2rem;
 }
 
 .press-start-2p-regular {
