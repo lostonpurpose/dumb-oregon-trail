@@ -205,12 +205,12 @@ function autoMoveWagon(path, step = 10, interval = 500) {
     // currently subtracts health if character is dead, but fixing the above will fix this issue (dead severity = 0, ironically)
     renderPassengers();
     milesLeft -= step;
-    if (milesLeft < 0) milesLeft = 0;
+    if (milesLeft < 0) milesLeft = 20; // THIS WORKS WITH LINE BELOW TO ENTER LOC AND WAGON DOESN'T OBSCURE LOC!!
 
     path.style.width = `${milesLeft}vw`;
     miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
 
-    if (arrived || milesLeft <= 0) {
+    if (arrived || milesLeft <= 20) { // THIS FIXED WAGON OBSCURING THE LOC!!!! 
       clearInterval(autoMoveInterval);
       autoMoveInterval = null;
       arrived = true;
