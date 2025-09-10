@@ -173,6 +173,7 @@ export let currentLocation = document.getElementById(`loc-${currentLocationIndex
 
 // somehow the below gets us to 200. math.round rounds to 200. the other stuff is width in pixels, i think, then innerwidth converts to vh? i don't know
 let currentPath = allPaths[currentPathIndex];
+let currentRoute = allRoutes[currentRouteIndex]; // added this so i can apply width style to route container and shrink it with movement
 let milesLeft = parseInt(currentPath.dataset.miles, 10);
 miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}` 
 
@@ -187,7 +188,7 @@ export let days2 = { dayCounter: 0}
 export const dayDiv = document.querySelector(".days");
 infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game. 
 
-function autoMoveWagon(path, step = 10, interval = 500) {
+function autoMoveWagon(path, route, step = 10, interval = 500) {
   infoDiv.innerText = "";
   eventDiv.innerText = "";
 
@@ -208,6 +209,8 @@ function autoMoveWagon(path, step = 10, interval = 500) {
     if (milesLeft < 0) milesLeft = 20; // THIS WORKS WITH LINE BELOW TO ENTER LOC AND WAGON DOESN'T OBSCURE LOC!!
 
     path.style.width = `${milesLeft}vw`;
+    route.style.width = `${milesLeft + 10}vw`;
+//adlfkjs;fjjjjjj---------------------------------------------------------------------------------------------------------------------------------------------------
     miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
 
     if (arrived || milesLeft <= 20) { // THIS FIXED WAGON OBSCURING THE LOC!!!! 
@@ -232,7 +235,7 @@ document.body.addEventListener("keyup", (e) => {
             autoMoveInterval = null;
             infoDiv.innerText = "Press spacebar to continue" // added this and works as intended but only when pausing with spacebar first, not at start of trail
         } else {
-            autoMoveWagon(allPaths[currentPathIndex]);
+            autoMoveWagon(allPaths[currentPathIndex], allRoutes[currentRouteIndex]); // added allRoutes to make mountains continue to scroll
         }
     }
     // randomEvents(e);
@@ -446,7 +449,11 @@ export function totalDeath() {
 
 
 // i need to rethink the next steps in terms of mvp
-// big one visually - right now when you reach a loc the wagon covers it. extend each path by 2 or something so it's in front of you.
+// FIXED:: big one visually - right now when you reach a loc the wagon covers it. extend each path by 2 or something so it's in front of you.
+// FIXED:: new visual issue - route needs to shrink with progress so background mountains don't stop.
+// new visual issue - 1. some forts not appearing. 2. long routes - left side mountians don't extend to right all the way to fort/river
+// snake river strange behavior. miles not counting down. does not stop when reached (former prob causes latter)
+// visuals - start with prarie background. switch to hills. finally mountains. something like that.
 // food makes you die. need to make it make your health drop, just like a disease, which works
 // health = 0 = death. code removal of person, probably easy
 // code minimum people per wagon, or transfer of people to other wagons. think it out on paper.

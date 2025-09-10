@@ -6,36 +6,50 @@
 }
 
 .route-2 {
-    width: 100vw;
+    width: 40vw;
 }
 .path-2 {
-    width: 90vw;
+    width: 30vw;
 }
 
 .route-3 {
-    width: 110vw;
+    width: 60vw;
 }
 .path-3 {
-    width: 100vw;
+    width: 50vw;
 }
 
 .route-4 {
-    width: 120vw;
+    width: 50vw;
 }
 .path-4 {
-    width: 110vw;
+    width: 40vw;
 }
 
 .route-5 {
-    width: 90vw;
+    width: 50vw;
 }
 .path-5 {
-    width: 80vw;
+    width: 40vw;
 }
 
 .route-6 {
-    width: 160vw;
+    width: 90vw;
 }
 .path-6 {
+    width: 80vw;
+}
+
+.route-7 {
+    width: 170vw;
+}
+.path-7 {
+    width: 160vw;
+}
+
+.route-8 {
+    width: 160vw;
+}
+.path-8 {
     width: 150vw;
 }
