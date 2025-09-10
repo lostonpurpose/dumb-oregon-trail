@@ -208,7 +208,7 @@ function autoMoveWagon(path, step = 10, interval = 500) {
     if (milesLeft < 0) milesLeft = 0;
 
     path.style.width = `${milesLeft}vw`;
-    miles.innerText = `${milesLeft} miles until you reach ${currentLocation.dataset.location}`;
+    miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
 
     if (arrived || milesLeft <= 0) {
       clearInterval(autoMoveInterval);
@@ -445,22 +445,33 @@ export function totalDeath() {
 };
 
 
+// i need to rethink the next steps in terms of mvp
+// big one visually - right now when you reach a loc the wagon covers it. extend each path by 2 or something so it's in front of you.
+// food makes you die. need to make it make your health drop, just like a disease, which works
+// health = 0 = death. code removal of person, probably easy
+// code minimum people per wagon, or transfer of people to other wagons. think it out on paper.
+// code speed based on oxen. might get into floor division. 
+// give player choices on pause screen. give medicine (chance of cure). what else? don't know.
+// make new town options - visit doctor, buy oxen, extra - add member to party (brings money and food). or ditch a person ha ha.
+// make some boons - abandoned wagon, berries
+// yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
+// big one - i could just make a starting town where you buy everything from the start like any other town. just need three buttons to 
+// choose what your background is. eventually... (not mvp) allow lots of choices, like you're a doctor (super easy).
+// you know what? if i think about this as a way to get a job, just make it suuuuuper simple to start. could even cut medicine to match OG game
+
+
 // next steps
 // death stuff is coded. works. but, eventDiv text doesn't show and wagon moves one more step. the latter prob causes the former
 // also, it doesn't work. i can keep pressing spacebar and game continues after death.
 
 
-// TODO: finish fixing 'press spacebar' message. shows during town when it shouldn't. says 'continue' when it should say 'return to town menu'.
+// TODO: 
 // diseases affect health until death based on disease severity
 // make passenger die after reaching 0 health or just dying outright
 // make event like 'attacked by mountain lion' which kills passenger outright
-// don't know if i finished losing supplies and displaying on screen
-// buy food and buy supplies, submit sends you back to main menu. make spacebar do it, but i need an event listener for those options
 
 // allow recovery (doctor eventually) or spontaneous (random). 
 // do to oxen exactly what i did to people. they have health too... certain diseases for people/oxen kill them outright. 
 // if wagon destroyed move people to other wagons, but overcrowding affects health. 
-
-// make a few good events. discover an abandoned wagon with wheels, etc. berry bushes. travelling doctor.
 
 // need to make spacebar not available while waiting out an event

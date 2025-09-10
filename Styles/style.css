@@ -103,6 +103,7 @@ html, body {
     align-items: center;
     justify-items: start;
     font-size: 0.8rem;
+    padding-left: 10px;
 }
 
 .event {
@@ -121,6 +122,7 @@ html, body {
     align-items: center;
     justify-items: end;
     font-size: 0.8rem;
+    padding: 0 10px 0 0;
 }
 
 .days {
