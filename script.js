@@ -451,8 +451,10 @@ export function totalDeath() {
 // i need to rethink the next steps in terms of mvp
 // FIXED:: big one visually - right now when you reach a loc the wagon covers it. extend each path by 2 or something so it's in front of you.
 // FIXED:: new visual issue - route needs to shrink with progress so background mountains don't stop.
-// new visual issue - 1. some forts not appearing. 2. long routes - left side mountians don't extend to right all the way to fort/river
 // snake river strange behavior. miles not counting down. does not stop when reached (former prob causes latter)
+// new visual issue - 1. some forts not appearing. FIXED:: 2. long routes - left side mountians don't extend to right all the way to fort/river
+// FIXED:: new visual issue - right side mountains scroll, but don't always stretch to right side of screen (had to turn off no-repeat)
+
 // visuals - start with prarie background. switch to hills. finally mountains. something like that.
 // food makes you die. need to make it make your health drop, just like a disease, which works
 // health = 0 = death. code removal of person, probably easy

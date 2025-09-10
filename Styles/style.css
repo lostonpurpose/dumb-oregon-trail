@@ -189,7 +189,7 @@ html, body {
 #background-bar {
     width: 100vw;
     position: inherit;
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
     /* flex-wrap: wrap; */
     background-image: url("../images/mountains.png");
 }
@@ -197,7 +197,7 @@ html, body {
 .path-1, .path-2, .path-3, .path-4, .path-5, .path-6, .path-7, .path-8 {
     height: 100%;
     background-color: rgb(217, 176, 255);
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
     background-image: url("../images/mountains.png");
 }
 
