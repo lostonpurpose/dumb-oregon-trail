@@ -19,6 +19,28 @@ html, body {
     margin: 0;
 }
 
+.cloud1 {
+    background-image: url("../images/cloud1.png");
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    right: 0vh;
+    top: 22vh;
+    background-repeat: no-repeat;
+    background-size: contain; /* or cover */
+}
+
+.cloud2 {
+    background-image: url("../images/cloud2.png");
+    width: 200px;
+    height: 100px;
+    position: absolute;
+    left: -5vh;
+    top: 10vh;
+    background-repeat: no-repeat;
+    background-size: contain; /* or cover */
+}
+
 #party-header {
     /* display: grid; don't know why removing this centers text correctly after adding font size */
     height: 5vh;

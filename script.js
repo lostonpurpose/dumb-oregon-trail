@@ -455,7 +455,6 @@ export function totalDeath() {
 // new visual issue - 1. some forts not appearing. FIXED:: 2. long routes - left side mountians don't extend to right all the way to fort/river
 // FIXED:: new visual issue - right side mountains scroll, but don't always stretch to right side of screen (had to turn off no-repeat)
 
-// visuals - start with prarie background. switch to hills. finally mountains. something like that.
 // food makes you die. need to make it make your health drop, just like a disease, which works
 // health = 0 = death. code removal of person, probably easy
 // code minimum people per wagon, or transfer of people to other wagons. think it out on paper.
@@ -463,6 +462,7 @@ export function totalDeath() {
 // give player choices on pause screen. give medicine (chance of cure). what else? don't know.
 // make new town options - visit doctor, buy oxen, extra - add member to party (brings money and food). or ditch a person ha ha.
 // make some boons - abandoned wagon, berries
+// visuals - start with prarie background. switch to hills. finally mountains. something like that.
 // yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
 // big one - i could just make a starting town where you buy everything from the start like any other town. just need three buttons to 
 // choose what your background is. eventually... (not mvp) allow lots of choices, like you're a doctor (super easy).
