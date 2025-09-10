@@ -113,7 +113,9 @@ export function renderPassengers() {
       else if (passenger.isAlive === false) { // if passenger is dead
         li.textContent = `${passenger.name}: "is dead"`
       }
-      else { li.textContent = `${passenger.name}: (${passenger.health})`}; // eventually fix this, make two separate columns for each, aligned
+      else { li.textContent = `${passenger.name}: healthy` }; // displays 'healthy'
+      // else { li.textContent = `${passenger.name}: (${passenger.health})`}; // displays health amount from 100
+
       ul.appendChild(li);
     });
   });
@@ -418,7 +420,7 @@ export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 11) { // currently no events for testing ******************* important to change this back
+    if (eventChance >= 6) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 

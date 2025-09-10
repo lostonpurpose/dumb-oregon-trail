@@ -22,7 +22,7 @@ export function getRandomAccident() {
     let message = "";
 
     // decide what type of event it is
-    if (chooseEventType >= 8) { // outright passenger death
+    if (chooseEventType >= 98) { // outright passenger death
     // select passenger to die
     const chosenDeath = deaths[deathIndex];
     firstParty.wagons[wagonIndex].passengers[passengerIndex].isAlive = false;
