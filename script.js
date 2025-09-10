@@ -123,6 +123,7 @@ export function renderPassengers() {
   const moneyLi = document.createElement("li");
   moneyLi.textContent = `Money : $${firstParty.money}`
   items.appendChild(moneyLi);
+  // moneyLi.style.color = "gold"; money color change? looks bad
   itemTitle.innerText = "Items \n\n"
   Object.entries(firstParty.items).forEach(([item, amount]) => {
   const itemLi = document.createElement("li");
