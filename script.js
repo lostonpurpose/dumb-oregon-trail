@@ -102,11 +102,13 @@ export function renderPassengers() {
       const li = document.createElement("li");
       if (passenger.disease != "none") { // this is when they have a disease
         if (passenger.disease.includes(" a ")) { // this is to make the disease in party details grammatically sound, wow, works
-          li.textContent = `${passenger.name}: ${passenger.disease.slice(3)} ${passenger.health}`;
+          // li.textContent = `${passenger.name}: ${passenger.disease.slice(3)} ${passenger.health}`; // for testing, includes health number
+          li.textContent = `${passenger.name}: ${passenger.disease.slice(3)}`; // production, no health number
           li.classList.add("passenger-info-text");
         }
         else {
-          li.textContent = `${passenger.name}: ${passenger.disease} ${passenger.health}`;
+          // li.textContent = `${passenger.name}: ${passenger.disease} ${passenger.health}`; // for testing, includes health number
+          li.textContent = `${passenger.name}: ${passenger.disease}`; // production, no health number
           li.classList.add("passenger-info-text");
         }
       }
@@ -169,7 +171,7 @@ let currentPathIndex = 0;
 const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8];
 let currentLocationIndex = 0;
 // not using currently
-const allRoutes = [route1, route2, route3, route4, route5, route6];
+const allRoutes = [route1, route2, route3, route4, route5, route6, route7, route8];
 let currentRouteIndex = 0;
 
 export let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
@@ -209,11 +211,10 @@ function autoMoveWagon(path, route, step = 10, interval = 500) {
     // currently subtracts health if character is dead, but fixing the above will fix this issue (dead severity = 0, ironically)
     renderPassengers();
     milesLeft -= step;
-    if (milesLeft < 0) milesLeft = 20; // THIS WORKS WITH LINE BELOW TO ENTER LOC AND WAGON DOESN'T OBSCURE LOC!!
+    if (milesLeft < 20) milesLeft = 20; // THIS WORKS WITH LINE BELOW TO ENTER LOC AND WAGON DOESN'T OBSCURE LOC!!
 
     path.style.width = `${milesLeft}vw`;
     route.style.width = `${milesLeft + 10}vw`;
-//adlfkjs;fjjjjjj---------------------------------------------------------------------------------------------------------------------------------------------------
     miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
 
     if (arrived || milesLeft <= 20) { // THIS FIXED WAGON OBSCURING THE LOC!!!! 
@@ -333,8 +334,8 @@ export function townOptions(currentLocationKey) {
         // need to punch this up, it means you've beaten the game!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
         if (nextRoute) {
-          milesLeft = allPaths[currentPathIndex].dataset.miles;
-          miles.innerText = `${milesLeft} miles til ${currentLocation.dataset.location}`;
+          milesLeft = parseInt(allPaths[currentPathIndex].dataset.miles, 10);
+          miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
         } else {
           miles.innerText = `You have reached the end of the trail!`;
         }
@@ -420,7 +421,7 @@ export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
   const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 6) { // currently no events for testing ******************* important to change this back
+    if (eventChance >= 11) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 
@@ -454,9 +455,10 @@ export function totalDeath() {
 // i need to rethink the next steps in terms of mvp
 // FIXED:: big one visually - right now when you reach a loc the wagon covers it. extend each path by 2 or something so it's in front of you.
 // FIXED:: new visual issue - route needs to shrink with progress so background mountains don't stop.
-// snake river strange behavior. miles not counting down. does not stop when reached (former prob causes latter)
-// new visual issue - 1. some forts not appearing. FIXED:: 2. long routes - left side mountians don't extend to right all the way to fort/river
+// FIXED:: snake river strange behavior. miles not counting down. does not stop when reached (former prob causes latter) - forgot to add to route list!
+// FIXED:: new visual issue - 1. some forts not appearing. FIXED:: 2. long routes - left side mountians don't extend to right all the way to fort/river
 // FIXED:: new visual issue - right side mountains scroll, but don't always stretch to right side of screen (had to turn off no-repeat)
+// right now person can only have one disease. have to change it to [] and display that (foreach)
 
 // food makes you die. need to make it make your health drop, just like a disease, which works
 // health = 0 = death. code removal of person, probably easy

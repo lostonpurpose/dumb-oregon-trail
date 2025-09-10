@@ -61,6 +61,8 @@ export const fortHall = {
     options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
     buyFood: 800,
     buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy a Hall",
+    items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
+    itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
 };
 
 export const theSnakeRiver = {
@@ -79,7 +81,9 @@ export const fortBoise = {
     flavorText: "You have reached Fort Boise! Turds alive! It's Built to Spill! What would you like to do?",
     options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
     foodAvailable: 500,
-    buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Perfect From Now On"
+    buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Perfect From Now On",
+    items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
+    itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
 };
 
 
