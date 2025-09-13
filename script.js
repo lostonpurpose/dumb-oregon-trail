@@ -6,7 +6,6 @@ import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 
 let gameOver = false;
 
-
 export function checkForDeath() {
   console.log("checkForDeath called, gameOver =", gameOver);
     if (gameOver) {
@@ -188,6 +187,7 @@ miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`
 // new autoscroll function i didn't code::::::
 let arrived = false;
 let autoMoveInterval = null;
+
 // let days = 0;
 export let days2 = { dayCounter: 0}
 export const dayDiv = document.querySelector(".days");
@@ -466,20 +466,25 @@ function randomEvents(e) {
         console.log("chosenBoon:", chosenBoon);
         infoDiv.innerText = `${chosenBoon.infoMessage}`;
         renderPassengers();
-    }
-
-    // Pause the animation while displaying boon message
+    
+      console.log("state is:", autoMoveInterval);
+      // Pause the animation while displaying boon message
         if (autoMoveInterval) {
             clearInterval(autoMoveInterval);
             autoMoveInterval = null;
         }
       // end pause animation
+      console.log("state is:", autoMoveInterval);
       
       if (arrived === true) {
         // eventDiv.innerText = "";
         eventChance = 0;
       }
+      eventDiv.innerText = 'Press spacebar to continue'
+    }
     // end boons test
+
+    else {return};
 
 };
 
