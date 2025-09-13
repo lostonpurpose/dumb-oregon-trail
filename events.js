@@ -33,6 +33,8 @@ export function getRandomAccident() {
     }
     else if (chooseEventType >= 92 && chooseEventType < 98) { // outright ox death
     // select wagon ox to die
+    //
+    // this one is not implemented. still creates passenger illness which is fine for now
     const chosenDisease = diseases[diseaseIndex];
     firstParty.wagons[wagonIndex].passengers[passengerIndex].disease = chosenDisease;
     message =  `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + " has" + chosenDisease + ". You have lost " + lostDays + " days."}`;
@@ -54,19 +56,25 @@ export function getRandomAccident() {
 }
 
 export function getBoon() {
-    let message;
+    let infoMessage; // don't need these??
+    let eventMessage;
     const boonIndex = Math.floor(Math.random() * boons.length);
     const chooseBoon = (Math.floor(Math.random() * 100)) + 1;
-    const foodAmountFound = (Math.floor(Math.random() * 52)) + 1;
+    const foodAmountFound = (Math.floor(Math.random() * 52)) + 20;
     const wagonPartsFound = (Math.floor(Math.random() * 3)) + 1;
 
     if (chooseBoon >= 50) { // find food
 
-        message = ""
+        infoMessage = `${boons[0] + " You get " + foodAmountFound + " food!"}`;
+        firstParty.items["food"] += foodAmountFound;
     }
     else { // find wagon wheels
-        
-        message = ""
+
+        infoMessage = `${boons[1] + " You get " + wagonPartsFound + "wagon wheels!"}`
+        firstParty.items["wagon wheels"] += wagonPartsFound;
+    }
+    return {
+        infoMessage: infoMessage
     }
 
-    };
+};

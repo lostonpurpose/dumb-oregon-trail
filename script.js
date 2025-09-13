@@ -1,7 +1,7 @@
 import { theKansasRiver, fortKearney, fortLaramie, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
 import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
-import { diseases, accidents, getRandomAccident, lostDays } from "./events.js";
+import { diseases, accidents, getRandomAccident, getBoon, lostDays } from "./events.js";
 import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 
 let gameOver = false;
@@ -435,7 +435,7 @@ let fakeMoveInterval = null;
 export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
-  const eventChance = (Math.floor(Math.random() * 20) + 1);
+    const eventChance = (Math.floor(Math.random() * 20) + 1);
     if (eventChance >= 21) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
@@ -457,15 +457,30 @@ function randomEvents(e) {
         // eventDiv.innerText = "";
         eventChance = 0;
       }
+    }
 
     // adding boons here
     else if (eventChance >= 10 && eventChance <= 20) {
+        console.log(eventChance + "this should fire")
         let chosenBoon = getBoon();
-        eventDiv.innerText = `${chosenBoon.message}`;
+        console.log("chosenBoon:", chosenBoon);
+        infoDiv.innerText = `${chosenBoon.infoMessage}`;
+        renderPassengers();
     }
+
+    // Pause the animation while displaying boon message
+        if (autoMoveInterval) {
+            clearInterval(autoMoveInterval);
+            autoMoveInterval = null;
+        }
+      // end pause animation
+      
+      if (arrived === true) {
+        // eventDiv.innerText = "";
+        eventChance = 0;
+      }
     // end boons test
 
-    };
 };
 
 export function totalDeath() {
