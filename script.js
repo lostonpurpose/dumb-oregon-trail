@@ -404,6 +404,8 @@ export function townOptions(currentLocationKey) {
   document.addEventListener("keydown", townKeyListener);
 };
 
+
+
 // accidents and diseases
 
 export function lostDaysCalculator(fakeMoveInterval, chosenAccident) {
@@ -433,8 +435,8 @@ let fakeMoveInterval = null;
 export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
-  const eventChance = (Math.floor(Math.random() * 10) + 1);
-    if (eventChance >= 11) { // currently no events for testing ******************* important to change this back
+  const eventChance = (Math.floor(Math.random() * 20) + 1);
+    if (eventChance >= 21) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 
@@ -455,6 +457,14 @@ function randomEvents(e) {
         // eventDiv.innerText = "";
         eventChance = 0;
       }
+
+    // adding boons here
+    else if (eventChance >= 10 && eventChance <= 20) {
+        let chosenBoon = getBoon();
+        eventDiv.innerText = `${chosenBoon.message}`;
+    }
+    // end boons test
+
     };
 };
 
@@ -481,7 +491,7 @@ export function totalDeath() {
 // make new town options - visit doctor, buy oxen, extra - add member to party (brings money and food). or ditch a person ha ha.
 // make some boons - abandoned wagon, berries
 // visuals - start with prarie background. switch to hills. finally mountains. something like that.
-// yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
+// FIXED:: yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
 // big one - i could just make a starting town where you buy everything from the start like any other town. just need three buttons to 
 // choose what your background is. eventually... (not mvp) allow lots of choices, like you're a doctor (super easy).
 // you know what? if i think about this as a way to get a job, just make it suuuuuper simple to start. could even cut medicine to match OG game

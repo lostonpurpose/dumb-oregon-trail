@@ -2,7 +2,9 @@ import { firstParty } from "./createParty.js";
 import { deadPerson } from "./createParty.js";
 
 export const diseases = [" measles", " dysentery", " severe diarrhea", " a ruptured spleen", " giant turds", " a buttock rash", " a rotten tooth"];
-export const deaths = [" fell off a cliff and died", " was struck by lightning and died", " was kicked in the head by an ox and died"]
+export const deaths = [" fell off a cliff and died", " was struck by lightning and died", " was kicked in the head by an ox and died"];
+export const boons = ["You found wild berries!", "You found an abandoned wagon!"];
+
 // make an object with disease: days sick
 // make the keys identical to the diseases list
 // maybe make the values an object with days sick, cost to heal, chance to kill outright (after health drops below 80 or something)
@@ -50,3 +52,21 @@ export function getRandomAccident() {
 
     return { message, lostDays };
 }
+
+export function getBoon() {
+    let message;
+    const boonIndex = Math.floor(Math.random() * boons.length);
+    const chooseBoon = (Math.floor(Math.random() * 100)) + 1;
+    const foodAmountFound = (Math.floor(Math.random() * 52)) + 1;
+    const wagonPartsFound = (Math.floor(Math.random() * 3)) + 1;
+
+    if (chooseBoon >= 50) { // find food
+
+        message = ""
+    }
+    else { // find wagon wheels
+        
+        message = ""
+    }
+
+    };
