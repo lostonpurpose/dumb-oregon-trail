@@ -275,13 +275,23 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+// this might solve the stacked event listeners...
+let townKeyListener;
 
 // town logic to continue or use options
 export function townOptions(currentLocationKey) {
 
-  document.addEventListener("keydown", (e) => {  
+  // Remove old listener if it exists
+  if (townKeyListener) {
+  document.removeEventListener("keydown", townKeyListener);
+  }
+
+  // document.addEventListener("keydown", (e) => {  
+
+    townKeyListener = function (e) { // NEW
     // only works if in default mode
     if (gameState.mode !== "default") return;
+
     // safety check
     if (!["1", "2", "3", " "].includes(e.key)) {
       return console.error("That is not a valid input");
@@ -388,7 +398,10 @@ export function townOptions(currentLocationKey) {
         hireNative(currentLocation);
       }
     }
-  });
+  };
+
+  // Add the new listener
+  document.addEventListener("keydown", townKeyListener);
 };
 
 // accidents and diseases
