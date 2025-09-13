@@ -13,7 +13,7 @@ html, body {
 
 #sky {
     width: 100%; 
-    height: 53.7vh;
+    height: 57vh;
     position: absolute;
     top: 0;
     margin: 0;
@@ -55,7 +55,7 @@ html, body {
     background-color: rgb(56, 56, 56);
     border: 10px solid gray;
     display: grid;
-    height: 36vh;
+    height: 38vh;
     column-gap: 30px; /* horizontal only */
     row-gap: 0;
     margin: 0% 10% 0% 10%;
@@ -100,7 +100,7 @@ html, body {
 } */
 
 .routes-container {
-    height: 15vh;
+    height: 16vh;
     position: relative;
     display: flex;
     align-items: center;
@@ -110,12 +110,15 @@ html, body {
 .info-container {
     background-color: rgb(187, 165, 137);
     display: grid;
-    height: 5vh;
+    height: 8vh;
     gap: 10px;
     grid-template-rows: repeat(1, 1fr);
     grid-template-columns: repeat(6, 1fr);
     grid-template-areas: 
-        'info info event days miles miles'
+        'info info event event miles miles';
+    
+    /* grid-template-areas: 
+        'info info event days miles miles' REMOVED DAYS*/
 }
 
 .info-div {
@@ -159,7 +162,7 @@ html, body {
     background-color: rgb(188, 232, 199);
     display: grid;
     margin: 0;
-    height: 41vh;
+    height: 35vh;
     font-size: 0.8rem;
     /* border: 10px solid rgb(50, 50, 50); */
 }
@@ -189,10 +192,10 @@ html, body {
 
 #wagon {
     position: absolute;
-    top: 66%;
+    top: 55%;
     left: 0;
     transform: translateY(-50%);
-    width: 270px;
+    width: 300px;
     height: 150px;
     background-image: url("../images/ot-oxen.png");
     background-size: contain;

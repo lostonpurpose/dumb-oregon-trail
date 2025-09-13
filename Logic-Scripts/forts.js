@@ -1,5 +1,6 @@
 import { firstParty, updateFood } from "../createParty.js";
-import { renderPassengers, fortData, eventDiv, infoDiv, days2, dayDiv, checkForDeath, gameState, newShowLocation } from "../script.js";
+import { fortData, eventDiv, infoDiv, days2, dayDiv, checkForDeath, gameState, newShowLocation } from "../script.js";
+import { renderPassengers } from "./renderPassengers.js";
 
 export function buyFoodInput(location, currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, "");

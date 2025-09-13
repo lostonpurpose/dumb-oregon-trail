@@ -1,6 +1,3 @@
-import { firstParty, updateFood } from "./createParty.js";
-import { renderPassengers, fortData, eventDiv, infoDiv, days2, dayDiv, checkForDeath, gameState, newShowLocation } from "./script.js";
-
 export const theKansasRiver = {
     isFort: "no",
     flavorText: "You have reached the Kansas River! It is 200 feet wide and 3.1 feet deep. What will you do?",

@@ -3,6 +3,7 @@ import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
 import { diseases, accidents, getRandomAccident, getBoon, lostDays } from "./events.js";
 import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
+import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
 
 let gameOver = false;
 
@@ -63,88 +64,93 @@ const loc8 = document.getElementById("loc-8");
 
 export const infoDiv = document.querySelector(".info-div");
 
-// wagon and passengers
-let allWagons = document.querySelectorAll(".wagons ul");
 
-const passengerLists = [
-  document.querySelector('.passenger-list-1'),
-  document.querySelector('.passenger-list-2'),
-  document.querySelector('.passenger-list-3')
-];
+// all below has been moved to renderPassengers
 
-const items = document.querySelector(".item-ul");
-const itemTitle = document.querySelector(".item-span");
+// // wagon and passengers
+// let allWagons = document.querySelectorAll(".wagons ul");
+
+// const passengerLists = [
+//   document.querySelector('.passenger-list-1'),
+//   document.querySelector('.passenger-list-2'),
+//   document.querySelector('.passenger-list-3')
+// ];
+
+// const items = document.querySelector(".item-ul");
+// const itemTitle = document.querySelector(".item-span");
 
 // sets the wagons and passengers dynamically
-const partyHeader = document.getElementById("party-header");
-partyHeader.innerText = `${firstParty.name}`;
-partyHeader.style.color = "violet"
+// const partyHeader = document.getElementById("party-header");
+// partyHeader.innerText = `${firstParty.name}`;
+// partyHeader.style.color = "violet"
 
-const wagonNames = [
-  document.querySelector('.wagon-name-1'),
-  document.querySelector('.wagon-name-2'),
-  document.querySelector('.wagon-name-3')
-];
+// const wagonNames = [
+//   document.querySelector('.wagon-name-1'),
+//   document.querySelector('.wagon-name-2'),
+//   document.querySelector('.wagon-name-3')
+// ];
 
-export function renderPassengers() {
-  firstParty.wagons.forEach((wagon, i) => {
-    // wagonNames[i].innerText = `${wagon.name} \n\nName:  Health \n\n`; //original formatting
-    wagonNames[i].innerText = `${wagon.name}  \n\n`; // do i even NEED 'name'?
+// export function renderPassengers() {
+//   firstParty.wagons.forEach((wagon, i) => {
+//     // wagonNames[i].innerText = `${wagon.name} \n\nName:  Health \n\n`; //original formatting
+//     wagonNames[i].innerText = `${wagon.name}  \n\n`; // do i even NEED 'name'?
 
-    // the following 2 alter the css of each wagon contents
-    wagonNames[i].style.display = "block";  // or "inline-block"
-    // wagonNames[i].style.textAlign = "center"   // removed centering of wagon names
+//     // the following 2 alter the css of each wagon contents
+//     wagonNames[i].style.display = "block";  // or "inline-block"
+//     // wagonNames[i].style.textAlign = "center"   // removed centering of wagon names
 
-    const ul = passengerLists[i];
-    ul.innerHTML = "";
-    wagon.passengers.forEach(passenger => {
-      const li = document.createElement("li");
-      if (passenger.disease != "none") { // this is when they have a disease
-        if (passenger.disease.includes(" a ")) { // this is to make the disease in party details grammatically sound, wow, works
-          // li.textContent = `${passenger.name}: ${passenger.disease.slice(3)} ${passenger.health}`; // for testing, includes health number
-          li.textContent = `${passenger.name}: ${passenger.disease.slice(3)}`; // production, no health number
-          li.classList.add("passenger-info-text");
-        }
-        else {
-          // li.textContent = `${passenger.name}: ${passenger.disease} ${passenger.health}`; // for testing, includes health number
-          li.textContent = `${passenger.name}: ${passenger.disease}`; // production, no health number
-          li.classList.add("passenger-info-text");
-        }
-      }
-      else if (passenger.isAlive === false) { // if passenger is dead
-        li.textContent = `${passenger.name}: "is dead"`
-      }
-      else { li.textContent = `${passenger.name}: healthy` }; // displays 'healthy'
-      // else { li.textContent = `${passenger.name}: (${passenger.health})`}; // displays health amount from 100
+//     const ul = passengerLists[i];
+//     ul.innerHTML = "";
+//     wagon.passengers.forEach(passenger => {
+//       const li = document.createElement("li");
+//       if (passenger.disease != "none") { // this is when they have a disease
+//         if (passenger.disease.includes(" a ")) { // this is to make the disease in party details grammatically sound, wow, works
+//           // li.textContent = `${passenger.name}: ${passenger.disease.slice(3)} ${passenger.health}`; // for testing, includes health number
+//           li.textContent = `${passenger.name}: ${passenger.disease.slice(3)}`; // production, no health number
+//           li.classList.add("passenger-info-text");
+//         }
+//         else {
+//           // li.textContent = `${passenger.name}: ${passenger.disease} ${passenger.health}`; // for testing, includes health number
+//           li.textContent = `${passenger.name}: ${passenger.disease}`; // production, no health number
+//           li.classList.add("passenger-info-text");
+//         }
+//       }
+//       else if (passenger.isAlive === false) { // if passenger is dead
+//         li.textContent = `${passenger.name}: "is dead"`
+//       }
+//       else { li.textContent = `${passenger.name}: healthy` }; // displays 'healthy'
+//       // else { li.textContent = `${passenger.name}: (${passenger.health})`}; // displays health amount from 100
 
-      ul.appendChild(li);
-    });
-  });
+//       ul.appendChild(li);
+//     });
+//   });
 
-  // updates items dynamically
-  items.innerHTML = "";
-  const moneyLi = document.createElement("li");
-  moneyLi.textContent = `Money : $${firstParty.money}`
-  items.appendChild(moneyLi);
-  // moneyLi.style.color = "gold"; money color change? looks bad
-  itemTitle.innerText = "Items \n\n"
-  Object.entries(firstParty.items).forEach(([item, amount]) => {
-  const itemLi = document.createElement("li");
-  if (item === "food") { // this makes it so food has lbs as a suffix
-    itemLi.textContent = `${item} : ${amount} lbs`;
-    items.appendChild(itemLi);
-  }
-  else {
-  itemLi.textContent = `${item} : ${amount}`;
-  items.appendChild(itemLi);
-  }
-});
+//   // updates items dynamically
+//   items.innerHTML = "";
+//   const moneyLi = document.createElement("li");
+//   moneyLi.textContent = `Money : $${firstParty.money}`
+//   items.appendChild(moneyLi);
+//   // moneyLi.style.color = "gold"; money color change? looks bad
+//   itemTitle.innerText = "Items \n\n"
+//   Object.entries(firstParty.items).forEach(([item, amount]) => {
+//   const itemLi = document.createElement("li");
+//   if (item === "food") { // this makes it so food has lbs as a suffix
+//     itemLi.textContent = `${item} : ${amount} lbs`;
+//     items.appendChild(itemLi);
+//   }
+//   else {
+//   itemLi.textContent = `${item} : ${amount}`;
+//   items.appendChild(itemLi);
+//   }
+// });
 
-};
-setTimeout(() => {
-  renderPassengers();
-}, 100);
+// };
+// setTimeout(() => {
+//   renderPassengers();
+// }, 100);
 
+
+renderPassengers();
 
 
 
@@ -205,7 +211,7 @@ function autoMoveWagon(path, route, step = 10, interval = 500) {
     // days += 1;
     days2.dayCounter += 1;
     // dayDiv.innerText = days;
-    dayDiv.innerText = days2.dayCounter;
+    // dayDiv.innerText = days2.dayCounter; // hiding days for now
     updateFood(1);
     diseaseToHealth(2) // new function does it work?? it does! from create party. need to remove 2 and add in the disease severity
     // currently subtracts health if character is dead, but fixing the above will fix this issue (dead severity = 0, ironically)
@@ -509,7 +515,7 @@ export function totalDeath() {
 // code speed based on oxen. might get into floor division. 
 // give player choices on pause screen. give medicine (chance of cure). what else? don't know.
 // make new town options - visit doctor, buy oxen, extra - add member to party (brings money and food). or ditch a person ha ha.
-// make some boons - abandoned wagon, berries
+// FIXED MAYBE:: make some boons - abandoned wagon, berries
 // visuals - start with prarie background. switch to hills. finally mountains. something like that.
 // FIXED:: yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
 // big one - i could just make a starting town where you buy everything from the start like any other town. just need three buttons to 
