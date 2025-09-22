@@ -211,7 +211,7 @@ function autoMoveWagon(path, route, step = 10, interval = 500) {
     // days += 1;
     days2.dayCounter += 1;
     // dayDiv.innerText = days;
-    // dayDiv.innerText = days2.dayCounter; // hiding days for now
+    // dayDiv.innerText = days2.dayCounter; // hiding days for now.
     updateFood(1);
     diseaseToHealth(2) // new function does it work?? it does! from create party. need to remove 2 and add in the disease severity
     // currently subtracts health if character is dead, but fixing the above will fix this issue (dead severity = 0, ironically)
@@ -442,7 +442,7 @@ export const eventDiv = document.querySelector(".event");
 function randomEvents(e) {
     eventDiv.innerText = "";
     const eventChance = (Math.floor(Math.random() * 20) + 1);
-    if (eventChance >= 21) { // currently no events for testing ******************* important to change this back
+    if (eventChance >= 18) { // currently no events for testing ******************* important to change this back
       let chosenAccident = getRandomAccident();
       eventDiv.innerText = `${chosenAccident.message}`;
 
@@ -466,7 +466,7 @@ function randomEvents(e) {
     }
 
     // adding boons here
-    else if (eventChance >= 10 && eventChance <= 20) {
+    else if (eventChance >= 15 && eventChance < 18) {
         console.log(eventChance + "this should fire")
         let chosenBoon = getBoon();
         console.log("chosenBoon:", chosenBoon);
@@ -508,6 +508,8 @@ export function totalDeath() {
 // FIXED:: new visual issue - 1. some forts not appearing. FIXED:: 2. long routes - left side mountians don't extend to right all the way to fort/river
 // FIXED:: new visual issue - right side mountains scroll, but don't always stretch to right side of screen (had to turn off no-repeat)
 // right now person can only have one disease. have to change it to [] and display that (foreach)
+// if wagon breaks down and you have a spare part, use it and continue. if not, "waiting for wagon to pass" or "waiting for dad who went to the 
+// next town" 
 
 // food makes you die. need to make it make your health drop, just like a disease, which works
 // health = 0 = death. code removal of person, probably easy
@@ -516,12 +518,19 @@ export function totalDeath() {
 // give player choices on pause screen. give medicine (chance of cure). what else? don't know.
 // make new town options - visit doctor, buy oxen, extra - add member to party (brings money and food). or ditch a person ha ha.
 // FIXED MAYBE:: make some boons - abandoned wagon, berries
-// visuals - start with prarie background. switch to hills. finally mountains. something like that.
+
 // FIXED:: yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
 // big one - i could just make a starting town where you buy everything from the start like any other town. just need three buttons to 
 // choose what your background is. eventually... (not mvp) allow lots of choices, like you're a doctor (super easy).
 // you know what? if i think about this as a way to get a job, just make it suuuuuper simple to start. could even cut medicine to match OG game
 
+// VISUALS:
+// start with prarie background. switch to hills. finally mountains. something like that.
+// if fort/river not visible on screen, screen can scroll vertically. why? 
+// when losing stuff from wagon crossing, state what is lost.
+// upon instant death, undefined??
+// currently "NaN food purchased" if nothing entered, and probably if characters entered
+// in town if purchase screen, nothing says spacebar will return you to main town menu
 
 // next steps
 // death stuff is coded. works. but, eventDiv text doesn't show and wagon moves one more step. the latter prob causes the former

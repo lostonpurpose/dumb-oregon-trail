@@ -61,7 +61,7 @@ export function getBoon() {
     const boonIndex = Math.floor(Math.random() * boons.length);
     const chooseBoon = (Math.floor(Math.random() * 100)) + 1;
     const foodAmountFound = (Math.floor(Math.random() * 52)) + 20;
-    const wagonPartsFound = (Math.floor(Math.random() * 3)) + 1;
+    const wagonPartsFound = (Math.floor(Math.random() * 2)) + 1;
 
     if (chooseBoon >= 50) { // find food
 
@@ -70,7 +70,7 @@ export function getBoon() {
     }
     else { // find wagon wheels
 
-        infoMessage = `${boons[1] + " You get " + wagonPartsFound + "wagon wheels!"}`
+        infoMessage = `${boons[1] + " You get " + wagonPartsFound + " wagon wheels!"}`
         firstParty.items["wagon wheels"] += wagonPartsFound;
     }
     return {

@@ -177,6 +177,7 @@ html, body {
     margin-top: 12px;
     margin-bottom: 0;
     font-size: 1rem;
+    padding: 0 10px 0 10px;
 }
 
 .purchase-options {
@@ -187,7 +188,8 @@ html, body {
 .bottom-most-text {
     display: grid;
     align-items: top;
-    height: 30vh;
+    height: 20vh;
+    padding: 0 10px 0 10px;
 }
 
 #wagon {
