@@ -14,7 +14,7 @@ export const lostDays = Math.floor(Math.random() * 10) + 2;
 export function getRandomAccident() {
     const accidentIndex = Math.floor(Math.random() * accidents.length);
     const diseaseIndex = Math.floor(Math.random() * diseases.length);
-    const deathIndex = Math.floor(Math.random() * diseases.length);
+    const deathIndex = Math.floor(Math.random() * deaths.length);
     const chooseEventType = (Math.floor(Math.random() * 100)) + 1; // choose between wagon accident or disease
     // hmm, alter this to 100 and make it 3% chance for death, 20% for ox issue, etc. better, right? disease should be more prevalent
     const wagonIndex = Math.floor(Math.random() * firstParty.wagons.length);
@@ -31,6 +31,7 @@ export function getRandomAccident() {
     deadPerson();
     message =  `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + chosenDeath}`;
     }
+
     else if (chooseEventType >= 92 && chooseEventType < 98) { // outright ox death
     // select wagon ox to die
     //
@@ -39,12 +40,14 @@ export function getRandomAccident() {
     firstParty.wagons[wagonIndex].passengers[passengerIndex].disease = chosenDisease;
     message =  `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + " has" + chosenDisease + ". You have lost " + lostDays + " days."}`;
     }
+
     else if (chooseEventType >= 62 && chooseEventType < 92) { // wagon breakdown
         // select wagon to have accident happen to
         const chosenAccident = accidents[accidentIndex];
         firstParty.wagons[wagonIndex].accident = chosenAccident;
         message = `${firstParty.wagons[wagonIndex].name + chosenAccident + ". You have lost " + lostDays + " days."}`;
     }
+
     else if (chooseEventType < 62) { // passenger disease
         // select passenger to have disease
         const chosenDisease = diseases[diseaseIndex];

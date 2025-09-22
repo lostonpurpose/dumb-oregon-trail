@@ -528,7 +528,7 @@ export function totalDeath() {
 // start with prarie background. switch to hills. finally mountains. something like that.
 // if fort/river not visible on screen, screen can scroll vertically. why? 
 // when losing stuff from wagon crossing, state what is lost.
-// upon instant death, undefined??
+// MAYBE FIXED:: upon instant death, undefined?? was using diseases.length, not deaths.length
 // currently "NaN food purchased" if nothing entered, and probably if characters entered
 // in town if purchase screen, nothing says spacebar will return you to main town menu
 

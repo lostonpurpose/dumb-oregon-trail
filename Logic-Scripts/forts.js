@@ -8,13 +8,16 @@ export function buyFoodInput(location, currentLocation) {
     if (gameState.mode !== "buyFood") return; //... i thought i fixed rivers displaying buy food... but instead i had accidentally broke forts
     // that's why it was 'working'. now it's broken again.
 
+    // let player know how to get back to town menu:
+    infoDiv.innerText = "Press spacebar to return to town"
+
     let purchaseText = document.querySelector(".purchase-text");
     let purchaseOptions = document.querySelector(".purchase-options");
     purchaseText.innerText = "How much food will you buy?";
     purchaseOptions.innerText = `Food available: ${fortData[key].buyFood} \n Cost per pound: ${fortData[key].foodCost}`;
     purchaseOptions.insertAdjacentHTML("beforeend", `<form id="foodForm">
         <label for="foodAmount">Enter the amount of food you want:</label>
-        <input type="text" id="foodAmountField" name="foodField"><br><br>
+        <input type="number" id="foodAmountField" name="foodField"><br><br>
         <input type="submit" value="Submit">
         </form>`);
 
@@ -26,6 +29,11 @@ export function buyFoodInput(location, currentLocation) {
     e.preventDefault();
     const amount = parseInt(document.getElementById("foodAmountField").value, 10);
     const cost = amount * fortData[key].foodCost;
+
+    // safeguard for not valid entry:
+    if (isNaN(amount)) { eventDiv.innerText = "You must enter a valid number";
+    return;
+    }
 
     if (firstParty.money < cost) {
         eventDiv.innerText = "You don't have enough money!";
