@@ -6,6 +6,10 @@ import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
 
 let gameOver = false;
+export const gameState = { mode: "default" }; // moved this way up to use it for title screen
+
+const titleScreen = document.getElementById("title-screen");
+titleScreen.classList.add("hide-title");
 
 export function checkForDeath() {
   console.log("checkForDeath called, gameOver =", gameOver);
@@ -271,7 +275,7 @@ export function newShowLocation(location) {
 // has access to location
 
 
-export const gameState = { mode: "default" };
+
 
 // global spacebar - return to fort menu listener. only fires when not in 'default mode', aka only when in a location
 document.addEventListener("keydown", (e) => {

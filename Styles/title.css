@@ -20,8 +20,12 @@
     25%, 75% { opacity: 0; }
 }
 
-#hide-title {
-    display: none;
+#title-screen.hide-title {
+  display: none;
+}
+
+#title-screen:not(.hide-title) {
+  display: flex;
 }
 
 #title {
