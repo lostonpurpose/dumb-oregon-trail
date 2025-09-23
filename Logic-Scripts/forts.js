@@ -65,7 +65,10 @@ export function buyFoodInput(location, currentLocation) {
 export function buyItemsInput(location, currentLocation) {
     const key = currentLocation.dataset.location.replace(/\s+/g, ""); // this creates a key to get the current location's object info (above)
     if (fortData[key].isFort === "no") return // safeguard, if it's not a fort then you can't run this buyItems function
-    if (gameState.mode !== "buyItems") return; 
+    if (gameState.mode !== "buyItems") return;
+
+    // let player know how to get back to town menu:
+    infoDiv.innerText = "Press spacebar to return to town"
 
     let purchaseText = document.querySelector(".purchase-text"); // grabs that dom element
     let purchaseOptions = document.querySelector(".purchase-options"); // grabs that dom element
