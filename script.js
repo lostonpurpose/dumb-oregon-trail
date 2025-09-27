@@ -23,12 +23,18 @@ function startGame() { // chatgpt did stuff here
       } else {
         // Pressed Enter
         titleScreen.classList.add("hide-title");
-        gameState.mode = "create-party"; // change this to default and kill createParty below to skip creation
+        gameState.mode = "creator";
+        partyCreator.classList.remove("activate-creator");
+        submitParty.addEventListener("click", (e) => {
+          e.preventDefault(); // stop form submitting and reloading page
+          gameState.mode = "default"
+          partyCreator.classList.add("activate-creator");
+        });
 
         // Remove this listener so it stops blocking other keys
         document.body.removeEventListener("keyup", titleKeyListener);
         // unhide the creator
-        partyCreator.classList.remove("activate-creator");
+        // partyCreator.classList.remove("activate-creator");
 
 
       }
@@ -37,15 +43,6 @@ function startGame() { // chatgpt did stuff here
     document.body.addEventListener("keyup", titleKeyListener);
   }
 }
-
-function createParty() {
-  if (gameState.mode === "create-party") {
-  gameState.mode = "default";
-  }
-
-};
-createParty();
-
 
   startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
