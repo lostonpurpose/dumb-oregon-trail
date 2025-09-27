@@ -11,7 +11,7 @@
 
   const titleScreen = document.getElementById("title-screen");
   const partyCreator = document.getElementById("party-creation");
-
+  const submitParty = document.getElementById("submit-party");
 
 function startGame() { // chatgpt did stuff here
   if (gameState.mode === "title") {
@@ -23,18 +23,28 @@ function startGame() { // chatgpt did stuff here
       } else {
         // Pressed Enter
         titleScreen.classList.add("hide-title");
-        gameState.mode = "default";
+        gameState.mode = "create-party"; // change this to default and kill createParty below to skip creation
 
         // Remove this listener so it stops blocking other keys
         document.body.removeEventListener("keyup", titleKeyListener);
         // unhide the creator
         partyCreator.classList.remove("activate-creator");
+
+
       }
     }
 
     document.body.addEventListener("keyup", titleKeyListener);
   }
 }
+
+function createParty() {
+  if (gameState.mode === "create-party") {
+  gameState.mode = "default";
+  }
+
+};
+createParty();
 
 
   startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
