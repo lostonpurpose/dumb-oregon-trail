@@ -1,50 +1,15 @@
-  import { theKansasRiver, fortKearney, fortLaramie, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
-  import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
-  import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
-  import { diseases, accidents, getRandomAccident, getBoon, lostDays } from "./events.js";
-  import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
-  import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
+import { theKansasRiver, fortKearney, fortLaramie, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
+import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
+import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
+import { diseases, accidents, getRandomAccident, getBoon, lostDays } from "./events.js";
+import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
+import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
+import { startGame } from "./Logic-Scripts/start-party.js";
 
-  let gameOver = false;
-  export const gameState = { mode: "default" }; // moved this way up to use it for title screen
-  gameState.mode = "title";
+let gameOver = false;
+export const gameState = { mode: "title" }; // moved this way up to use it for title screen
 
-  const titleScreen = document.getElementById("title-screen");
-  const partyCreator = document.getElementById("party-creation");
-  const submitParty = document.getElementById("submit-party");
-
-function startGame() { // chatgpt did stuff here
-  if (gameState.mode === "title") {
-    function titleKeyListener(e) {
-      if (e.key !== "Enter") {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        return false;
-      } else {
-        // Pressed Enter
-        titleScreen.classList.add("hide-title");
-        gameState.mode = "creator";
-        partyCreator.classList.remove("activate-creator");
-        submitParty.addEventListener("click", (e) => {
-          e.preventDefault(); // stop form submitting and reloading page
-          gameState.mode = "default"
-          partyCreator.classList.add("activate-creator");
-        });
-
-        // Remove this listener so it stops blocking other keys
-        document.body.removeEventListener("keyup", titleKeyListener);
-        // unhide the creator
-        // partyCreator.classList.remove("activate-creator");
-
-
-      }
-    }
-
-    document.body.addEventListener("keyup", titleKeyListener);
-  }
-}
-
-  startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
+startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
 
 
