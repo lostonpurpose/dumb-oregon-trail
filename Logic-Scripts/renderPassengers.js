@@ -14,8 +14,7 @@ const itemTitle = document.querySelector(".item-span");
 
 // sets the wagons and passengers dynamically
 const partyHeader = document.getElementById("party-header");
-partyHeader.innerText = `${firstParty.name}`;
-partyHeader.style.color = "violet"
+
 
 const wagonNames = [
   document.querySelector('.wagon-name-1'),
@@ -24,6 +23,10 @@ const wagonNames = [
 ];
 
 export function renderPassengers() {
+
+  partyHeader.innerText = `${firstParty.name}`; // moved party.name here so you can create your own. doesn't work!!!!!!
+  partyHeader.style.color = "violet"
+
   firstParty.wagons.forEach((wagon, i) => {
     // wagonNames[i].innerText = `${wagon.name} \n\nName:  Health \n\n`; //original formatting
     wagonNames[i].innerText = `${wagon.name}  \n\n`; // do i even NEED 'name'?
