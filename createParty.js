@@ -2,12 +2,12 @@ import { Wagon, wagon1, wagon2, wagon3 } from "./Wagon.js";
 import { totalDeath } from "./script.js";
 
 export class Party {
-    constructor(name, wagons, money, items={}) {
+    constructor(name, wagons, money, items={}, occupation) {
         this.name = name;
         this.wagons = wagons;
         this.money = money;
         this.items = items;
-        this.occupation = this.occupation;
+        this.occupation = occupation;
     }
 };
 

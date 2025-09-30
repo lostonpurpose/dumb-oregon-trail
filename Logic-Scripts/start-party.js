@@ -15,8 +15,7 @@ const name1 = document.getElementById("1");
 const name2 = document.getElementById("2");
 const name3 = document.getElementById("3");
 
-// jobs
-const selectedOccupation = document.querySelector('input[name="occupation"]:checked');
+
 
 
 export function startGame() { // chatgpt did stuff here
@@ -44,9 +43,10 @@ export function startGame() { // chatgpt did stuff here
           wagon1.passengers[1] = passenger2;
           wagon1.passengers[2] = passenger3;
 
-          if (selectedOccupation) {
-            console.log(selectedOccupation.value); // "farmer", "trader", or "banker"
-          };
+          // jobs
+          const selectedOccupation = document.querySelector('input[name="occupation"]:checked');
+          // attach job to firstParty
+          firstParty.occupation = selectedOccupation;
 
           renderPassengers();
 
