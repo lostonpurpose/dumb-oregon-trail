@@ -46,9 +46,24 @@ export function startGame() { // chatgpt did stuff here
           // jobs
           const selectedOccupation = document.querySelector('input[name="occupation"]:checked');
           // attach job to firstParty
-          firstParty.occupation = selectedOccupation;
+          firstParty.occupation = selectedOccupation.value;
+
+          // starting funds
+          let startingFunds;
+          if (selectedOccupation.value === "farmer") {startingFunds = 550}
+          else if (selectedOccupation.value === "trader") {startingFunds = 880}
+          else if (selectedOccupation.value === "banker") {startingFunds = 1105}
+
+          console.log("Funds assigned:", startingFunds);
+          console.log("Occupation raw value:", selectedOccupation.value);
+          console.log("Equal to 'farmer'?", selectedOccupation.value === "farmer");
+
+
+          firstParty.money = startingFunds;
 
           renderPassengers();
+          console.log("job:", selectedOccupation.value);
+          console.log(firstParty);
 
           gameState.mode = "default"
           partyCreator.classList.add("activate-creator");
