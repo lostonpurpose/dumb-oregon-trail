@@ -1,6 +1,8 @@
 import { gameState } from "../script.js";
 import { firstParty } from "../createParty.js";
 import { renderPassengers } from "./renderPassengers.js";
+import { wagon1 } from "../Wagon.js";
+import { Person } from "../Person.js";
 
 // gameState.mode = "title";
 
@@ -9,6 +11,7 @@ const partyCreator = document.getElementById("party-creation");
 const submitParty = document.getElementById("submit-party");
 
 const partyName = document.getElementById("party-name");
+const name1 = document.getElementById("1");
 
 export function startGame() { // chatgpt did stuff here
   if (gameState.mode === "title") {
@@ -27,8 +30,11 @@ export function startGame() { // chatgpt did stuff here
 
           // connect values to party info
           firstParty.name = partyName.value;
-          console.log(partyName.value);
-          console.log(firstParty.name);
+
+          const passenger1 = new Person(`${name1.value}`, "none", 100, 45, "male", true);
+          wagon1.passengers[0] = passenger1;
+          
+
           renderPassengers();
 
           gameState.mode = "default"

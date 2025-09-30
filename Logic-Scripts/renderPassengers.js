@@ -24,7 +24,7 @@ const wagonNames = [
 
 export function renderPassengers() {
 
-  partyHeader.innerText = `${firstParty.name}`; // moved party.name here so you can create your own. doesn't work!!!!!!
+  partyHeader.innerText = `${firstParty.name}`; // moved party.name here so you can create your own
   partyHeader.style.color = "violet"
 
   firstParty.wagons.forEach((wagon, i) => {
