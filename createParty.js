@@ -7,11 +7,12 @@ export class Party {
         this.wagons = wagons;
         this.money = money;
         this.items = items;
+        this.occupation = this.occupation;
     }
 };
 
-export const firstParty = new Party("The Pontipee Family", [wagon1, wagon2, wagon3], 1200, {"food": 850, "wagon wheels": 3, "ox yokes": 2, "medicine": 3})
-export const OGfirstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], 1200, {"food": 850, "wagon wheels": 3, "ox yokes": 2, "medicine": 3})
+export const firstParty = new Party("The Pontipee Family", [wagon1, wagon2, wagon3], 1200, {"food": 850, "wagon wheels": 3, "ox yokes": 2, "medicine": 3}, "banker")
+export const OGfirstParty = new Party("The Secret Druids", [wagon1, wagon2, wagon3], 1200, {"food": 850, "wagon wheels": 3, "ox yokes": 2, "medicine": 3}, "banker")
 console.log(firstParty);
 
 export function updateFood(days) { 
