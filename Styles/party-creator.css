@@ -15,6 +15,13 @@
   display: none;
 }
 
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5em; /* space between radio and label */
+}
+
+
 /* #title-screen:not(.hide-title) {
   display: flex;
 } */

@@ -14,7 +14,8 @@ const partyName = document.getElementById("party-name");
 const name1 = document.getElementById("1");
 const name2 = document.getElementById("2");
 const name3 = document.getElementById("3");
-
+// food
+const food = document.getElementById("food-purchased");
 
 
 
@@ -58,8 +59,9 @@ export function startGame() { // chatgpt did stuff here
           console.log("Occupation raw value:", selectedOccupation.value);
           console.log("Equal to 'farmer'?", selectedOccupation.value === "farmer");
 
-
           firstParty.money = startingFunds;
+
+          firstParty.items.food = food.value;
 
           renderPassengers();
           console.log("job:", selectedOccupation.value);

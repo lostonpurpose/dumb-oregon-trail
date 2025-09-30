@@ -35,12 +35,25 @@
 
         <h4>Occupation</h4>
 
-        <label for="farmer">farmer</label>
-        <input type="radio" id="farmer" name="occupation" value="farmer"><br>
-        <label for="trader">trader</label>
-        <input type="radio" id="trader" name="occupation" value="trader"><br>
-        <label for="banker">banker</label>
-        <input type="radio" id="banker" name="occupation" value="banker"><br>
+        <div class="radio-option">
+        <input type="radio" id="farmer" name="occupation" value="farmer">
+        <label for="farmer">Farmer (funds: 550)</label>
+        
+        </div><br>
+        <div class="radio-option">
+        <input type="radio" id="trader" name="occupation" value="trader">
+        <label for="trader">Trader (funds: 880)</label>
+        
+        </div><br>
+        <div class="radio-option">
+        
+        <input type="radio" id="banker" name="occupation" value="banker">
+        <label for="banker">Banker (funds:1105)</label>
+        </div><br>
+
+        <h4>How much food will you purchase?</h4>
+        <label for="2">Food ($2/pound):</label>
+        <input type="text" id="food-purchased"><br>
 
         <input type="submit" value="Submit" id="submit-party">
     </form>
