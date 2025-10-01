@@ -15,7 +15,8 @@ const name1 = document.getElementById("1");
 const name2 = document.getElementById("2");
 const name3 = document.getElementById("3");
 // food
-const food = document.getElementById("food-purchased");
+const foodPurchased = document.getElementById("food-purchased");
+const foodText = document.getElementById("foodH4");
 
 
 
@@ -61,7 +62,16 @@ export function startGame() { // chatgpt did stuff here
 
           firstParty.money = startingFunds;
 
-          firstParty.items.food = food.value;
+          // food puchasing
+          let foodCost = (foodPurchased.value * 2)
+          if (foodCost > firstParty.money) {
+            foodText.innerText = "How much food will you purchase? (You can't afford that much)"
+            return;
+          }
+          else {
+          firstParty.items.food = foodPurchased.value;
+          firstParty.money -= foodCost;
+          }
 
           renderPassengers();
           console.log("job:", selectedOccupation.value);
