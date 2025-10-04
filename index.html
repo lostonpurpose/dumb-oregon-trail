@@ -22,41 +22,49 @@
 
     <div id="party-creation" class="activate-creator">
 
-    <form action="">
-        <label for="party-name">Name of party:</label>
-        <input type="text" id="party-name"><br>
-        <h4>Party Members:</h4>
-        <label for="1">Name:</label>
-        <input type="text" id="1"><br>
-        <label for="2">Name:</label>
-        <input type="text" id="2"><br>
-        <label for="2">Name:</label>
-        <input type="text" id="3"><br>
+        <form action="">
+            <label for="party-name">Name of party:</label>
+            <input type="text" id="party-name"><br>
+            <h4>Party Members:</h4>
+            <label for="1">Name:</label>
+            <input type="text" id="1"><br>
+            <label for="2">Name:</label>
+            <input type="text" id="2"><br>
+            <label for="2">Name:</label>
+            <input type="text" id="3"><br>
 
-        <h4>Occupation</h4>
+            <h4>Occupation</h4>
 
-        <div class="radio-option">
-        <input type="radio" id="farmer" name="occupation" value="farmer">
-        <label for="farmer">Farmer (funds: 550)</label>
-        
-        </div><br>
-        <div class="radio-option">
-        <input type="radio" id="trader" name="occupation" value="trader">
-        <label for="trader">Trader (funds: 880)</label>
-        
-        </div><br>
-        <div class="radio-option">
-        
-        <input type="radio" id="banker" name="occupation" value="banker">
-        <label for="banker">Banker (funds:1105)</label>
-        </div><br>
+            <div class="radio-option">
+                <input type="radio" id="farmer" name="occupation" value="farmer">
+                <label for="farmer">Farmer (funds: 550)</label>
+                
+                </div><br>
+                <div class="radio-option">
+                <input type="radio" id="trader" name="occupation" value="trader">
+                <label for="trader">Trader (funds: 880)</label>
+                
+                </div><br>
+                <div class="radio-option">
+                
+                <input type="radio" id="banker" name="occupation" value="banker">
+                <label for="banker">Banker (funds:1105)</label>
+            </div>
+            <br>
 
-        <h4 id="foodH4">How much food will you purchase?</h4>
-        <label for="2">Food ($2/pound):</label>
-        <input type="text" id="food-purchased"><br>
+            <h4 id="foodH4">How much food will you purchase?</h4>
+            <label for="food">Food ($2/pound):</label>
+            <input type="text" id="food-purchased"><br>
 
-        <input type="submit" value="Submit" id="submit-party">
-    </form>
+            <h4>Purchase spare parts</h4>
+            <label for="wagon-wheels">wagon wheels ($9)</label>
+            <input type="text" id="wagon-wheels">
+            <label for="wagon-axles">wagon axles ($6)</label>
+            <input type="text" id="wagon-axles">
+            
+
+            <input type="submit" value="Submit" id="submit-party">
+        </form>
     </div>
 
     <div id="sky"></div>

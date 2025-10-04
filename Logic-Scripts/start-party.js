@@ -17,7 +17,9 @@ const name3 = document.getElementById("3");
 // food
 const foodPurchased = document.getElementById("food-purchased");
 const foodText = document.getElementById("foodH4");
-
+// spare parts
+const wheelsPurchased = document.getElementById("wagon-wheels");
+const axlesPurchased = document.getElementById("wagon-axles");
 
 
 export function startGame() { // chatgpt did stuff here
@@ -62,8 +64,12 @@ export function startGame() { // chatgpt did stuff here
 
           firstParty.money = startingFunds;
 
-          // food puchasing
+          // food and spare puchasing
           let foodCost = (foodPurchased.value * 2)
+          
+          let wheelsCost = (wagonWheels.value * 9);
+          let axlesCost = (wagonAxles.value * 6);
+
           if (foodCost > firstParty.money) {
             foodText.innerText = "How much food will you purchase? (You can't afford that much)"
             return;
@@ -72,6 +78,11 @@ export function startGame() { // chatgpt did stuff here
           firstParty.items.food = foodPurchased.value;
           firstParty.money -= foodCost;
           }
+
+
+
+
+
 
           renderPassengers();
           console.log("job:", selectedOccupation.value);
