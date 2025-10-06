@@ -52,16 +52,17 @@
             </div>
             <br>
 
-            <h4 id="foodH4">How much food will you purchase?</h4>
-            <label for="food">Food ($2/pound):</label>
-            <input type="text" id="food-purchased"><br>
+            <h4 id="foodH4">How much food and/or spare parts will you purchase?</h4>
+            <div class="food-parts-container">
+                <label for="food" id="food">Food ($2/pound):</label>
+                <input type="text" id="food-purchased"><br>
 
-            <h4>Purchase spare parts</h4>
-            <label for="wagon-wheels">wagon wheels ($9)</label>
-            <input type="text" id="wagon-wheels">
-            <label for="wagon-axles">wagon axles ($6)</label>
-            <input type="text" id="wagon-axles">
-            
+                <label for="wagon-wheels" id="wheels">wagon wheels ($9):</label>
+                <input type="text" id="wagon-wheels"><br>
+                <label for="wagon-axles" id="axles">wagon axles ($6):</label>
+                <input type="text" id="wagon-axles">
+                <br><br>
+            </div>
 
             <input type="submit" value="Submit" id="submit-party">
         </form>

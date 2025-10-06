@@ -26,6 +26,40 @@ h4 {
   gap: 0.5em; /* space between radio and label */
 }
 
+.food-parts-container {
+  display: grid;
+  grid-template-columns: 1fr 0.7fr 1fr 1fr; /* adjust ratios */ 
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: 
+        'food amount1 null null'
+        'wheels amount2 null null'
+        'axles amount3 null null'
+    ;
+}
+
+#food {
+  grid-area: food;
+}
+
+#food-purchased {
+  grid-area: amount1;
+}
+
+#wheels {
+  grid-area: wheels;
+}
+
+#wagon-wheels {
+  grid-area: amount2;
+}
+
+#axles {
+  grid-area: axles;
+}
+
+#wagon-axles {
+  grid-area: amount3;
+}
 
 /* #title-screen:not(.hide-title) {
   display: flex;

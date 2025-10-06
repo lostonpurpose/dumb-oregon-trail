@@ -70,8 +70,8 @@ export function startGame() { // chatgpt did stuff here
           let wheelsCost = (wagonWheels.value * 9);
           let axlesCost = (wagonAxles.value * 6);
 
-          if (foodCost > firstParty.money) {
-            foodText.innerText = "How much food will you purchase? (You can't afford that much)"
+          if ((foodCost + wheelsCost + axlesCost) > firstParty.money) {
+            foodText.innerText = "How much food and/or spare parts will you purchase? (You can't afford that much!)"
             return;
           }
           else {
