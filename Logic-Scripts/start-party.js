@@ -49,6 +49,10 @@ export function startGame() { // chatgpt did stuff here
 
           // jobs
           const selectedOccupation = document.querySelector('input[name="occupation"]:checked');
+          if (!selectedOccupation) {
+            alert("Please select an occupation!");
+            return;
+          }
           // attach job to firstParty
           firstParty.occupation = selectedOccupation.value;
 
@@ -67,8 +71,8 @@ export function startGame() { // chatgpt did stuff here
           // food and spare puchasing
           let foodCost = (foodPurchased.value * 2)
           
-          let wheelsCost = (wagonWheels.value * 9);
-          let axlesCost = (wagonAxles.value * 6);
+          let wheelsCost = (wheelsPurchased.value * 9);
+          let axlesCost = (axlesPurchased.value * 6);
 
           if ((foodCost + wheelsCost + axlesCost) > firstParty.money) {
             foodText.innerText = "How much food and/or spare parts will you purchase? (You can't afford that much!)"
@@ -76,11 +80,10 @@ export function startGame() { // chatgpt did stuff here
           }
           else {
           firstParty.items.food = foodPurchased.value;
-          firstParty.money -= foodCost;
+          firstParty.items.wagonWheels = wheelsPurchased.value;
+          firstParty.items.wagonAxles = axlesPurchased.value;
+          firstParty.money -= (foodCost + wheelsCost + axlesCost);
           }
-
-
-
 
 
 
@@ -90,6 +93,7 @@ export function startGame() { // chatgpt did stuff here
 
           gameState.mode = "default"
           partyCreator.classList.add("activate-creator");
+          console.log("Classes now:", partyCreator.className);
         });
 
         // Remove this listener so it stops blocking other keys
