@@ -73,6 +73,7 @@ export function startGame() { // chatgpt did stuff here
           
           let wheelsCost = (wheelsPurchased.value * 9);
           let axlesCost = (axlesPurchased.value * 6);
+          console.log("You got to 76")
 
           if ((foodCost + wheelsCost + axlesCost) > firstParty.money) {
             foodText.innerText = "How much food and/or spare parts will you purchase? (You can't afford that much!)"
@@ -84,10 +85,12 @@ export function startGame() { // chatgpt did stuff here
           firstParty.items.wagonAxles = axlesPurchased.value;
           firstParty.money -= (foodCost + wheelsCost + axlesCost);
           }
+          console.log("You got to 87")
 
 
 
           renderPassengers();
+
           console.log("job:", selectedOccupation.value);
           console.log(firstParty);
 
