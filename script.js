@@ -1,7 +1,7 @@
 import { theKansasRiver, fortKearney, fortLaramie, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
 import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
-import { diseases, accidents, getRandomAccident, getBoon, lostDays } from "./events.js";
+import { diseases, accidents, getRandomAccident, getBoon, lostDays, applyDiseaseTick } from "./events.js";
 import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
 import { startGame } from "./Logic-Scripts/start-party.js";
@@ -137,7 +137,16 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
       updateFood(1);
       diseaseToHealth(2) // new function does it work?? it does! from create party. need to remove 2 and add in the disease severity
       // currently subtracts health if character is dead, but fixing the above will fix this issue (dead severity = 0, ironically)
-      renderPassengers();
+
+
+
+      // NEW CHANGES VIBE CODING
+      applyDiseaseTick();
+      renderPassengers(); // update UI to show lowered health / deaths
+      // END NEW CHANGES
+
+
+
       milesLeft -= step;
       if (milesLeft < 20) milesLeft = 20; // THIS WORKS WITH LINE BELOW TO ENTER LOC AND WAGON DOESN'T OBSCURE LOC!!
 
@@ -431,6 +440,18 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
     gameOver = true;
   };
 
+
+  // rethinking my inks. going to pare down the game to pure comedy. no one is going to play this often. 
+  // they'll play one time through and enjoy the humor. everyone gets dysentery needs to be real
+  // so, the only disease is dysentery. oxen can get it. the wagon can get it. rivers can get it.
+  // if a char gets it twice it's 'super dysentery', their health drops quicker.
+  // that's the whole game. sky turns brown by the end and if they reach oregon valley, the valley has dysentery too. everyone dies. 
+  // it's a fun, funny parody. yes i should allow healing at forts. that's about it. 
+  // so NEW TODO:::
+    // change default party items. no medicine or yokes. back to just one wagon. 5 or 6 party members. that's it.
+    // change to one disease. code that disease stacking.
+    // code health drops based on dysentery severity.
+    // at end - redo location distances.
 
   // i need to rethink the next steps in terms of mvp
   // FIXED:: big one visually - right now when you reach a loc the wagon covers it. extend each path by 2 or something so it's in front of you.

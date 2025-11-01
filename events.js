@@ -1,7 +1,8 @@
 import { firstParty } from "./createParty.js";
 import { deadPerson } from "./createParty.js";
 
-export const diseases = [" measles", " dysentery", " severe diarrhea", " a ruptured spleen", " giant turds", " a buttock rash", " a rotten tooth"];
+// make disease string simple (no leading space)
+export const diseases = ["dysentery"];
 export const deaths = [" fell off a cliff and died", " was struck by lightning and died", " was kicked in the head by an ox and died"];
 export const boons = ["You found wild berries!", "You found an abandoned wagon!"];
 
@@ -12,50 +13,25 @@ export const accidents = [" has a broken axle", " caught on fire", " was attacke
 export const lostDays = Math.floor(Math.random() * 10) + 2;
 
 export function getRandomAccident() {
-    const accidentIndex = Math.floor(Math.random() * accidents.length);
-    const diseaseIndex = Math.floor(Math.random() * diseases.length);
-    const deathIndex = Math.floor(Math.random() * deaths.length);
-    const chooseEventType = (Math.floor(Math.random() * 100)) + 1; // choose between wagon accident or disease
-    // hmm, alter this to 100 and make it 3% chance for death, 20% for ox issue, etc. better, right? disease should be more prevalent
+    // Always produce a dysentery event (no deaths/accidents/boons)
     const wagonIndex = Math.floor(Math.random() * firstParty.wagons.length);
     const passengerIndex = Math.floor(Math.random() * firstParty.wagons[wagonIndex].passengers.length);
-    const lostDays = (Math.floor(Math.random() * 4) + 2); // made this shorter to ease testing
+    const lostDays = Math.floor(Math.random() * 4) + 2;
 
-    let message = "";
+    const passenger = firstParty.wagons[wagonIndex].passengers[passengerIndex];
+    if (!passenger) return "No passenger available.";
 
-    // decide what type of event it is
-    if (chooseEventType >= 98) { // outright passenger death
-    // select passenger to die
-    const chosenDeath = deaths[deathIndex];
-    firstParty.wagons[wagonIndex].passengers[passengerIndex].isAlive = false;
-    deadPerson();
-    message =  `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + chosenDeath}`;
-    }
+    // increment dysentery counter and set appropriate disease string
+    passenger.dysenteryCount = (passenger.dysenteryCount || 0) + 1;
+    const count = passenger.dysenteryCount;
 
-    else if (chooseEventType >= 92 && chooseEventType < 98) { // outright ox death
-    // select wagon ox to die
-    //
-    // this one is not implemented. still creates passenger illness which is fine for now
-    const chosenDisease = diseases[diseaseIndex];
-    firstParty.wagons[wagonIndex].passengers[passengerIndex].disease = chosenDisease;
-    message =  `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + " has" + chosenDisease + ". You have lost " + lostDays + " days."}`;
-    }
+    if (count === 1) passenger.disease = "has dysentery";
+    else if (count === 2) passenger.disease = "has Super Dysentery";
+    else passenger.disease = "has Mega Dysentery";
 
-    else if (chooseEventType >= 62 && chooseEventType < 92) { // wagon breakdown
-        // select wagon to have accident happen to
-        const chosenAccident = accidents[accidentIndex];
-        firstParty.wagons[wagonIndex].accident = chosenAccident;
-        message = `${firstParty.wagons[wagonIndex].name + chosenAccident + ". You have lost " + lostDays + " days."}`;
-    }
+    console.log(`Disease assigned -> ${passenger.name}: count=${count}, disease="${passenger.disease}"`);
 
-    else if (chooseEventType < 62) { // passenger disease
-        // select passenger to have disease
-        const chosenDisease = diseases[diseaseIndex];
-        firstParty.wagons[wagonIndex].passengers[passengerIndex].disease = chosenDisease;
-        message =  `${firstParty.wagons[wagonIndex].passengers[passengerIndex].name + " has" + chosenDisease + ". You have lost " + lostDays + " days."}`;
-    }
-
-    return { message, lostDays };
+    return `${passenger.name} ${passenger.disease}. You have lost ${lostDays} days.`;
 }
 
 export function getBoon() {
@@ -81,3 +57,35 @@ export function getBoon() {
     }
 
 };
+
+// apply disease damage per game tick
+export function applyDiseaseTick() {
+  // iterate every passenger and apply HP loss for dysentery variants
+  firstParty.wagons.forEach(wagon => {
+    wagon.passengers.forEach(passenger => {
+      if (!passenger || passenger.isAlive === false) return;
+
+      const raw = (passenger.disease || "").toString().toLowerCase();
+
+      // determine damage per tick
+      let dmg = 0;
+      if (raw.includes("mega")) dmg = 4;
+      else if (raw.includes("super")) dmg = 2;
+      else if (raw.includes("dysentery")) dmg = 1;
+
+      if (dmg > 0) {
+        // ensure health initialized (assumes 100 start)
+        if (typeof passenger.health !== "number") passenger.health = 100;
+        passenger.health -= dmg;
+
+        // clamp and handle death
+        if (passenger.health <= 0) {
+          passenger.health = 0;
+          passenger.isAlive = false;
+          // keep existing death handling call
+          deadPerson();
+        }
+      }
+    });
+  });
+}

@@ -6,10 +6,32 @@ import { Person } from "../Person.js";
 
 // gameState.mode = "title";
 
+const genericNames = [
+  "Alice","Bob","Charlie","Diana","Ethan","Fiona","George","Hannah",
+  "Ivy","Jack","Kara","Liam","Maya","Noah","Olivia","Peter",
+  "Quinn","Rosa","Sam","Tara","Uma","Victor","Wendy","Xander",
+  "Yara","Zane","Bea","Cal","Drew","Elsa","Finn","Gus"
+];
+
+const genericPartyNames = [
+  "The Adventurers","The Trailblazers","The Pioneers","The Wanderers",
+  "The Explorers","The Nomads","The Pathfinders","The Journeyers",
+  "The Seekers","The Roamers", "The Chachees", "The Pontipees", "The Trail Mixers", "The Burgundys", "The Vagabonds", "The Donners"
+];
+
+// helper: pick a random name not in exclude list
+function getRandomName(exclude = []) {
+  const pool = genericNames.filter(n => !exclude.includes(n));
+  if (pool.length === 0) return genericNames[Math.floor(Math.random() * genericNames.length)];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// title screen variables
 const titleScreen = document.getElementById("title-screen");
 const partyCreator = document.getElementById("party-creation");
 const submitParty = document.getElementById("submit-party");
 
+// party info inputs
 const partyName = document.getElementById("party-name");
 const name1 = document.getElementById("1");
 const name2 = document.getElementById("2");
@@ -38,7 +60,17 @@ export function startGame() { // chatgpt did stuff here
           e.preventDefault(); // stop form submitting and reloading page
 
           // connect values to party info
+          // give a generic party name if left blank
+          if (!partyName.value.trim()) {
+            partyName.value = genericPartyNames[Math.floor(Math.random() * genericPartyNames.length)];
+          }
           firstParty.name = partyName.value;
+
+          // populate blank name fields with generic names (avoid duplicates)
+          const used = [];
+          if (!name1.value.trim()) { name1.value = getRandomName(used); used.push(name1.value); } else used.push(name1.value);
+          if (!name2.value.trim()) { name2.value = getRandomName(used); used.push(name2.value); } else used.push(name2.value);
+          if (!name3.value.trim()) { name3.value = getRandomName(used); used.push(name3.value); } else used.push(name3.value);
 
           const passenger1 = new Person(`${name1.value}`, "none", 100, 45, "male", true);
           const passenger2 = new Person(`${name2.value}`, "none", 100, 45, "male", true);
