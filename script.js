@@ -11,6 +11,16 @@ export const gameState = { mode: "title" }; // moved this way up to use it for t
 
 startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
+startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
+
+function escalateDisease(existingDisease, baseDisease) {
+  if (!existingDisease || existingDisease === "none") return baseDisease;
+  const low = String(existingDisease).toLowerCase();
+  const base = String(baseDisease).toLowerCase();
+  if (low === base) return `super ${base}`;
+  if (low === `super ${base}`) return `mega ${base}`;
+  return existingDisease;
+}
 
 
   export function checkForDeath() {
@@ -419,13 +429,16 @@ document.addEventListener("keydown", (e) => {
           const alive = passengers.filter(p => p && p.isAlive !== false);
           const victim = alive.length ? alive[Math.floor(Math.random() * alive.length)] : passengers[0];
           if (victim) {
-            victim.disease = chosenAccident.disease;
-            chosenAccident.message = `${victim.name} got ${chosenAccident.disease}`;
+            // restore escalation: bump "dysentery" -> "super dysentery" -> "mega dysentery"
+            const newDisease = escalateDisease(victim.disease, chosenAccident.disease);
+            victim.disease = newDisease;
+            chosenAccident.message = `${victim.name} got ${newDisease}`;
           } else {
             chosenAccident.message = `Someone got ${chosenAccident.disease}`;
           }
         }
 
+        // display message and continue with lostDays logic as before
         eventDiv.innerText = chosenAccident.message || chosenAccident.infoMessage || "";
         if (Number.isFinite(chosenAccident.lostDays) && chosenAccident.lostDays > 0) {
           if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
@@ -439,7 +452,7 @@ document.addEventListener("keydown", (e) => {
       }
 
       // adding boons here
-      else if (eventChance >= 15 && eventChance < 18) {
+      else if (eventChance === 20) {
         console.log(eventChance + "this should fire");
         let chosenBoon = getBoon();
         console.log("chosenBoon:", chosenBoon);
@@ -493,9 +506,6 @@ document.addEventListener("keydown", (e) => {
   // next town" 
 
   // food makes you die. need to make it make your health drop, just
-  // code minimum people per wagon, or transfer of people to other wagons. think it out on paper.
-  // code speed based on oxen. might get into floor division. 
-  // give player choices on pause screen. give medicine (chance of cure). what else? don't know.
   // make new town options - visit doctor, buy oxen, extra - add member to party (brings money and food). or ditch a person ha ha.
   // FIXED MAYBE:: make some boons - abandoned wagon, berries
 

@@ -9,57 +9,37 @@ export const deaths = [" fell off a cliff and died", " was struck by lightning a
 export const boons = ["You found wild berries!", "You found an abandoned wagon!"];
 
 // accidents should be objects so consumers can read message/disease/lostDays reliably
+// add a `weight` field for weighted random selection (higher = more likely)
 export const accidents = [
-  { id: "broken_axle", message: "A wagon axle broke", lostDays: 2 },
-  { id: "caught_fire", message: "A wagon caught fire", lostDays: 3 },
-  { id: "bear_attack", message: "You were attacked by bears", lostDays: 4 },
-  // disease-type accident: no message on purpose so we synthesize "Tom got dysentery"
-  { id: "dysentery", disease: "dysentery", lostDays: 2 }
+  { id: "broken_axle", message: "A wagon axle broke", lostDays: 2, weight: 1 },
+  { id: "caught_fire", message: "A wagon caught fire", lostDays: 3, weight: 0.5 }, // less likely
+  { id: "bear_attack", message: "You were attacked by bears", lostDays: 4, weight: 0.5 }, // less likely
+  // disease-type accident: dysentery made slightly more likely via higher weight
+  { id: "dysentery", disease: "dysentery", lostDays: 2, weight: 12 }
 ];
 
-// safer getRandomAccident implementation
+// helper: pick a weighted random element from an array with `weight` props
+function pickWeighted(arr) {
+  const total = arr.reduce((s, a) => s + (Number(a.weight) || 0), 0);
+  if (total <= 0) return arr[Math.floor(Math.random() * arr.length)] || null;
+  let r = Math.random() * total;
+  for (const item of arr) {
+    r -= (Number(item.weight) || 0);
+    if (r <= 0) return item;
+  }
+  return arr[arr.length - 1] || null;
+}
+
+// safer getRandomAccident implementation (uses weighted pick)
 export function getRandomAccident() {
   if (!Array.isArray(accidents) || accidents.length === 0) return null;
-  const raw = accidents[Math.floor(Math.random() * accidents.length)];
+  const raw = pickWeighted(accidents);
   if (!raw) return null;
 
   // shallow copy so we don't mutate the template
   const chosen = { ...raw };
 
-  // if chosen specifies lostDays, expose it via the exported variable
-  if (Number.isFinite(chosen.lostDays)) {
-    lostDays = chosen.lostDays;
-  } else {
-    lostDays = 0;
-  }
-
-  // If this is a disease-type accident and there's no human-readable message,
-  // pick a living passenger and synthesize the message, and assign the disease.
-  if (chosen.disease && !chosen.message) {
-    try {
-      const passengers = (firstParty && firstParty.wagons)
-        ? firstParty.wagons.flatMap(w => w.passengers || [])
-        : [];
-
-      const alive = passengers.filter(p => p && p.isAlive !== false);
-      const victim = alive.length ? alive[Math.floor(Math.random() * alive.length)] : passengers[0];
-
-      if (victim) {
-        // assign the disease to the victim so other code will observe it
-        victim.disease = chosen.disease;
-        chosen.message = `${victim.name} got ${chosen.disease}`;
-      } else {
-        chosen.message = `Someone got ${chosen.disease}`;
-      }
-    } catch (err) {
-      chosen.message = chosen.message || `An incident involving ${chosen.disease} occurred`;
-      console.error("getRandomAccident: failed to assign disease to a victim", err);
-    }
-  } else if (!chosen.message && !chosen.disease) {
-    // fallback: ensure we always have a readable message
-    chosen.message = String(raw) || "An incident occurred";
-  }
-
+  // preserve existing behavior: do NOT assign disease to victims here (script.js handles that)
   return chosen;
 }
 
@@ -69,11 +49,12 @@ export function getBoon() {
     const foodAmountFound = (Math.floor(Math.random() * 52)) + 20;
     const wagonPartsFound = (Math.floor(Math.random() * 2)) + 1;
 
-    if (chooseBoon >= 50) { // find food
+    // reduce chance to find berries/food (now ~50% food, 50% wagon parts)
+    if (chooseBoon <= 50) { // find food (berries)
         infoMessage = `${boons[0] + " You get " + foodAmountFound + " food!"}`;
         firstParty.items["food"] += foodAmountFound;
     }
-    else { // find wagon wheels
+    else { // find wagon wheels (more likely than before)
         infoMessage = `${boons[1] + " You get " + wagonPartsFound + " wagon wheels!"}`
         firstParty.items["wagon wheels"] += wagonPartsFound;
     }
