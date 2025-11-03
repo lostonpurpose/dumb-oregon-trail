@@ -12,6 +12,12 @@ const partyHeader = document.getElementById("party-header");
 // collect wagon name elements (generic)
 const wagonNames = Array.from(document.querySelectorAll('.wagon-name'));
 
+function formatDisease(disease) {
+  if (!disease || disease === "none") return null;
+  // remove leading "a " or "has a " and trim
+  return String(disease).replace(/^(?:has\s+)?a\s+/i, '').trim();
+}
+
 export function renderPassengers() {
   partyHeader.innerText = `${firstParty.name}`;
   partyHeader.style.color = "violet"
@@ -23,26 +29,30 @@ export function renderPassengers() {
     if (!ul) return; // nothing to render into
 
     if (nameEl) {
-      nameEl.innerText = `${wagon.name}  \n\n`;
+      // nameEl.innerText = `${wagon.name}  \n\n`;
+      nameEl.innerText = `Party Members  \n\n`; // new one
+
       nameEl.style.display = "block";
     }
 
     ul.innerHTML = "";
     wagon.passengers.forEach(passenger => {
       const li = document.createElement("li");
-      if (passenger.disease != "none") {
-        if (passenger.disease.includes(" a ")) {
-          li.textContent = `${passenger.name}: ${passenger.disease.slice(3)}`;
+
+      // show dead if flagged or health has dropped to 0
+      if (passenger.isAlive === false || (typeof passenger.health === "number" && passenger.health <= 0)) {
+        li.textContent = `${passenger.name}: dead`;
+        li.classList.add("passenger-dead");
+      } else {
+        const disease = formatDisease(passenger.disease);
+        if (disease) {
+          li.textContent = `${passenger.name}: ${disease}`;
           li.classList.add("passenger-info-text");
         } else {
-          li.textContent = `${passenger.name}: ${passenger.disease}`;
-          li.classList.add("passenger-info-text");
+          li.textContent = `${passenger.name}: healthy`;
         }
       }
-      else if (passenger.isAlive === false) {
-        li.textContent = `${passenger.name}: "is dead"`
-      }
-      else { li.textContent = `${passenger.name}: healthy` };
+
       ul.appendChild(li);
     });
   });

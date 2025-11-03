@@ -211,15 +211,14 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
 
 
-  // global spacebar - return to fort menu listener. only fires when not in 'default mode', aka only when in a location
-  document.addEventListener("keydown", (e) => {
-
-    if (e.key === " " && gameState.mode === "default") { // THIS IS FIRING LOCATION AUTOMATICALL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      console.log("alex" + gameState.mode)
-      //gameState.mode = "default";
-      newShowLocation(currentLocation);
-    }
-  });
+// global spacebar - return to fort menu listener. only fires when not in 'default mode', aka only when in a location
+document.addEventListener("keydown", (e) => {
+  if (e.key === " " && gameState.mode !== "default") {
+    // return from a modal/menu (buyFood/buyItems/etc.) back to the town main menu
+    gameState.mode = "default";
+    newShowLocation(currentLocation);
+  }
+});
 
   // this might solve the stacked event listeners...
   let townKeyListener;
@@ -298,24 +297,46 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
         }
       }
 
-      // KEY 2 = depends on if it's a fort (buy food) or a river (ford river)
-      // adjust. if isfort buy food, if no isfort buy ferry (lose money)
+      // KEY 2 = depends on if it's a fort (buy food) or a river (ford/ferry)
       else if (e.key === "2") {
-        const key = currentLocation.dataset.location.replace(/\s+/g, "");
+        const datasetLoc = currentLocation && currentLocation.dataset && currentLocation.dataset.location;
+        const key = datasetLoc ? String(datasetLoc).replace(/\s+/g, "") : "";
+        const locData = (typeof fortData !== "undefined" && fortData) ? fortData[key] : null;
 
-        if (fortData[key].isFort === "no") {
+        // normalize isFort value for robust checks (handles "yes"/"no"/true/false/legacy)
+        const isFortFlag = locData && typeof locData.isFort !== "undefined"
+          ? String(locData.isFort).toLowerCase()
+          : null;
+
+        const isFort =
+          Boolean(locData) &&
+          (
+            isFortFlag === "true" ||
+            isFortFlag === "yes" ||
+            isFortFlag === "y" ||
+            isFortFlag === "1" ||
+            (locData.type && String(locData.type).toLowerCase() === "fort") ||
+            Boolean(locData.buySupplies) // legacy indicator for a fort
+          );
+
+        if (isFort) {
+          // show fort text from the data and pass the data object to the buy handler
+          gameState.mode = "buyFood";
+          console.log("buyFoodInput firing for fort:", key, locData);
+          if (locData) {
+            flavorText.innerText = locData.flavorText || "";
+            options.innerText = locData.options || "";
+          } else {
+            flavorText.innerText = "";
+            options.innerText = "";
+          }
+          // pass locData first (older buyFoodInput expects the fort object)
+          buyFoodInput(locData, currentLocation);
+        } else {
+          // River (or unknown location) — take ferry / ford
           gameState.mode = "takeFerry";
-          console.log("takeFerry only");
+          console.log("takeFerry (river) for:", key, "locData:", locData);
           takeFerry(currentLocation);
-          return; // STOP here
-        }
-        else {
-        // FORTS only—never rivers
-        gameState.mode = "buyFood";
-        console.log("buyFoodInput firing");
-        flavorText.innerText = "";
-        options.innerText = "";
-        buyFoodInput(location, currentLocation);
         }
       }
 
@@ -354,84 +375,92 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
   // accidents and diseases
 
-  export function lostDaysCalculator(fakeMoveInterval, chosenAccident) {
-        let i = 0;
-        fakeMoveInterval = setInterval(() => {
-          if (i >= chosenAccident.lostDays) {
-            clearInterval(fakeMoveInterval);
-            fakeMoveInterval = null;
-            infoDiv.innerText = "Press spacebar to continue"
-            return;
-          }
-          // days ++
-          days2.dayCounter ++;
-          // dayDiv.innerText = days;
-          dayDiv.innerText = days2.dayCounter;
-          i++;
-          updateFood(1); // update for 1 day each tick
-          diseaseToHealth(2) // updates for diseases. change 2 to disease severity
-          renderPassengers();
-          // NEW check for death
-          checkForDeath();
-          // END check    
-        }, 500);
-      }
+  export function lostDaysCalculator(chosenAccident) {
+  // use the outer fakeMoveInterval so it can be cleared elsewhere
+  if (!chosenAccident || !Number.isFinite(chosenAccident.lostDays) || chosenAccident.lostDays <= 0) {
+    return;
+  }
+
+  let i = 0;
+  fakeMoveInterval = setInterval(() => {
+    if (i >= chosenAccident.lostDays) {
+      clearInterval(fakeMoveInterval);
+      fakeMoveInterval = null;
+      infoDiv.innerText = "Press spacebar to continue";
+      return;
+    }
+    // days ++
+    days2.dayCounter ++;
+    dayDiv.innerText = days2.dayCounter;
+    i++;
+    updateFood(1); // update for 1 day each tick
+    diseaseToHealth(2); // updates for diseases. change 2 to disease severity
+    renderPassengers();
+    // NEW check for death
+    checkForDeath();
+    // END check
+  }, 500);
+  }
 
   let fakeMoveInterval = null;
   export const eventDiv = document.querySelector(".event");
+  // replace the existing randomEvents function with this hardened version
   function randomEvents(e) {
       eventDiv.innerText = "";
-      const eventChance = (Math.floor(Math.random() * 20) + 1);
-      if (eventChance >= 18) { // currently no events for testing ******************* important to change this back
+      let eventChance = (Math.floor(Math.random() * 20) + 1);
+
+      if (eventChance >= 18) {
         let chosenAccident = getRandomAccident();
-        eventDiv.innerText = `${chosenAccident.message}`;
+        if (!chosenAccident) return;
 
-
-        // faking time for days lost
-        lostDaysCalculator(fakeMoveInterval, chosenAccident)
-        
-
-        // Pause the animation
-          if (autoMoveInterval) {
-              clearInterval(autoMoveInterval);
-              autoMoveInterval = null;
-              
+        // If it's a disease-type accident and there's no message, pick a local victim
+        if (chosenAccident.disease && !chosenAccident.message) {
+          const passengers = firstParty.wagons.flatMap(w => w.passengers || []);
+          const alive = passengers.filter(p => p && p.isAlive !== false);
+          const victim = alive.length ? alive[Math.floor(Math.random() * alive.length)] : passengers[0];
+          if (victim) {
+            victim.disease = chosenAccident.disease;
+            chosenAccident.message = `${victim.name} got ${chosenAccident.disease}`;
+          } else {
+            chosenAccident.message = `Someone got ${chosenAccident.disease}`;
           }
-        // end pause animation
-        
-        if (arrived === true) {
-          // eventDiv.innerText = "";
-          eventChance = 0;
         }
+
+        eventDiv.innerText = chosenAccident.message || chosenAccident.infoMessage || "";
+        if (Number.isFinite(chosenAccident.lostDays) && chosenAccident.lostDays > 0) {
+          if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+          lostDaysCalculator(chosenAccident);
+        } else {
+          infoDiv.innerText = "Press spacebar to continue";
+          if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+        }
+        if (arrived === true) eventChance = 0;
+        return;
       }
 
       // adding boons here
       else if (eventChance >= 15 && eventChance < 18) {
-          console.log(eventChance + "this should fire")
-          let chosenBoon = getBoon();
-          console.log("chosenBoon:", chosenBoon);
-          infoDiv.innerText = `${chosenBoon.infoMessage}`;
-          renderPassengers();
-      
+        console.log(eventChance + "this should fire");
+        let chosenBoon = getBoon();
+        console.log("chosenBoon:", chosenBoon);
+        infoDiv.innerText = `${chosenBoon.infoMessage}`;
+        renderPassengers();
+
         console.log("state is:", autoMoveInterval);
         // Pause the animation while displaying boon message
-          if (autoMoveInterval) {
-              clearInterval(autoMoveInterval);
-              autoMoveInterval = null;
-          }
-        // end pause animation
+        if (autoMoveInterval) {
+          clearInterval(autoMoveInterval);
+          autoMoveInterval = null;
+        }
         console.log("state is:", autoMoveInterval);
-        
+
         if (arrived === true) {
-          // eventDiv.innerText = "";
           eventChance = 0;
         }
-        eventDiv.innerText = 'Press spacebar to continue'
+        eventDiv.innerText = 'Press spacebar to continue';
+      } else {
+        return;
       }
-      // end boons test
-
-      else {return};
-
   };
 
   export function totalDeath() {
@@ -463,8 +492,7 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
   // if wagon breaks down and you have a spare part, use it and continue. if not, "waiting for wagon to pass" or "waiting for dad who went to the 
   // next town" 
 
-  // food makes you die. need to make it make your health drop, just like a disease, which works
-  // health = 0 = death. code removal of person, probably easy
+  // food makes you die. need to make it make your health drop, just
   // code minimum people per wagon, or transfer of people to other wagons. think it out on paper.
   // code speed based on oxen. might get into floor division. 
   // give player choices on pause screen. give medicine (chance of cure). what else? don't know.
@@ -474,14 +502,7 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
   // FIXED:: yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
   // big one - i could just make a starting town where you buy everything from the start like any other town. just need three buttons to 
   // choose what your background is. eventually... (not mvp) allow lots of choices, like you're a doctor (super easy).
-  // you know what? if i think about this as a way to get a job, just make it suuuuuper simple to start. could even cut medicine to match OG game
-
-  // VISUALS:
-  // start with prarie background. switch to hills. finally mountains. something like that.
-  // if fort/river not visible on screen, screen can scroll vertically. why? 
-  // when losing stuff from wagon crossing, state what is lost.
-  // MAYBE FIXED:: upon instant death, undefined?? was using diseases.length, not deaths.length
-  // currently "NaN food purchased" if nothing entered, and probably if characters entered
+  // you know what? if i think about this as a way to get a job, just make it suuuuuper simple to start
   // in town if purchase screen, nothing says spacebar will return you to main town menu
 
   // next steps
