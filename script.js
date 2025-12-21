@@ -420,64 +420,81 @@ export function lostDaysCalculator(chosenAccident) {
 }
   // replace the existing randomEvents function with this hardened version
   function randomEvents(e) {
-      eventDiv.innerText = "";
-      let eventChance = (Math.floor(Math.random() * 20) + 1);
+    eventDiv.innerText = "";
+    let eventChance = (Math.floor(Math.random() * 20) + 1); // 1-20 chance
 
-      if (eventChance >= 18 && eventChance < 20){
-        let chosenAccident = getRandomAccident();
-        if (!chosenAccident) return;
+    if (eventChance >= 18 && eventChance < 20){ // currently 18-19 roll means accident
+      let chosenAccident = getRandomAccident();
+      if (!chosenAccident) return;
 
-        // If it's a disease-type accident and there's no message, pick a local victim
-        if (chosenAccident.disease && !chosenAccident.message) {
-          const passengers = firstParty.wagons.flatMap(w => w.passengers || []);
-          const alive = passengers.filter(p => p && p.isAlive !== false);
-          const victim = alive.length ? alive[Math.floor(Math.random() * alive.length)] : passengers[0];
-          if (victim) {
-            // restore escalation: bump "dysentery" -> "super dysentery" -> "mega dysentery"
-            const newDisease = escalateDisease(victim.disease, chosenAccident.disease);
-            victim.disease = newDisease;
-            chosenAccident.message = `${victim.name} got ${newDisease}`;
-          } else {
-            chosenAccident.message = `Someone got ${chosenAccident.disease}`;
-          }
-        }
+      // scripts to get a random wagon part that will get dysentery after a certain distance
+      const wagonParts = ["the wagon", "wagon wheel", "wagon axle"];
+      function pickWagonPart() {
+        return wagonParts[Math.floor(Math.random() * wagonParts.length)];
+      };
+      // grabbing the wagon part safely in separate wrapper
+      function getWagonPartDysentery() {
+        const diseasedPart = pickWagonPart();
+        return diseasedPart;
+      };
+      // now i can assign dysentery to a wagon part (added disease to the wagon Class)
 
-        // display message and continue with lostDays logic as before
-        eventDiv.innerText = chosenAccident.message || chosenAccident.infoMessage || "";
-        if (Number.isFinite(chosenAccident.lostDays) && chosenAccident.lostDays > 0) {
-          if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
-          lostDaysCalculator(chosenAccident);
+      // If it's a disease-type accident and there's no message, pick a local victim
+      // need to add code to pick a wagon part after a certain currentLocationIndex (maybe index unnecessary, don't know)
+      if (chosenAccident.disease && !chosenAccident.message) {
+        // Get all passengers from all wagons and combine them into one list.
+        // flatMap goes through each wagon, grabs its passengers array (or empty array if none),
+        // and flattens it all into a single list of passengers.
+        const passengers = firstParty.wagons.flatMap(w => w.passengers || []);
+        const alive = passengers.filter(p => p && p.isAlive !== false);
+        // If there are alive passengers, pick one at random. Otherwise fall back to the first passenger (even if dead).
+        const victim = alive.length ? alive[Math.floor(Math.random() * alive.length)] : passengers[0]; // terneary operator
+        if (victim) {
+          // restore escalation: bump "dysentery" -> "super dysentery" -> "mega dysentery"
+          const newDisease = escalateDisease(victim.disease, chosenAccident.disease);
+          victim.disease = newDisease;
+          chosenAccident.message = `${victim.name} got ${newDisease}`;
         } else {
-          infoDiv.innerText = "Press spacebar to continue";
-          if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+          chosenAccident.message = `Someone got ${chosenAccident.disease}`;
         }
-        if (arrived === true) eventChance = 0;
-        return;
       }
 
-      // adding boons here
-      else if (eventChance === 20) {
-        console.log(eventChance + "this should fire");
-        let chosenBoon = getBoon();
-        console.log("chosenBoon:", chosenBoon);
-        infoDiv.innerText = `${chosenBoon.infoMessage}`;
-        renderPassengers();
-
-        console.log("state is:", autoMoveInterval);
-        // Pause the animation while displaying boon message
-        if (autoMoveInterval) {
-          clearInterval(autoMoveInterval);
-          autoMoveInterval = null;
-        }
-        console.log("state is:", autoMoveInterval);
-
-        if (arrived === true) {
-          eventChance = 0;
-        }
-        eventDiv.innerText = 'Press spacebar to continue';
+      // display message and continue with lostDays logic as before
+      eventDiv.innerText = chosenAccident.message || chosenAccident.infoMessage || "";
+      if (Number.isFinite(chosenAccident.lostDays) && chosenAccident.lostDays > 0) {
+        if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+        lostDaysCalculator(chosenAccident);
       } else {
-        return;
+        infoDiv.innerText = "Press spacebar to continue";
+        if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
       }
+      if (arrived === true) eventChance = 0;
+      return;
+    }
+
+    // adding boons here
+    else if (eventChance === 20) {
+      console.log(eventChance + "this should fire");
+      let chosenBoon = getBoon();
+      console.log("chosenBoon:", chosenBoon);
+      infoDiv.innerText = `${chosenBoon.infoMessage}`;
+      renderPassengers();
+
+      console.log("state is:", autoMoveInterval);
+      // Pause the animation while displaying boon message
+      if (autoMoveInterval) {
+        clearInterval(autoMoveInterval);
+        autoMoveInterval = null;
+      }
+      console.log("state is:", autoMoveInterval);
+
+      if (arrived === true) {
+        eventChance = 0;
+      }
+      eventDiv.innerText = 'Press spacebar to continue';
+    } else {
+      return;
+    }
 };
 
 export function totalDeath() {
@@ -486,6 +503,16 @@ export function totalDeath() {
   gameOver = true;
 };
 
+
+// new notes dec 2025
+// need to get wagon diseases set up after certain timing
+// same with locations, start with the 3 options occasionally having a disease (2. buy food (has dysentery)
+// then allow for the location itself to have dysentery after certain index (maybe 5 or 6) (ft kearney has dysentery, the snake river has dysentery, etc. )
+// code sky color changes to poop colors as you go.
+// code chance for healing at forts. 20% chance or something.
+// code chance for healing randomly on trail. 5% chance per day or something.
+
+ 
 
   // rethinking my inks. going to pare down the game to pure comedy. no one is going to play this often. 
   // they'll play one time through and enjoy the humor. everyone gets dysentery needs to be real

@@ -11,8 +11,8 @@ export class Party {
     }
 };
 
-export const firstParty = new Party("The Pontipee Family", [wagon1], 1200, {"food": 850, "wagon wheels": 3, "ox yokes": 2, "medicine": 3}, "banker")
-export const OGfirstParty = new Party("The Secret Druids", [wagon1], 1200, {"food": 850, "wagon wheels": 3, "ox yokes": 2, "medicine": 3}, "banker")
+export const firstParty = new Party("The Pontipee Family", [wagon1], 1200, {"food": 850, "wagon wheels": 3, "ox yokes": 2}, "banker") // removed medicine
+export const OGfirstParty = new Party("The Secret Druids", [wagon1], 1200, {"food": 850, "wagon wheels": 3, "ox yokes": 2}, "banker")
 console.log(firstParty);
 
 export function updateFood(days) { 

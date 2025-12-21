@@ -13,7 +13,7 @@ export const boons = ["You found wild berries!", "You found an abandoned wagon!"
 // add a `weight` field for weighted random selection (higher = more likely)
 export const accidents = [
   { id: "broken_axle", message: "A wagon axle broke", lostDays: 2, weight: 1 },
-  { id: "caught_fire", message: "A wagon caught fire", lostDays: 3, weight: 0.5 }, // less likely
+  { id: "caught_fire", message: "The wagon caught fire", lostDays: 3, weight: 0.5 }, // less likely
   { id: "bear_attack", message: "You were attacked by bears", lostDays: 4, weight: 0.5 }, // less likely
   // disease-type accident: dysentery made slightly more likely via higher weight
   { id: "dysentery", disease: "dysentery", lostDays: 2, weight: 12 }
