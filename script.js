@@ -7,11 +7,12 @@ import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
 import { startGame } from "./Logic-Scripts/start-party.js";
 
 let gameOver = false;
-export const gameState = { mode: "title" }; // moved this way up to use it for title screen
+export const gameState = { mode: "default" }; // moved this way up to use it for title screen
+// export const gameState = { mode: "title" }; // moved this way up to use it for title screen --- enable for title screen
 
-startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
+// startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
+// uncomment so the listener works
 
-startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
 function escalateDisease(existingDisease, baseDisease) {
   if (!existingDisease || existingDisease === "none") return baseDisease;
@@ -234,12 +235,12 @@ document.addEventListener("keydown", (e) => {
   let townKeyListener;
 
   // town logic to continue or use options
-  export function townOptions(currentLocationKey) {
+export function townOptions(currentLocationKey) {
 
-    // Remove old listener if it exists
-    if (townKeyListener) {
-    document.removeEventListener("keydown", townKeyListener);
-    }
+  // Remove old listener if it exists
+  if (townKeyListener) {
+  document.removeEventListener("keydown", townKeyListener);
+  }
 
     // document.addEventListener("keydown", (e) => {  
 
@@ -379,13 +380,19 @@ document.addEventListener("keydown", (e) => {
 
     // Add the new listener
     document.addEventListener("keydown", townKeyListener);
-  };
+};
 
 
 
-  // accidents and diseases
 
-  export function lostDaysCalculator(chosenAccident) {
+
+
+// accidents and diseases
+
+let fakeMoveInterval = null;
+export const eventDiv = document.querySelector(".event");
+
+export function lostDaysCalculator(chosenAccident) {
   // use the outer fakeMoveInterval so it can be cleared elsewhere
   if (!chosenAccident || !Number.isFinite(chosenAccident.lostDays) || chosenAccident.lostDays <= 0) {
     return;
@@ -410,16 +417,13 @@ document.addEventListener("keydown", (e) => {
     checkForDeath();
     // END check
   }, 500);
-  }
-
-  let fakeMoveInterval = null;
-  export const eventDiv = document.querySelector(".event");
+}
   // replace the existing randomEvents function with this hardened version
   function randomEvents(e) {
       eventDiv.innerText = "";
       let eventChance = (Math.floor(Math.random() * 20) + 1);
 
-      if (eventChance >= 18) {
+      if (eventChance >= 18 && eventChance < 20){
         let chosenAccident = getRandomAccident();
         if (!chosenAccident) return;
 
@@ -474,13 +478,13 @@ document.addEventListener("keydown", (e) => {
       } else {
         return;
       }
-  };
+};
 
-  export function totalDeath() {
-    infoDiv.innerText = "You have made a huge mistake.";
-    eventDiv.innerText = "Everyone is dead";
-    gameOver = true;
-  };
+export function totalDeath() {
+  infoDiv.innerText = "You have made a huge mistake.";
+  eventDiv.innerText = "Everyone is dead";
+  gameOver = true;
+};
 
 
   // rethinking my inks. going to pare down the game to pure comedy. no one is going to play this often. 
