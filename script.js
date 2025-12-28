@@ -435,23 +435,6 @@ export function lostDaysCalculator(chosenAccident) {
       let chosenAccident = getRandomAccident();
       if (!chosenAccident) return;
 
-      // scripts to get a random wagon part that will get dysentery after a certain distance
-      
-      const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
-
-      function pickWagonPart() {
-        return wagonParts[Math.floor(Math.random() * wagonParts.length)];
-      };
-
-      // grabbing the wagon part safely in separate wrapper
-      function getWagonPartDysentery() {
-        const diseasedPart = pickWagonPart();
-        return diseasedPart;
-      };
-
-      if (diseasedPart === "the wagon") {
-        theWagonItself = "dysentery";
-      };
 
       // now i can assign dysentery to a wagon part (added disease to the wagon Class)
 
@@ -475,6 +458,7 @@ export function lostDaysCalculator(chosenAccident) {
         }
       }
 
+
       // display message and continue with lostDays logic as before
       eventDiv.innerText = chosenAccident.message || chosenAccident.infoMessage || "";
       if (Number.isFinite(chosenAccident.lostDays) && chosenAccident.lostDays > 0) {
@@ -487,6 +471,30 @@ export function lostDaysCalculator(chosenAccident) {
       if (arrived === true) eventChance = 0;
       return;
     }
+
+    // scripts to get a random wagon part that will get dysentery after a certain distance........
+    
+    else if (eventChance >= 10 && eventChance < 18) { // wagon part dysentery event
+      const wagonParts = ["the wagon"]; // below will be the one to use, just testing wagon only dysentery for now
+      // const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
+
+      function pickWagonPart() {
+        return wagonParts[Math.floor(Math.random() * wagonParts.length)];
+      }
+
+      // grabbing the wagon part safely in separate wrapper
+      function getWagonPartDysentery() {
+        const diseasedPart = pickWagonPart();
+        return diseasedPart;
+      }
+
+      const diseasedPart = getWagonPartDysentery();
+      if (diseasedPart === "the wagon") {
+        theWagonItself = "dysentery";
+      }
+    }
+
+    // end wagon part dysentery code..........................................................
 
     // adding boons here
     else if (eventChance === 20) {
