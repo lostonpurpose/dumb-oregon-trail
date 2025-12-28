@@ -14,12 +14,11 @@
 </head>
 <body>
 
-    <!-- hiding the title screen for now
     <div id="title-screen" class="">
         <div id="title">The Oregon Trail</div>
         <div id="sub-title">Everyone Gets Dysentery</div><br><br>
         <div id="press-start" class="flash">Press Enter to Begin</div>
-    </div> -->
+    </div>
 
     <div id="party-creation" class="activate-creator">
 
@@ -77,39 +76,35 @@
 
     <div class="party-info">
         <h3 id="party-header"><span></span></h3>
-        <div class="wagon-1">
-          <span class="wagon-name wagon-name-1"></span>
-          <ul class="passenger-list passenger-list-1"></ul>
-        </div>
-        <!-- items -->
+        <div class="wagon-1"><span class="wagon-name-1"></span><ul class="passenger-list-1"></ul></div>
+        <div class="wagon-2"><span class="wagon-name-2"></span><ul class="passenger-list-2"></ul></div>
+        <div class="wagon-3"><span class="wagon-name-3"></span><ul class="passenger-list-3"></ul></div>
+        <!-- this is the item container -->
         <div class="items"><span class="item-span">Items</span><ul class="item-ul"></ul></div>
     </div>
 
     <!-- <div class="spacer-1"></div> -->
     
     <div class="routes-container">
-
-        <div id="wagon" class=""></div> <!-- now inside -->
-
-        <!-- remember you have to change data miles AND locations.css for visual representation -->
+        <div id="wagon"></div> <!-- now inside -->
         <div class="route-1">
             <div class="path-1" data-miles="50"></div>
-            <div id="loc-1" data-location="the Kansas River"></div> 
+            <div id="loc-1" data-location="the Kansas River"></div>
         </div>
         <div class="route-2 hide-route">
-            <div class="path-2" data-miles="70"></div>
+            <div class="path-2" data-miles="30"></div>
             <div id="loc-2" data-location="Fort Kearney"></div>
         </div>
         <div class="route-3 hide-route">
-            <div class="path-3 hide-path" data-miles="90"></div>
+            <div class="path-3 hide-path" data-miles="50"></div>
             <div id="loc-3" class="hide-loc" data-location="Fort Laramie"></div>
         </div>
         <div class="route-4 hide-route">
-            <div class="path-4 hide-path" data-miles="110"></div>
+            <div class="path-4 hide-path" data-miles="40"></div>
             <div id="loc-4" class="hide-loc" data-location="Fort Bridger"></div>
         </div>
         <div class="route-5 hide-route">
-            <div class="path-5 hide-path" data-miles="70"></div>
+            <div class="path-5 hide-path" data-miles="40"></div>
             <div id="loc-5" data-location="the Green River"></div>
         </div>
         <div class="route-6 hide-route">

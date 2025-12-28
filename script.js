@@ -1,16 +1,35 @@
 import { theKansasRiver, fortKearney, fortLaramie, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
 import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
-import { diseases, accidents, getRandomAccident, getBoon, lostDays } from "./events.js";
+import { diseases, accidents, getRandomAccident, getBoon, lostDays, applyDiseaseTick } from "./events.js";
 import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
 import { startGame } from "./Logic-Scripts/start-party.js";
 
+// turns the wagon brown if it has dysentery
+const wagon = document.querySelector("#wagon");
+let theWagonItself = "healthy";
+if (theWagonItself === "dysentery") {
+  wagon.classList.add("dysentery");
+};
+
+
 let gameOver = false;
-export const gameState = { mode: "title" }; // moved this way up to use it for title screen
+export const gameState = { mode: "default" }; // moved this way up to use it for title screen
+// export const gameState = { mode: "title" }; // moved this way up to use it for title screen --- enable for title screen
 
-startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
+// startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
+// uncomment so the listener works
 
+
+function escalateDisease(existingDisease, baseDisease) {
+  if (!existingDisease || existingDisease === "none") return baseDisease;
+  const low = String(existingDisease).toLowerCase();
+  const base = String(baseDisease).toLowerCase();
+  if (low === base) return `super ${base}`;
+  if (low === `super ${base}`) return `mega ${base}`;
+  return existingDisease;
+}
 
 
   export function checkForDeath() {
@@ -36,7 +55,7 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
   // write function to increment sky color. tie it to miles. will have to figure out entire length of trail first. see above for colors.
 
-  const wagon = document.querySelector("#wagon");
+  
   const paths = document.querySelectorAll(".paths");
   const miles = document.querySelector(".miles");
 
@@ -96,7 +115,7 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
   let currentPathIndex = 0;
   // not using currently
   const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8];
-  let currentLocationIndex = 0;
+  export let currentLocationIndex = 0;
   // not using currently
   const allRoutes = [route1, route2, route3, route4, route5, route6, route7, route8];
   let currentRouteIndex = 0;
@@ -137,7 +156,16 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
       updateFood(1);
       diseaseToHealth(2) // new function does it work?? it does! from create party. need to remove 2 and add in the disease severity
       // currently subtracts health if character is dead, but fixing the above will fix this issue (dead severity = 0, ironically)
-      renderPassengers();
+
+
+
+      // NEW CHANGES VIBE CODING
+      applyDiseaseTick();
+      renderPassengers(); // update UI to show lowered health / deaths
+      // END NEW CHANGES
+
+
+
       milesLeft -= step;
       if (milesLeft < 20) milesLeft = 20; // THIS WORKS WITH LINE BELOW TO ENTER LOC AND WAGON DOESN'T OBSCURE LOC!!
 
@@ -202,26 +230,25 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
 
 
-  // global spacebar - return to fort menu listener. only fires when not in 'default mode', aka only when in a location
-  document.addEventListener("keydown", (e) => {
-
-    if (e.key === " " && gameState.mode === "default") { // THIS IS FIRING LOCATION AUTOMATICALL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      console.log("alex" + gameState.mode)
-      //gameState.mode = "default";
-      newShowLocation(currentLocation);
-    }
-  });
+// global spacebar - return to fort menu listener. only fires when not in 'default mode', aka only when in a location
+document.addEventListener("keydown", (e) => {
+  if (e.key === " " && gameState.mode !== "default") {
+    // return from a modal/menu (buyFood/buyItems/etc.) back to the town main menu
+    gameState.mode = "default";
+    newShowLocation(currentLocation);
+  }
+});
 
   // this might solve the stacked event listeners...
   let townKeyListener;
 
   // town logic to continue or use options
-  export function townOptions(currentLocationKey) {
+export function townOptions(currentLocationKey) {
 
-    // Remove old listener if it exists
-    if (townKeyListener) {
-    document.removeEventListener("keydown", townKeyListener);
-    }
+  // Remove old listener if it exists
+  if (townKeyListener) {
+  document.removeEventListener("keydown", townKeyListener);
+  }
 
     // document.addEventListener("keydown", (e) => {  
 
@@ -289,24 +316,46 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
         }
       }
 
-      // KEY 2 = depends on if it's a fort (buy food) or a river (ford river)
-      // adjust. if isfort buy food, if no isfort buy ferry (lose money)
+      // KEY 2 = depends on if it's a fort (buy food) or a river (ford/ferry)
       else if (e.key === "2") {
-        const key = currentLocation.dataset.location.replace(/\s+/g, "");
+        const datasetLoc = currentLocation && currentLocation.dataset && currentLocation.dataset.location;
+        const key = datasetLoc ? String(datasetLoc).replace(/\s+/g, "") : "";
+        const locData = (typeof fortData !== "undefined" && fortData) ? fortData[key] : null;
 
-        if (fortData[key].isFort === "no") {
+        // normalize isFort value for robust checks (handles "yes"/"no"/true/false/legacy)
+        const isFortFlag = locData && typeof locData.isFort !== "undefined"
+          ? String(locData.isFort).toLowerCase()
+          : null;
+
+        const isFort =
+          Boolean(locData) &&
+          (
+            isFortFlag === "true" ||
+            isFortFlag === "yes" ||
+            isFortFlag === "y" ||
+            isFortFlag === "1" ||
+            (locData.type && String(locData.type).toLowerCase() === "fort") ||
+            Boolean(locData.buySupplies) // legacy indicator for a fort
+          );
+
+        if (isFort) {
+          // show fort text from the data and pass the data object to the buy handler
+          gameState.mode = "buyFood";
+          console.log("buyFoodInput firing for fort:", key, locData);
+          if (locData) {
+            flavorText.innerText = locData.flavorText || "";
+            options.innerText = locData.options || "";
+          } else {
+            flavorText.innerText = "";
+            options.innerText = "";
+          }
+          // pass locData first (older buyFoodInput expects the fort object)
+          buyFoodInput(locData, currentLocation);
+        } else {
+          // River (or unknown location) — take ferry / ford
           gameState.mode = "takeFerry";
-          console.log("takeFerry only");
+          console.log("takeFerry (river) for:", key, "locData:", locData);
           takeFerry(currentLocation);
-          return; // STOP here
-        }
-        else {
-        // FORTS only—never rivers
-        gameState.mode = "buyFood";
-        console.log("buyFoodInput firing");
-        flavorText.innerText = "";
-        options.innerText = "";
-        buyFoodInput(location, currentLocation);
         }
       }
 
@@ -339,98 +388,177 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
 
     // Add the new listener
     document.addEventListener("keydown", townKeyListener);
-  };
+};
 
 
 
-  // accidents and diseases
 
-  export function lostDaysCalculator(fakeMoveInterval, chosenAccident) {
-        let i = 0;
-        fakeMoveInterval = setInterval(() => {
-          if (i >= chosenAccident.lostDays) {
-            clearInterval(fakeMoveInterval);
-            fakeMoveInterval = null;
-            infoDiv.innerText = "Press spacebar to continue"
-            return;
-          }
-          // days ++
-          days2.dayCounter ++;
-          // dayDiv.innerText = days;
-          dayDiv.innerText = days2.dayCounter;
-          i++;
-          updateFood(1); // update for 1 day each tick
-          diseaseToHealth(2) // updates for diseases. change 2 to disease severity
-          renderPassengers();
-          // NEW check for death
-          checkForDeath();
-          // END check    
-        }, 500);
-      }
 
-  let fakeMoveInterval = null;
-  export const eventDiv = document.querySelector(".event");
+
+// accidents and diseases
+
+let fakeMoveInterval = null;
+export const eventDiv = document.querySelector(".event");
+
+export function lostDaysCalculator(chosenAccident) {
+  // use the outer fakeMoveInterval so it can be cleared elsewhere
+  if (!chosenAccident || !Number.isFinite(chosenAccident.lostDays) || chosenAccident.lostDays <= 0) {
+    return;
+  }
+
+  let i = 0;
+  fakeMoveInterval = setInterval(() => {
+    if (i >= chosenAccident.lostDays) {
+      clearInterval(fakeMoveInterval);
+      fakeMoveInterval = null;
+      infoDiv.innerText = "Press spacebar to continue";
+      return;
+    }
+    // days ++
+    days2.dayCounter ++;
+    dayDiv.innerText = days2.dayCounter;
+    i++;
+    updateFood(1); // update for 1 day each tick
+    diseaseToHealth(2); // updates for diseases. change 2 to disease severity
+    renderPassengers();
+    // NEW check for death
+    checkForDeath();
+    // END check
+  }, 500);
+}
+  // replace the existing randomEvents function with this hardened version
   function randomEvents(e) {
-      eventDiv.innerText = "";
-      const eventChance = (Math.floor(Math.random() * 20) + 1);
-      if (eventChance >= 18) { // currently no events for testing ******************* important to change this back
-        let chosenAccident = getRandomAccident();
-        eventDiv.innerText = `${chosenAccident.message}`;
+    eventDiv.innerText = "";
+    let eventChance = (Math.floor(Math.random() * 20) + 1); // 1-20 chance
+
+    if (eventChance >= 18 && eventChance < 20){ // currently 18-19 roll means accident
+      let chosenAccident = getRandomAccident();
+      if (!chosenAccident) return;
 
 
-        // faking time for days lost
-        lostDaysCalculator(fakeMoveInterval, chosenAccident)
-        
+      // now i can assign dysentery to a wagon part (added disease to the wagon Class)
 
-        // Pause the animation
-          if (autoMoveInterval) {
-              clearInterval(autoMoveInterval);
-              autoMoveInterval = null;
-              
-          }
-        // end pause animation
-        
-        if (arrived === true) {
-          // eventDiv.innerText = "";
-          eventChance = 0;
+      // If it's a disease-type accident and there's no message, pick a local victim
+      // need to add code to pick a wagon part after a certain currentLocationIndex (maybe index unnecessary, don't know)
+      if (chosenAccident.disease && !chosenAccident.message) {
+        // Get all passengers from all wagons and combine them into one list.
+        // flatMap goes through each wagon, grabs its passengers array (or empty array if none),
+        // and flattens it all into a single list of passengers.
+        const passengers = firstParty.wagons.flatMap(w => w.passengers || []);
+        const alive = passengers.filter(p => p && p.isAlive !== false);
+        // If there are alive passengers, pick one at random. Otherwise fall back to the first passenger (even if dead).
+        const victim = alive.length ? alive[Math.floor(Math.random() * alive.length)] : passengers[0]; // terneary operator
+        if (victim) {
+          // restore escalation: bump "dysentery" -> "super dysentery" -> "mega dysentery"
+          const newDisease = escalateDisease(victim.disease, chosenAccident.disease);
+          victim.disease = newDisease;
+          chosenAccident.message = `${victim.name} got ${newDisease}`;
+        } else {
+          chosenAccident.message = `Someone got ${chosenAccident.disease}`;
         }
       }
 
-      // adding boons here
-      else if (eventChance >= 15 && eventChance < 18) {
-          console.log(eventChance + "this should fire")
-          let chosenBoon = getBoon();
-          console.log("chosenBoon:", chosenBoon);
-          infoDiv.innerText = `${chosenBoon.infoMessage}`;
-          renderPassengers();
-      
-        console.log("state is:", autoMoveInterval);
-        // Pause the animation while displaying boon message
-          if (autoMoveInterval) {
-              clearInterval(autoMoveInterval);
-              autoMoveInterval = null;
-          }
-        // end pause animation
-        console.log("state is:", autoMoveInterval);
-        
-        if (arrived === true) {
-          // eventDiv.innerText = "";
-          eventChance = 0;
-        }
-        eventDiv.innerText = 'Press spacebar to continue'
+
+      // display message and continue with lostDays logic as before
+      eventDiv.innerText = chosenAccident.message || chosenAccident.infoMessage || "";
+      if (Number.isFinite(chosenAccident.lostDays) && chosenAccident.lostDays > 0) {
+        if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+        lostDaysCalculator(chosenAccident);
+      } else {
+        infoDiv.innerText = "Press spacebar to continue";
+        if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
       }
-      // end boons test
+      if (arrived === true) eventChance = 0;
+      return;
+    }
 
-      else {return};
+    // scripts to get a random wagon part that will get dysentery after a certain distance........
+    
+    else if (eventChance >= 15 && eventChance < 18) { // wagon part dysentery event
+      const wagonParts = ["the wagon"]; // below will be the one to use, just testing wagon only dysentery for now
+      // const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
 
-  };
+      function pickWagonPart() {
+        return wagonParts[Math.floor(Math.random() * wagonParts.length)];
+      }
 
-  export function totalDeath() {
-    infoDiv.innerText = "You have made a huge mistake.";
-    eventDiv.innerText = "Everyone is dead";
-    gameOver = true;
-  };
+      // grabbing the wagon part safely in separate wrapper
+      function getWagonPartDysentery() {
+        const diseasedPart = pickWagonPart();
+        return diseasedPart;
+      }
 
+      const diseasedPart = getWagonPartDysentery();
+      if (diseasedPart === "the wagon") {
+        theWagonItself = "dysentery";
+        // need to pause animation so user can see eventdiv.innertext
+        // reflect wagon disease visually
+        if (wagon) {
+          if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+          eventDiv.innerText = "Your wagon got dysentery!";
+          infoDiv.innerText = "Press spacebar to continue";
+          wagon.classList.add("dysentery");
+        }
+      }
+    }
+
+    // end wagon part dysentery code..........................................................
+
+
+
+    // adding boons here ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    else if (eventChance === 20) {
+      console.log(eventChance + "this should fire");
+      let chosenBoon = getBoon();
+      console.log("chosenBoon:", chosenBoon);
+      infoDiv.innerText = `${chosenBoon.infoMessage}`;
+      renderPassengers();
+
+      console.log("state is:", autoMoveInterval);
+      // Pause the animation while displaying boon message
+      if (autoMoveInterval) {
+        clearInterval(autoMoveInterval);
+        autoMoveInterval = null;
+      }
+      console.log("state is:", autoMoveInterval);
+
+      if (arrived === true) {
+        eventChance = 0;
+      }
+      eventDiv.innerText = 'Press spacebar to continue';
+    } else {
+      return;
+    }
+};
+
+export function totalDeath() {
+  infoDiv.innerText = "You have made a huge mistake.";
+  eventDiv.innerText = "Everyone is dead";
+  gameOver = true;
+};
+
+
+// new notes dec 2025
+// need to get wagon diseases set up after certain timing
+// same with locations, start with the 3 options occasionally having a disease (2. buy food (has dysentery)
+// then allow for the location itself to have dysentery after certain index (maybe 5 or 6) (ft kearney has dysentery, the snake river has dysentery, etc. )
+// code sky color changes to poop colors as you go.
+// code chance for healing at forts. 20% chance or something.
+// code chance for healing randomly on trail. 5% chance per day or something.
+
+ 
+
+  // rethinking my inks. going to pare down the game to pure comedy. no one is going to play this often. 
+  // they'll play one time through and enjoy the humor. everyone gets dysentery needs to be real
+  // so, the only disease is dysentery. oxen can get it. the wagon can get it. rivers can get it.
+  // if a char gets it twice it's 'super dysentery', their health drops quicker.
+  // that's the whole game. sky turns brown by the end and if they reach oregon valley, the valley has dysentery too. everyone dies. 
+  // it's a fun, funny parody. yes i should allow healing at forts. that's about it. 
+  // so NEW TODO:::
+    // change default party items. no medicine or yokes. back to just one wagon. 5 or 6 party members. that's it.
+    // change to one disease. code that disease stacking.
+    // code health drops based on dysentery severity.
+    // at end - redo location distances.
 
   // i need to rethink the next steps in terms of mvp
   // FIXED:: big one visually - right now when you reach a loc the wagon covers it. extend each path by 2 or something so it's in front of you.
@@ -442,25 +570,14 @@ startGame(); // BEGIN THE GAME!!!!! WITH A TITLE SCREEN
   // if wagon breaks down and you have a spare part, use it and continue. if not, "waiting for wagon to pass" or "waiting for dad who went to the 
   // next town" 
 
-  // food makes you die. need to make it make your health drop, just like a disease, which works
-  // health = 0 = death. code removal of person, probably easy
-  // code minimum people per wagon, or transfer of people to other wagons. think it out on paper.
-  // code speed based on oxen. might get into floor division. 
-  // give player choices on pause screen. give medicine (chance of cure). what else? don't know.
+  // food makes you die. need to make it make your health drop, just
   // make new town options - visit doctor, buy oxen, extra - add member to party (brings money and food). or ditch a person ha ha.
   // FIXED MAYBE:: make some boons - abandoned wagon, berries
 
   // FIXED:: yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
   // big one - i could just make a starting town where you buy everything from the start like any other town. just need three buttons to 
   // choose what your background is. eventually... (not mvp) allow lots of choices, like you're a doctor (super easy).
-  // you know what? if i think about this as a way to get a job, just make it suuuuuper simple to start. could even cut medicine to match OG game
-
-  // VISUALS:
-  // start with prarie background. switch to hills. finally mountains. something like that.
-  // if fort/river not visible on screen, screen can scroll vertically. why? 
-  // when losing stuff from wagon crossing, state what is lost.
-  // MAYBE FIXED:: upon instant death, undefined?? was using diseases.length, not deaths.length
-  // currently "NaN food purchased" if nothing entered, and probably if characters entered
+  // you know what? if i think about this as a way to get a job, just make it suuuuuper simple to start
   // in town if purchase screen, nothing says spacebar will return you to main town menu
 
   // next steps
