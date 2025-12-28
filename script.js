@@ -474,7 +474,7 @@ export function lostDaysCalculator(chosenAccident) {
 
     // scripts to get a random wagon part that will get dysentery after a certain distance........
     
-    else if (eventChance >= 10 && eventChance < 18) { // wagon part dysentery event
+    else if (eventChance >= 15 && eventChance < 18) { // wagon part dysentery event
       const wagonParts = ["the wagon"]; // below will be the one to use, just testing wagon only dysentery for now
       // const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
 
@@ -504,7 +504,9 @@ export function lostDaysCalculator(chosenAccident) {
 
     // end wagon part dysentery code..........................................................
 
-    // adding boons here
+
+
+    // adding boons here ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     else if (eventChance === 20) {
       console.log(eventChance + "this should fire");
       let chosenBoon = getBoon();
