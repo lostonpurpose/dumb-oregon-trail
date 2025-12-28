@@ -1,4 +1,5 @@
 import { firstParty } from "./createParty.js";
+import { currentLocation, currentLocationIndex } from "./script.js";
 
 // restore exported lostDays so other modules (script.js) can import it
 export let lostDays = 0;
@@ -35,6 +36,7 @@ export const accidents = [
 // - `total`: the final sum of all weights
 // - `r`: the random ticket number we draw
 function pickWeighted(arr) {
+
   // reduce() goes through each item in the list and adds up a value.
   // Here: start with sum=0, then for each item (a), add its weight to the sum (s).
   // At the end, total = sum of all weights.

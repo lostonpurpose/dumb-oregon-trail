@@ -6,6 +6,14 @@ import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
 import { startGame } from "./Logic-Scripts/start-party.js";
 
+// turns the wagon brown if it has dysentery
+const wagon = document.querySelector("#wagon");
+let theWagonItself = "healthy";
+if (theWagonItself === "dysentery") {
+  wagon.classList.add("dysentery");
+};
+
+
 let gameOver = false;
 export const gameState = { mode: "default" }; // moved this way up to use it for title screen
 // export const gameState = { mode: "title" }; // moved this way up to use it for title screen --- enable for title screen
@@ -47,7 +55,7 @@ function escalateDisease(existingDisease, baseDisease) {
 
   // write function to increment sky color. tie it to miles. will have to figure out entire length of trail first. see above for colors.
 
-  const wagon = document.querySelector("#wagon");
+  
   const paths = document.querySelectorAll(".paths");
   const miles = document.querySelector(".miles");
 
@@ -107,7 +115,7 @@ function escalateDisease(existingDisease, baseDisease) {
   let currentPathIndex = 0;
   // not using currently
   const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8];
-  let currentLocationIndex = 0;
+  export let currentLocationIndex = 0;
   // not using currently
   const allRoutes = [route1, route2, route3, route4, route5, route6, route7, route8];
   let currentRouteIndex = 0;
@@ -428,15 +436,23 @@ export function lostDaysCalculator(chosenAccident) {
       if (!chosenAccident) return;
 
       // scripts to get a random wagon part that will get dysentery after a certain distance
-      const wagonParts = ["the wagon", "wagon wheel", "wagon axle"];
+      
+      const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
+
       function pickWagonPart() {
         return wagonParts[Math.floor(Math.random() * wagonParts.length)];
       };
+
       // grabbing the wagon part safely in separate wrapper
       function getWagonPartDysentery() {
         const diseasedPart = pickWagonPart();
         return diseasedPart;
       };
+
+      if (diseasedPart === "the wagon") {
+        theWagonItself = "dysentery";
+      };
+
       // now i can assign dysentery to a wagon part (added disease to the wagon Class)
 
       // If it's a disease-type accident and there's no message, pick a local victim

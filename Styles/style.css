@@ -206,6 +206,18 @@ html, body {
     background-repeat: no-repeat;
     z-index: 2;
 }
+#wagon.dysentery {
+    position: absolute;
+    top: 55%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 300px;
+    height: 150px;
+    background-image: url("../images/ot-oxen-brown.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 2;
+}
 
 .route-1, .route-2, .route-3, .route-4, .route-5, .route-6, .route-7, .route-8, #background-bar {
     height: 100%;
