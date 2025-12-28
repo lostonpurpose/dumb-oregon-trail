@@ -491,6 +491,14 @@ export function lostDaysCalculator(chosenAccident) {
       const diseasedPart = getWagonPartDysentery();
       if (diseasedPart === "the wagon") {
         theWagonItself = "dysentery";
+        // need to pause animation so user can see eventdiv.innertext
+        // reflect wagon disease visually
+        if (wagon) {
+          if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+          eventDiv.innerText = "Your wagon got dysentery!";
+          infoDiv.innerText = "Press spacebar to continue";
+          wagon.classList.add("dysentery");
+        }
       }
     }
 
