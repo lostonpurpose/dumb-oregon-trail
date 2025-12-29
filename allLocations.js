@@ -9,6 +9,17 @@ export const theKansasRiver = {
     nativeDaysLost: 2
 };
 
+export const bigBlueRiver = {
+    isFort: "no",
+    flavorText: "You have reached the Big Blue River! It it quite big, and fairly blue. It is 330 feet wide and 8.5 feet deep. What will you do?",
+    options: "1. Attempt to ford the river\n\n2. Pay for a ferry ($25)\n\n3. Hire a native to find a suitable crossing ($12, lose 3 days)",
+    width: 330,
+    depth: 8.5,
+    ferryCost: 25,
+    nativeCost: 12,
+    nativeDaysLost: 3
+};
+
 export const fortKearney = {
     isFort: "yes",
     flavorText: "You have reached Fort Kearney! The small fort town bustles with activity. What would you like to do?",
@@ -20,6 +31,20 @@ export const fortKearney = {
     itemCost: {"wagon wheels": 20, "ox yokes": 10}
 };
 
+// chimney rock
+export const chimneyRock = {
+    isFort: "landmark",
+    flavorText: "You have reached the Chimney Rock! What a fantastic rock, you think to yourself. What will you do?",
+    options: "1. Continue on the trail\n\n",
+                // "2. Rest\n\n"
+    // width: 330,
+    // depth: 8.5,
+    // ferryCost: 25,
+    // nativeCost: 12,
+    // nativeDaysLost: 3
+};
+
+
 export const fortLaramie = {
     isFort: "yes",
     flavorText: "You have reached Fort Laramie! This is rugged town struggling to get by. What would you like to do?",
@@ -29,6 +54,19 @@ export const fortLaramie = {
     buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Wagon Axle",
     items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
     itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
+};
+
+// independence rock
+export const independenceRock = {
+    isFort: "landmark",
+    flavorText: "You have reached the Independence Rock! Wow, you all say. Who's got dysentery? Take stock. There are some wide-leafed plants around. Perfect for wiping, you think. What will you do?",
+    options: "1. Continue on the trail\n\n",
+                // "2. Rest\n\n"
+    // width: 330,
+    // depth: 8.5,
+    // ferryCost: 25,
+    // nativeCost: 12,
+    // nativeDaysLost: 3
 };
 
 export const fortBridger = {
@@ -83,10 +121,40 @@ export const fortBoise = {
     itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
 };
 
+// blue mountains
+export const blueMountains = {
+    isFort: "landmark",
+    flavorText: "You have reached the Blue Mountains! Someone mutters that it's not nearly as blue as the Big Blue River. You think the early pioneers could have been more creative with their naming. What will you do?",
+    options: "1. Continue on the trail\n\n",
+                // "2. Rest\n\n"
+    // width: 330,
+    // depth: 8.5,
+    // ferryCost: 25,
+    // nativeCost: 12,
+    // nativeDaysLost: 3
+};
 
-// RIVERSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-// RIVERSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+// fort walla walla
+export const fortWallaWalla = {
+    isFort: "yes",
+    flavorText: "You have reached Fort Walla Walla! The town is wallowing in dysentery. But it's not just the inhabitants... the entire town itself has dysentery. What would you like to do?",
+    options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
+    foodAvailable: 300,
+    buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Supplies",
+    items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
+    itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
+};
 
+// oregon city
+export const oregonCity = {
+    isFort: "yes",
+    flavorText: "You have reached the end of the Trail! And somehow you still have people alive. Sakes alive! Well done. But you notice the Oregon Valley is not as verdant as you were told. In fact, the vegetation has an odd tea-colored tint to it, along with a distinctive smell... Anyhow, contratulations on finishing the trail!",
+    // options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
+    // foodAvailable: 300,
+    // buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Supplies",
+    // items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
+    // itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
+};
 
 
 // independence, kansas river, big blue river, fort kearney, chimney rock, fort laramie, independence rock, south pass == green river or fort bridger
