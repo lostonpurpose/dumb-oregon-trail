@@ -9,6 +9,18 @@ export const theKansasRiver = {
     nativeDaysLost: 2
 };
 
+// big blue river
+export const bigBlueRiver = {
+    isFort: "no",
+    flavorText: "You have reached the Big Blue River! It it quite big, and fairly blue. It is 330 feet wide and 8.5 feet deep. What will you do?",
+    options: "1. Attempt to ford the river\n\n2. Pay for a ferry ($25)\n\n3. Hire a native to find a suitable crossing ($12, lose 3 days)",
+    width: 330,
+    depth: 8.5,
+    ferryCost: 25,
+    nativeCost: 12,
+    nativeDaysLost: 3
+};
+
 export const fortKearney = {
     isFort: "yes",
     flavorText: "You have reached Fort Kearney! The small fort town bustles with activity. What would you like to do?",
@@ -20,6 +32,20 @@ export const fortKearney = {
     itemCost: {"wagon wheels": 20, "ox yokes": 10}
 };
 
+// chimney rock
+export const chimneyRock = {
+    isFort: "landmark",
+    flavorText: "You have reached the Chimney Rock! What a fantastic rock, you think to yourself. What will you do?",
+    options: "1. Continue on the trail\n\n",
+                // "2. Rest\n\n"
+    // width: 330,
+    // depth: 8.5,
+    // ferryCost: 25,
+    // nativeCost: 12,
+    // nativeDaysLost: 3
+};
+
+
 export const fortLaramie = {
     isFort: "yes",
     flavorText: "You have reached Fort Laramie! This is rugged town struggling to get by. What would you like to do?",
@@ -30,6 +56,8 @@ export const fortLaramie = {
     items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
     itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
 };
+
+// independence rock
 
 export const fortBridger = {
     isFort: "yes",
@@ -82,6 +110,14 @@ export const fortBoise = {
     items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
     itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
 };
+
+// blue mountains
+
+// fort walla walla
+
+// the dulles
+
+// oregon city
 
 
 // RIVERSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
