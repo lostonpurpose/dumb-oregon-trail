@@ -65,11 +65,19 @@ export function renderPassengers() {
   itemTitle.innerText = "Items \n\n"
   Object.entries(firstParty.items).forEach(([item, amount]) => {
     const itemLi = document.createElement("li");
+    const status = firstParty.partStatus && firstParty.partStatus[item];
+    
     if (item === "food") {
-      itemLi.textContent = `${item} : ${amount} lbs`;
+      itemLi.textContent = status ? `${item} : ${amount} lbs - ${status}` : `${item} : ${amount} lbs`;
     } else {
-      itemLi.textContent = `${item} : ${amount}`;
+      itemLi.textContent = status ? `${item} : ${amount} - ${status}` : `${item} : ${amount}`;
     }
+    
+    // Apply red text styling if part is diseased
+    if (status) {
+      itemLi.classList.add("passenger-info-text");
+    }
+    
     items.appendChild(itemLi);
   });
 };

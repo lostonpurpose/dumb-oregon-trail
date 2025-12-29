@@ -8,6 +8,7 @@ export class Party {
         this.money = money;
         this.items = items;
         this.occupation = occupation;
+        this.partStatus = {}; // track wagon part diseases
     }
 };
 

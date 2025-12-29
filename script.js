@@ -1,4 +1,4 @@
-import { theKansasRiver, fortKearney, fortLaramie, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise } from "./allLocations.js";
+import { theKansasRiver, bigBlueRiver, fortKearney, chimneyRock, fortLaramie, independenceRock, fortBridger, theGreenRiver, fortHall, theSnakeRiver, fortBoise, blueMountains, fortWallaWalla, oregonCity } from "./allLocations.js";
 import { buyFoodInput, buyItemsInput } from "./Logic-Scripts/forts.js";
 import { fordRiver, takeFerry, hireNative } from "./Logic-Scripts/rivers.js";
 import { diseases, accidents, getRandomAccident, getBoon, lostDays, applyDiseaseTick } from "./events.js";
@@ -118,23 +118,18 @@ function escalateDisease(existingDisease, baseDisease) {
   // assigning correct casing for allLocation.js lookup
   export const fortData = {
     "theKansasRiver": theKansasRiver,
-    //new
     "BigBlueRiver": bigBlueRiver,
     "FortKearney": fortKearney,
-    //new
     "ChimneyRock": chimneyRock,
     "FortLaramie": fortLaramie,
-    //new
     "IndependenceRock": independenceRock,
     "FortBridger": fortBridger,
     "theGreenRiver": theGreenRiver,
     "FortHall": fortHall,
     "theSnakeRiver": theSnakeRiver,
     "FortBoise": fortBoise,
-    // below are new
     "BlueMountains": blueMountains,
     "FortWallaWalla": fortWallaWalla,
-    "theDalles": theDalles,
     "OregonCity": oregonCity
   };
 
@@ -506,7 +501,7 @@ export function lostDaysCalculator(chosenAccident) {
     // scripts to get a random wagon part that will get dysentery after a certain distance........
     
     else if (eventChance >= 15 && eventChance < 18) { // wagon part dysentery event
-      const wagonParts = ["the wagon"]; // below will be the one to use, just testing wagon only dysentery for now
+      const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"]; // below will be the one to use, just testing wagon only dysentery for now
       // const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
 
       function pickWagonPart() {
@@ -520,6 +515,10 @@ export function lostDaysCalculator(chosenAccident) {
       }
 
       const diseasedPart = getWagonPartDysentery();
+      if (!diseasedPart) return;
+      // prevent stacking dysentery on wagon parts
+      if (firstParty.partStatus && firstParty.partStatus[diseasedPart] === "dysentery") return;
+
       if (diseasedPart === "the wagon") {
         theWagonItself = "dysentery";
         // need to pause animation so user can see eventdiv.innertext
@@ -531,14 +530,25 @@ export function lostDaysCalculator(chosenAccident) {
           wagon.classList.add("dysentery");
         }
       }
-    }
+        
+        else if (diseasedPart != "the wagon") {
+        if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+
+          // mark the wagon part as diseased in partStatus
+          if (!firstParty.partStatus) firstParty.partStatus = {};
+          firstParty.partStatus[diseasedPart] = "dysentery";
+
+          eventDiv.innerText = `Your ${diseasedPart} got dysentery!`;
+          infoDiv.innerText = "Press spacebar to continue";
+          renderPassengers(); // update UI to show diseased part in red
+        }
 
     // end wagon part dysentery code..........................................................
 
 
 
     // adding boons here ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    else if (eventChance === 20) {
+    if (eventChance === 20) {
       console.log(eventChance + "this should fire");
       let chosenBoon = getBoon();
       console.log("chosenBoon:", chosenBoon);

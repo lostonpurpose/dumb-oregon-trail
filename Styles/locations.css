@@ -6,31 +6,31 @@
 }
 
 .route-2 {
-    width: 80vw;
+    width: 130vw;
 }
 .path-2 {
-    width: 70vw;
+    width: 120vw;
 }
 
 .route-3 {
-    width: 100vw;
+    width: 80vw;
 }
 .path-3 {
-    width: 90vw;
+    width: 70vw;
 }
 
 .route-4 {
-    width: 120vw;
+    width: 110vw;
 }
 .path-4 {
-    width: 110vw;
+    width: 100vw;
 }
 
 .route-5 {
-    width: 80vw;
+    width: 100vw;
 }
 .path-5 {
-    width: 70vw;
+    width: 90vw;
 }
 
 .route-6 {
@@ -41,15 +41,57 @@
 }
 
 .route-7 {
-    width: 170vw;
+    width: 140vw;
 }
 .path-7 {
-    width: 160vw;
+    width: 130vw;
 }
 
 .route-8 {
-    width: 160vw;
+    width: 100vw;
 }
 .path-8 {
+    width: 90vw;
+}
+
+.route-9 {
+    width: 160vw;
+}
+.path-9 {
     width: 150vw;
+}
+
+.route-10 {
+    width: 150vw;
+}
+.path-10 {
+    width: 140vw;
+}
+
+.route-11 {
+    width: 110vw;
+}
+.path-11 {
+    width: 100vw;
+}
+
+.route-12 {
+    width: 80vw;
+}
+.path-12 {
+    width: 70vw;
+}
+
+.route-13 {
+    width: 190vw;
+}
+.path-13 {
+    width: 180vw;
+}
+
+.route-14 {
+    width: 100vw;
+}
+.path-14 {
+    width: 90vw;
 }
