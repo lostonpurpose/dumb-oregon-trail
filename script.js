@@ -67,17 +67,13 @@ function escalateDisease(existingDisease, baseDisease) {
   const route6 = document.querySelector(".route-6");
   const route7 = document.querySelector(".route-7");
   const route8 = document.querySelector(".route-8");
-  // below are new
   const route9 = document.querySelector(".route-9");
   const route10 = document.querySelector(".route-10");
   const route11 = document.querySelector(".route-11");
   const route12 = document.querySelector(".route-12");
   const route13 = document.querySelector(".route-13");
   const route14 = document.querySelector(".route-14");
-  const route15 = document.querySelector(".route-15");
-  const route16 = document.querySelector(".route-16");
-  const route17 = document.querySelector(".route-17");
-  const route18 = document.querySelector(".route-18");
+
 
   const path1 = document.querySelector(".path-1");
   const path2 = document.querySelector(".path-2");
@@ -87,17 +83,13 @@ function escalateDisease(existingDisease, baseDisease) {
   const path6 = document.querySelector(".path-6");
   const path7 = document.querySelector(".path-7");
   const path8 = document.querySelector(".path-8");
-  // below are new
   const path9 = document.querySelector(".path-9");
   const path10 = document.querySelector(".path-10");
   const path11 = document.querySelector(".path-11");
   const path12 = document.querySelector(".path-12");
   const path13 = document.querySelector(".path-13");
   const path14 = document.querySelector(".path-14");
-  const path15 = document.querySelector(".path-15");
-  const path16 = document.querySelector(".path-16");
-  const path17 = document.querySelector(".path-17");
-  const path18 = document.querySelector(".path-18");
+
 
   const loc1 = document.getElementById("loc-1");
   const loc2 = document.getElementById("loc-2");
@@ -107,17 +99,13 @@ function escalateDisease(existingDisease, baseDisease) {
   const loc6 = document.getElementById("loc-6");
   const loc7 = document.getElementById("loc-7");
   const loc8 = document.getElementById("loc-8");
-  // below are new
   const loc9 = document.querySelector(".loc-9");
   const loc10 = document.querySelector(".loc-10");
   const loc11 = document.querySelector(".loc-11");
   const loc12 = document.querySelector(".loc-12");
   const loc13 = document.querySelector(".loc-13");
   const loc14 = document.querySelector(".loc-14");
-  const loc15 = document.querySelector(".loc-15");
-  const loc16 = document.querySelector(".loc-16");
-  const loc17 = document.querySelector(".loc-17");
-  const loc18 = document.querySelector(".loc-18");
+
 
   export const infoDiv = document.querySelector(".info-div");
 
