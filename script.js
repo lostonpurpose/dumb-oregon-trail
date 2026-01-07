@@ -48,6 +48,19 @@ function escalateDisease(existingDisease, baseDisease) {
       }
       return true;
       }
+    
+    // Check if all party members are dead
+    const allDead = firstParty.wagons.every(wagon => 
+      wagon.passengers.every(passenger => 
+        passenger.isAlive === false || (typeof passenger.health === "number" && passenger.health <= 0)
+      )
+    );
+    
+    if (allDead) {
+      totalDeath();
+      return true;
+    }
+    
     return false;
   };
 
