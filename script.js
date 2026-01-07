@@ -6,6 +6,9 @@ import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
 import { startGame } from "./Logic-Scripts/start-party.js";
 
+// expose to console for debugging
+window.firstParty = firstParty;
+
 // turns the wagon brown if it has dysentery
 const wagon = document.querySelector("#wagon");
 let theWagonItself = "healthy";
@@ -137,13 +140,13 @@ function escalateDisease(existingDisease, baseDisease) {
 
 
   // using this to check each path for miles left
-  const allPaths = [path1, path2, path3, path4, path5, path6, path7, path8];
+  const allPaths = [path1, path2, path3, path4, path5, path6, path7, path8, path9, path10, path11, path12, path13, path14];
   let currentPathIndex = 0;
   // not using currently
-  const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8];
+  const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8, loc9, loc10, loc11, loc12, loc13, loc14];
   export let currentLocationIndex = 0;
   // not using currently
-  const allRoutes = [route1, route2, route3, route4, route5, route6, route7, route8];
+  const allRoutes = [route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11, route12, route13, route14];
   let currentRouteIndex = 0;
 
   export let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
@@ -152,7 +155,7 @@ function escalateDisease(existingDisease, baseDisease) {
   let currentPath = allPaths[currentPathIndex];
   let currentRoute = allRoutes[currentRouteIndex]; // added this so i can apply width style to route container and shrink it with movement
   let milesLeft = parseInt(currentPath.dataset.miles, 10);
-  miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}` 
+  miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}` 
 
 
 
@@ -167,10 +170,20 @@ function escalateDisease(existingDisease, baseDisease) {
   infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game. 
 
   function autoMoveWagon(path, route, step = 10, interval = 500) {
-    infoDiv.innerText = "";
-    eventDiv.innerText = "";
+    // don't clear messages if in a paused state
+    if (gameState.mode === "default") {
+      infoDiv.innerText = "";
+      eventDiv.innerText = "";
+    }
 
     autoMoveInterval = setInterval(() => {
+      // pause if not in default mode (death, buyFood, etc.)
+      if (gameState.mode !== "default") {
+        clearInterval(autoMoveInterval);
+        autoMoveInterval = null;
+        return;
+      }
+
       // NEW check for death
       checkForDeath();
       // END check for death
@@ -197,9 +210,9 @@ function escalateDisease(existingDisease, baseDisease) {
 
       path.style.width = `${milesLeft}vw`;
       route.style.width = `${milesLeft + 10}vw`;
-      miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
+      miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}`;
 
-      if (arrived || milesLeft <= 20) { // THIS FIXED WAGON OBSCURING THE LOC!!!! 
+      if (arrived || milesLeft <= 20) { // THIS FIXED WAGON OBSCURING THE LOC!!!!  
         clearInterval(autoMoveInterval);
         autoMoveInterval = null;
         arrived = true;
@@ -218,6 +231,15 @@ function escalateDisease(existingDisease, baseDisease) {
   document.body.addEventListener("keyup", (e) => {
     
       console.log("alex 2")
+      
+      // handle death-pause: resume movement on spacebar
+      if (e.key === ' ' && gameState.mode === "death-pause") {
+        eventDiv.innerText = "";
+        gameState.mode = "default";
+        autoMoveWagon(allPaths[currentPathIndex], allRoutes[currentRouteIndex]);
+        return;
+      }
+
       if (e.key === ' ' && !arrived && !checkForDeath()) {
         
           console.log("alex 3")
@@ -335,7 +357,7 @@ export function townOptions(currentLocationKey) {
           const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
           if (nextRoute) {
             milesLeft = parseInt(allPaths[currentPathIndex].dataset.miles, 10);
-            miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
+            miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}`;
           } else {
             miles.innerText = `You have reached the end of the trail!`;
           }
@@ -348,24 +370,29 @@ export function townOptions(currentLocationKey) {
         const key = datasetLoc ? String(datasetLoc).replace(/\s+/g, "") : "";
         const locData = (typeof fortData !== "undefined" && fortData) ? fortData[key] : null;
 
-        // normalize isFort value for robust checks (handles "yes"/"no"/true/false/legacy)
+        // normalize isFort value for robust checks
         const isFortFlag = locData && typeof locData.isFort !== "undefined"
           ? String(locData.isFort).toLowerCase()
           : null;
 
-        const isFort =
-          Boolean(locData) &&
+        // explicitly check for "no" first (rivers)
+        const isRiver = isFortFlag === "no" || isFortFlag === "false" || isFortFlag === "n";
+
+        const isFort = !isRiver && Boolean(locData) &&
           (
             isFortFlag === "true" ||
             isFortFlag === "yes" ||
             isFortFlag === "y" ||
-            isFortFlag === "1" ||
-            (locData.type && String(locData.type).toLowerCase() === "fort") ||
-            Boolean(locData.buySupplies) // legacy indicator for a fort
+            isFortFlag === "1"
           );
 
-        if (isFort) {
-          // show fort text from the data and pass the data object to the buy handler
+        if (isRiver) {
+          // River — take ferry
+          gameState.mode = "takeFerry";
+          console.log("takeFerry (river) for:", key, "locData:", locData);
+          takeFerry(currentLocation);
+        } else if (isFort) {
+          // Fort — buy food
           gameState.mode = "buyFood";
           console.log("buyFoodInput firing for fort:", key, locData);
           if (locData) {
@@ -375,13 +402,9 @@ export function townOptions(currentLocationKey) {
             flavorText.innerText = "";
             options.innerText = "";
           }
-          // pass locData first (older buyFoodInput expects the fort object)
           buyFoodInput(locData, currentLocation);
         } else {
-          // River (or unknown location) — take ferry / ford
-          gameState.mode = "takeFerry";
-          console.log("takeFerry (river) for:", key, "locData:", locData);
-          takeFerry(currentLocation);
+          console.warn("Unknown location type for key 2:", key);
         }
       }
 
@@ -442,7 +465,7 @@ export function lostDaysCalculator(chosenAccident) {
     }
     // days ++
     days2.dayCounter ++;
-    dayDiv.innerText = days2.dayCounter;
+    // dayDiv.innerText = days2.dayCounter; DON'T NEED TO SHOW DAYS CURRENTLY
     i++;
     updateFood(1); // update for 1 day each tick
     diseaseToHealth(2); // updates for diseases. change 2 to disease severity
@@ -454,7 +477,10 @@ export function lostDaysCalculator(chosenAccident) {
 }
   // replace the existing randomEvents function with this hardened version
   function randomEvents(e) {
-    eventDiv.innerText = "";
+    // don't clear death messages
+    if (gameState.mode !== "death-pause") {
+      eventDiv.innerText = "";
+    }
     let eventChance = (Math.floor(Math.random() * 20) + 1); // 1-20 chance
 
     if (eventChance >= 18 && eventChance < 20){ // currently 18-19 roll means accident
