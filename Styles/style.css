@@ -11,11 +11,12 @@ html, body {
     margin: 0;
     font-family: "Press Start 2P", system-ui;
     background-color: antiquewhite;
+    overflow-x: hidden;
 }
 
 #sky {
     width: 100%; 
-    height: 57vh;
+    height: 55.7vh;
     position: absolute;
     top: 0;
     margin: 0;
@@ -60,16 +61,19 @@ html, body {
     height: 38vh;
     column-gap: 30px; /* horizontal only */
     row-gap: 0;
-    margin: 0% 10% 0% 10%;
+    /* margin: 0% 10% 0% 10%; */
+    width: 60%;
     position: relative;
-    grid-template-rows: repeat(5, 1fr);
+    left: 50%;
+    transform: translateX(-50%);
+    grid-template-rows: repeat(6, 1fr);
     grid-template-areas: 
-        'header header header header'
-        'wagon-1 wagon-2 wagon-3 items'
-        'wagon-1 wagon-2 wagon-3 items'
-        'wagon-1 wagon-2 wagon-3 items'
-        'wagon-1 wagon-2 wagon-3 items'
-        'wagon-1 wagon-2 wagon-3 items'
+        'header header'
+        'wagon-1 items'
+        'wagon-1 items'
+        'wagon-1 items'
+        'wagon-1 items'
+        'wagon-1 items'
     ;
 }
 
@@ -96,6 +100,16 @@ html, body {
     color: rgb(94, 94, 94);
 }
 
+/* Add skull icon via CSS and nudge baseline for alignment */
+.passenger-dead::before {
+    content: "☠️";
+    position: relative;
+    top: -0.15em;
+    display: inline-block;
+    margin-right: 3px;
+    line-height: 1;
+}
+
 /* this just makes it so the dynamically gen party text respects extra spaces */
 .wagon-name-1, .wagon-name-2, .wagon-name-3, .item-span {
     white-space: pre;
@@ -107,11 +121,12 @@ html, body {
 } */
 
 .routes-container {
-    height: 16vh;
+    height: 15vh;
     position: relative;
     display: flex;
     align-items: center;
     top: 0vh;
+    background-repeat: no-repeat;
 }
 
 .info-container {
@@ -210,6 +225,7 @@ html, body {
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 2;
+    clip-path: view-box(0 0 300 150);
 }
 #wagon.dysentery {
     position: absolute;
@@ -224,7 +240,7 @@ html, body {
     z-index: 2;
 }
 
-.route-1, .route-2, .route-3, .route-4, .route-5, .route-6, .route-7, .route-8, #background-bar {
+.route-1, .route-2, .route-3, .route-4, .route-5, .route-6, .route-7, .route-8, .route-9, .route-10, .route-11, .route-12, .route-13, .route-14, #background-bar {
     height: 100%;
     /* background-color: rgb(217, 176, 255); */
     display: flex;
@@ -240,7 +256,7 @@ html, body {
     background-image: url("../images/mountains.png");
 }
 
-.path-1, .path-2, .path-3, .path-4, .path-5, .path-6, .path-7, .path-8 {
+.path-1, .path-2, .path-3, .path-4, .path-5, .path-6, .path-7, .path-8, .path-9, .path-10, .path-11, .path-12, .path-13, .path-14 {
     height: 100%;
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
@@ -249,7 +265,7 @@ html, body {
 
 
 /* forts only */
-#loc-2, #loc-3, #loc-4, #loc-6, #loc-8 {
+#loc-3, #loc-5, #loc-7, #loc-9, #loc-11 {
     width: 10vw;
     height: 100%;
     /* background-color: rgb(217, 176, 255); */
@@ -258,12 +274,24 @@ html, body {
 }
 
 /* rivers only */
-#loc-1, #loc-5, #loc-7 {
+#loc-1, #loc-2, #loc-8, #loc-10 {
     width: 10vw;
     height: 100%;
     /* background-color: rgb(217, 176, 255); */
     margin: 0;
     background-image: url("../images/ot\ river.png");
+    background-repeat: no-repeat;
+    background-size: 100% 60%;
+    background-position: bottom;
+}
+
+/* special only */
+#loc-4, #loc-6, #loc-12 {
+    width: 10vw;
+    height: 100%;
+    /* background-color: rgb(217, 176, 255); */
+    margin: 0;
+    background-image: url("../images/indierock.png");
     background-repeat: no-repeat;
     background-size: 100% 60%;
     background-position: bottom;

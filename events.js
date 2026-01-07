@@ -123,8 +123,7 @@ export function applyDiseaseTick() {
         if (passenger.health <= 0) {
           passenger.health = 0;
           passenger.isAlive = false;
-          // keep existing death handling call
-          deadPerson();
+          // death message handled by renderPassengers()
         }
       }
     });

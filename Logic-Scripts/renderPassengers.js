@@ -1,4 +1,8 @@
 import { firstParty } from "../createParty.js";
+import { eventDiv, gameState } from "../script.js";
+
+// track passengers whose deaths have been announced to avoid repeating
+const announcedDeaths = new Set();
 
 // wagon and passengers
 let allWagons = document.querySelectorAll(".wagons ul");
@@ -43,6 +47,16 @@ export function renderPassengers() {
       if (passenger.isAlive === false || (typeof passenger.health === "number" && passenger.health <= 0)) {
         li.textContent = `${passenger.name}: dead`;
         li.classList.add("passenger-dead");
+
+        // only announce death once per passenger
+        if (!announcedDeaths.has(passenger.name)) {
+          console.log("DEATH DETECTED:", passenger.name, "gameState:", gameState, "eventDiv:", eventDiv);
+          announcedDeaths.add(passenger.name);
+          eventDiv.innerText = `${passenger.name} has died. Press spacebar to continue.`;
+          gameState.mode = "death-pause"; // signal script.js to pause movement
+          console.log("Set gameState.mode to:", gameState.mode);
+        }
+
       } else {
         const disease = formatDisease(passenger.disease);
         if (disease) {

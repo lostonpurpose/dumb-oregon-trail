@@ -6,6 +6,9 @@ import { firstParty, updateFood, diseaseToHealth } from "./createParty.js";
 import { renderPassengers } from "./Logic-Scripts/renderPassengers.js";
 import { startGame } from "./Logic-Scripts/start-party.js";
 
+// expose to console for debugging
+window.firstParty = firstParty;
+
 // turns the wagon brown if it has dysentery
 const wagon = document.querySelector("#wagon");
 let theWagonItself = "healthy";
@@ -45,6 +48,19 @@ function escalateDisease(existingDisease, baseDisease) {
       }
       return true;
       }
+    
+    // Check if all party members are dead
+    const allDead = firstParty.wagons.every(wagon => 
+      wagon.passengers.every(passenger => 
+        passenger.isAlive === false || (typeof passenger.health === "number" && passenger.health <= 0)
+      )
+    );
+    
+    if (allDead) {
+      totalDeath();
+      return true;
+    }
+    
     return false;
   };
 
@@ -137,13 +153,13 @@ function escalateDisease(existingDisease, baseDisease) {
 
 
   // using this to check each path for miles left
-  const allPaths = [path1, path2, path3, path4, path5, path6, path7, path8];
+  const allPaths = [path1, path2, path3, path4, path5, path6, path7, path8, path9, path10, path11, path12, path13, path14];
   let currentPathIndex = 0;
   // not using currently
-  const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8];
+  const allLocations = [loc1, loc2, loc3, loc4, loc5, loc6, loc7, loc8, loc9, loc10, loc11, loc12, loc13, loc14];
   export let currentLocationIndex = 0;
   // not using currently
-  const allRoutes = [route1, route2, route3, route4, route5, route6, route7, route8];
+  const allRoutes = [route1, route2, route3, route4, route5, route6, route7, route8, route9, route10, route11, route12, route13, route14];
   let currentRouteIndex = 0;
 
   export let currentLocation = document.getElementById(`loc-${currentLocationIndex + 1}`)
@@ -152,7 +168,7 @@ function escalateDisease(existingDisease, baseDisease) {
   let currentPath = allPaths[currentPathIndex];
   let currentRoute = allRoutes[currentRouteIndex]; // added this so i can apply width style to route container and shrink it with movement
   let milesLeft = parseInt(currentPath.dataset.miles, 10);
-  miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}` 
+  miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}` 
 
 
 
@@ -167,10 +183,18 @@ function escalateDisease(existingDisease, baseDisease) {
   infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game. 
 
   function autoMoveWagon(path, route, step = 10, interval = 500) {
-    infoDiv.innerText = "";
-    eventDiv.innerText = "";
-
     autoMoveInterval = setInterval(() => {
+      // pause if not in default mode (death, buyFood, etc.)
+      if (gameState.mode !== "default") {
+        clearInterval(autoMoveInterval);
+        autoMoveInterval = null;
+        return;
+      }
+
+      // while moving, ensure messages aren't shown
+      infoDiv.innerText = "";
+      eventDiv.innerText = "";
+
       // NEW check for death
       checkForDeath();
       // END check for death
@@ -197,9 +221,9 @@ function escalateDisease(existingDisease, baseDisease) {
 
       path.style.width = `${milesLeft}vw`;
       route.style.width = `${milesLeft + 10}vw`;
-      miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
+      miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}`;
 
-      if (arrived || milesLeft <= 20) { // THIS FIXED WAGON OBSCURING THE LOC!!!! 
+      if (arrived || milesLeft <= 20) { // THIS FIXED WAGON OBSCURING THE LOC!!!!  
         clearInterval(autoMoveInterval);
         autoMoveInterval = null;
         arrived = true;
@@ -218,6 +242,15 @@ function escalateDisease(existingDisease, baseDisease) {
   document.body.addEventListener("keyup", (e) => {
     
       console.log("alex 2")
+      
+      // handle death-pause: resume movement on spacebar
+      if (e.key === ' ' && gameState.mode === "death-pause") {
+        eventDiv.innerText = "";
+        gameState.mode = "default";
+        autoMoveWagon(allPaths[currentPathIndex], allRoutes[currentRouteIndex]);
+        return;
+      }
+
       if (e.key === ' ' && !arrived && !checkForDeath()) {
         
           console.log("alex 3")
@@ -335,7 +368,7 @@ export function townOptions(currentLocationKey) {
           const nextRoute = document.querySelector(`.route-${currentPathIndex + 1}`);
           if (nextRoute) {
             milesLeft = parseInt(allPaths[currentPathIndex].dataset.miles, 10);
-            miles.innerText = `${milesLeft} miles until ${currentLocation.dataset.location}`;
+            miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}`;
           } else {
             miles.innerText = `You have reached the end of the trail!`;
           }
@@ -348,24 +381,29 @@ export function townOptions(currentLocationKey) {
         const key = datasetLoc ? String(datasetLoc).replace(/\s+/g, "") : "";
         const locData = (typeof fortData !== "undefined" && fortData) ? fortData[key] : null;
 
-        // normalize isFort value for robust checks (handles "yes"/"no"/true/false/legacy)
+        // normalize isFort value for robust checks
         const isFortFlag = locData && typeof locData.isFort !== "undefined"
           ? String(locData.isFort).toLowerCase()
           : null;
 
-        const isFort =
-          Boolean(locData) &&
+        // explicitly check for "no" first (rivers)
+        const isRiver = isFortFlag === "no" || isFortFlag === "false" || isFortFlag === "n";
+
+        const isFort = !isRiver && Boolean(locData) &&
           (
             isFortFlag === "true" ||
             isFortFlag === "yes" ||
             isFortFlag === "y" ||
-            isFortFlag === "1" ||
-            (locData.type && String(locData.type).toLowerCase() === "fort") ||
-            Boolean(locData.buySupplies) // legacy indicator for a fort
+            isFortFlag === "1"
           );
 
-        if (isFort) {
-          // show fort text from the data and pass the data object to the buy handler
+        if (isRiver) {
+          // River — take ferry
+          gameState.mode = "takeFerry";
+          console.log("takeFerry (river) for:", key, "locData:", locData);
+          takeFerry(currentLocation);
+        } else if (isFort) {
+          // Fort — buy food
           gameState.mode = "buyFood";
           console.log("buyFoodInput firing for fort:", key, locData);
           if (locData) {
@@ -375,13 +413,9 @@ export function townOptions(currentLocationKey) {
             flavorText.innerText = "";
             options.innerText = "";
           }
-          // pass locData first (older buyFoodInput expects the fort object)
           buyFoodInput(locData, currentLocation);
         } else {
-          // River (or unknown location) — take ferry / ford
-          gameState.mode = "takeFerry";
-          console.log("takeFerry (river) for:", key, "locData:", locData);
-          takeFerry(currentLocation);
+          console.warn("Unknown location type for key 2:", key);
         }
       }
 
@@ -442,7 +476,7 @@ export function lostDaysCalculator(chosenAccident) {
     }
     // days ++
     days2.dayCounter ++;
-    dayDiv.innerText = days2.dayCounter;
+    // dayDiv.innerText = days2.dayCounter; DON'T NEED TO SHOW DAYS CURRENTLY
     i++;
     updateFood(1); // update for 1 day each tick
     diseaseToHealth(2); // updates for diseases. change 2 to disease severity
@@ -454,8 +488,14 @@ export function lostDaysCalculator(chosenAccident) {
 }
   // replace the existing randomEvents function with this hardened version
   function randomEvents(e) {
-    eventDiv.innerText = "";
+    // don't clear death messages
+    if (gameState.mode !== "death-pause") {
+      eventDiv.innerText = "";
+    }
     let eventChance = (Math.floor(Math.random() * 20) + 1); // 1-20 chance
+    if (eventChance === 20) {
+      console.log('[randomEvents] roll 20: boon triggered');
+    }
 
     if (eventChance >= 18 && eventChance < 20){ // currently 18-19 roll means accident
       let chosenAccident = getRandomAccident();
@@ -500,12 +540,25 @@ export function lostDaysCalculator(chosenAccident) {
 
     // scripts to get a random wagon part that will get dysentery after a certain distance........
     
-    else if (eventChance >= 15 && eventChance < 18) { // wagon part dysentery event
+    else if (eventChance >= 15 && eventChance < 18) { // wagon part dysentery event, currently on 15-17 roll
+      // Gate wagon/wagon-part dysentery until after location 6
+      // currentLocationIndex is 0-based, so index >= 6 means location number >= 7
+      if (currentLocationIndex < 6) {
+        return; // before loc 7, skip wagon/part dysentery events
+      }
       const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"]; // below will be the one to use, just testing wagon only dysentery for now
       // const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
 
+      // build an available list excluding already diseased parts/wagon
+      const availableParts = wagonParts.filter(part => {
+        const alreadyDiseasedPart = firstParty.partStatus && firstParty.partStatus[part] === "dysentery";
+        const wagonAlreadyDiseased = part === "the wagon" && (theWagonItself === "dysentery" || (wagon && wagon.classList.contains("dysentery")));
+        return !alreadyDiseasedPart && !wagonAlreadyDiseased;
+      });
+
       function pickWagonPart() {
-        return wagonParts[Math.floor(Math.random() * wagonParts.length)];
+        if (availableParts.length === 0) return null;
+        return availableParts[Math.floor(Math.random() * availableParts.length)];
       }
 
       // grabbing the wagon part safely in separate wrapper
@@ -515,19 +568,25 @@ export function lostDaysCalculator(chosenAccident) {
       }
 
       const diseasedPart = getWagonPartDysentery();
-      if (!diseasedPart) return;
-      // prevent stacking dysentery on wagon parts
+      if (!diseasedPart) return; // nothing eligible; skip
+      // prevent stacking dysentery on wagon parts (defensive)
       if (firstParty.partStatus && firstParty.partStatus[diseasedPart] === "dysentery") return;
 
       if (diseasedPart === "the wagon") {
         theWagonItself = "dysentery";
+        // record wagon disease status for consistent UI/state checks
+        if (!firstParty.partStatus) firstParty.partStatus = {};
+        firstParty.partStatus["the wagon"] = "dysentery";
+
         // need to pause animation so user can see eventdiv.innertext
         // reflect wagon disease visually
         if (wagon) {
           if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
           eventDiv.innerText = "Your wagon got dysentery!";
           infoDiv.innerText = "Press spacebar to continue";
-          wagon.classList.add("dysentery");
+          if (!wagon.classList.contains("dysentery")) {
+            wagon.classList.add("dysentery");
+          }
         }
       }
         
@@ -542,6 +601,7 @@ export function lostDaysCalculator(chosenAccident) {
           infoDiv.innerText = "Press spacebar to continue";
           renderPassengers(); // update UI to show diseased part in red
         }
+    } // closes the else if (eventChance >= 15 && eventChance < 18) block
 
     // end wagon part dysentery code..........................................................
 
@@ -552,7 +612,7 @@ export function lostDaysCalculator(chosenAccident) {
       console.log(eventChance + "this should fire");
       let chosenBoon = getBoon();
       console.log("chosenBoon:", chosenBoon);
-      infoDiv.innerText = `${chosenBoon.infoMessage}`;
+      eventDiv.innerText = `${chosenBoon.infoMessage}`;
       renderPassengers();
 
       console.log("state is:", autoMoveInterval);
@@ -566,7 +626,7 @@ export function lostDaysCalculator(chosenAccident) {
       if (arrived === true) {
         eventChance = 0;
       }
-      eventDiv.innerText = 'Press spacebar to continue';
+      infoDiv.innerText = 'Press spacebar to continue';
     } else {
       return;
     }
@@ -574,7 +634,7 @@ export function lostDaysCalculator(chosenAccident) {
 
 export function totalDeath() {
   infoDiv.innerText = "You have made a huge mistake.";
-  eventDiv.innerText = "Everyone is dead";
+  eventDiv.innerText = "EVERYONE IS DEAD. YOU FAILED!";
   gameOver = true;
 };
 
