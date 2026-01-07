@@ -11,6 +11,7 @@ html, body {
     margin: 0;
     font-family: "Press Start 2P", system-ui;
     background-color: antiquewhite;
+    overflow-x: hidden;
 }
 
 #sky {
@@ -229,7 +230,7 @@ html, body {
     z-index: 2;
 }
 
-.route-1, .route-2, .route-3, .route-4, .route-5, .route-6, .route-7, .route-8, #background-bar {
+.route-1, .route-2, .route-3, .route-4, .route-5, .route-6, .route-7, .route-8, .route-9, .route-10, .route-11, .route-12, .route-13, .route-14, #background-bar {
     height: 100%;
     /* background-color: rgb(217, 176, 255); */
     display: flex;
@@ -245,7 +246,7 @@ html, body {
     background-image: url("../images/mountains.png");
 }
 
-.path-1, .path-2, .path-3, .path-4, .path-5, .path-6, .path-7, .path-8 {
+.path-1, .path-2, .path-3, .path-4, .path-5, .path-6, .path-7, .path-8, .path-9, .path-10, .path-11, .path-12, .path-13, .path-14 {
     height: 100%;
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
