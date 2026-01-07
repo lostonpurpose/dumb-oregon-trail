@@ -634,7 +634,7 @@ export function lostDaysCalculator(chosenAccident) {
 
 export function totalDeath() {
   infoDiv.innerText = "You have made a huge mistake.";
-  eventDiv.innerText = "Everyone is dead";
+  eventDiv.innerText = "EVERYONE IS DEAD. YOU FAILED!";
   gameOver = true;
 };
 
