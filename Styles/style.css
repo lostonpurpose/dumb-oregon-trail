@@ -60,16 +60,19 @@ html, body {
     height: 38vh;
     column-gap: 30px; /* horizontal only */
     row-gap: 0;
-    margin: 0% 10% 0% 10%;
+    /* margin: 0% 10% 0% 10%; */
+    width: 60%;
     position: relative;
-    grid-template-rows: repeat(5, 1fr);
+    left: 50%;
+    transform: translateX(-50%);
+    grid-template-rows: repeat(6, 1fr);
     grid-template-areas: 
-        'header header header header'
-        'wagon-1 wagon-2 wagon-3 items'
-        'wagon-1 wagon-2 wagon-3 items'
-        'wagon-1 wagon-2 wagon-3 items'
-        'wagon-1 wagon-2 wagon-3 items'
-        'wagon-1 wagon-2 wagon-3 items'
+        'header header'
+        'wagon-1 items'
+        'wagon-1 items'
+        'wagon-1 items'
+        'wagon-1 items'
+        'wagon-1 items'
     ;
 }
 

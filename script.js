@@ -570,6 +570,7 @@ export function lostDaysCalculator(chosenAccident) {
     } else {
       return;
     }
+    }
 };
 
 export function totalDeath() {
