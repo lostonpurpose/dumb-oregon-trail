@@ -170,12 +170,6 @@ function escalateDisease(existingDisease, baseDisease) {
   infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game. 
 
   function autoMoveWagon(path, route, step = 10, interval = 500) {
-    // don't clear messages if in a paused state
-    if (gameState.mode === "default") {
-      infoDiv.innerText = "";
-      eventDiv.innerText = "";
-    }
-
     autoMoveInterval = setInterval(() => {
       // pause if not in default mode (death, buyFood, etc.)
       if (gameState.mode !== "default") {
@@ -183,6 +177,10 @@ function escalateDisease(existingDisease, baseDisease) {
         autoMoveInterval = null;
         return;
       }
+
+      // while moving, ensure messages aren't shown
+      infoDiv.innerText = "";
+      eventDiv.innerText = "";
 
       // NEW check for death
       checkForDeath();
@@ -530,8 +528,16 @@ export function lostDaysCalculator(chosenAccident) {
       const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"]; // below will be the one to use, just testing wagon only dysentery for now
       // const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
 
+      // build an available list excluding already diseased parts/wagon
+      const availableParts = wagonParts.filter(part => {
+        const alreadyDiseasedPart = firstParty.partStatus && firstParty.partStatus[part] === "dysentery";
+        const wagonAlreadyDiseased = part === "the wagon" && (theWagonItself === "dysentery" || (wagon && wagon.classList.contains("dysentery")));
+        return !alreadyDiseasedPart && !wagonAlreadyDiseased;
+      });
+
       function pickWagonPart() {
-        return wagonParts[Math.floor(Math.random() * wagonParts.length)];
+        if (availableParts.length === 0) return null;
+        return availableParts[Math.floor(Math.random() * availableParts.length)];
       }
 
       // grabbing the wagon part safely in separate wrapper
@@ -541,19 +547,25 @@ export function lostDaysCalculator(chosenAccident) {
       }
 
       const diseasedPart = getWagonPartDysentery();
-      if (!diseasedPart) return;
-      // prevent stacking dysentery on wagon parts
+      if (!diseasedPart) return; // nothing eligible; skip
+      // prevent stacking dysentery on wagon parts (defensive)
       if (firstParty.partStatus && firstParty.partStatus[diseasedPart] === "dysentery") return;
 
       if (diseasedPart === "the wagon") {
         theWagonItself = "dysentery";
+        // record wagon disease status for consistent UI/state checks
+        if (!firstParty.partStatus) firstParty.partStatus = {};
+        firstParty.partStatus["the wagon"] = "dysentery";
+
         // need to pause animation so user can see eventdiv.innertext
         // reflect wagon disease visually
         if (wagon) {
           if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
           eventDiv.innerText = "Your wagon got dysentery!";
           infoDiv.innerText = "Press spacebar to continue";
-          wagon.classList.add("dysentery");
+          if (!wagon.classList.contains("dysentery")) {
+            wagon.classList.add("dysentery");
+          }
         }
       }
         
