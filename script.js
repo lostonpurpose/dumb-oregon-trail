@@ -480,6 +480,9 @@ export function lostDaysCalculator(chosenAccident) {
       eventDiv.innerText = "";
     }
     let eventChance = (Math.floor(Math.random() * 20) + 1); // 1-20 chance
+    if (eventChance === 20) {
+      console.log('[randomEvents] roll 20: boon triggered');
+    }
 
     if (eventChance >= 18 && eventChance < 20){ // currently 18-19 roll means accident
       let chosenAccident = getRandomAccident();
@@ -524,7 +527,12 @@ export function lostDaysCalculator(chosenAccident) {
 
     // scripts to get a random wagon part that will get dysentery after a certain distance........
     
-    else if (eventChance >= 15 && eventChance < 18) { // wagon part dysentery event
+    else if (eventChance >= 15 && eventChance < 18) { // wagon part dysentery event, currently on 15-17 roll
+      // Gate wagon/wagon-part dysentery until after location 6
+      // currentLocationIndex is 0-based, so index >= 6 means location number >= 7
+      if (currentLocationIndex < 6) {
+        return; // before loc 7, skip wagon/part dysentery events
+      }
       const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"]; // below will be the one to use, just testing wagon only dysentery for now
       // const wagonParts = ["the wagon", "wagon wheels", "wagon axles", "ox yokes"];
 
@@ -580,6 +588,7 @@ export function lostDaysCalculator(chosenAccident) {
           infoDiv.innerText = "Press spacebar to continue";
           renderPassengers(); // update UI to show diseased part in red
         }
+    } // closes the else if (eventChance >= 15 && eventChance < 18) block
 
     // end wagon part dysentery code..........................................................
 
@@ -590,7 +599,7 @@ export function lostDaysCalculator(chosenAccident) {
       console.log(eventChance + "this should fire");
       let chosenBoon = getBoon();
       console.log("chosenBoon:", chosenBoon);
-      infoDiv.innerText = `${chosenBoon.infoMessage}`;
+      eventDiv.innerText = `${chosenBoon.infoMessage}`;
       renderPassengers();
 
       console.log("state is:", autoMoveInterval);
@@ -604,10 +613,9 @@ export function lostDaysCalculator(chosenAccident) {
       if (arrived === true) {
         eventChance = 0;
       }
-      eventDiv.innerText = 'Press spacebar to continue';
+      infoDiv.innerText = 'Press spacebar to continue';
     } else {
       return;
-    }
     }
 };
 
