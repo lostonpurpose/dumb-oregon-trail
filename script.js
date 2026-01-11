@@ -386,6 +386,10 @@ export function townOptions(currentLocationKey) {
             miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}`;
           } else {
             miles.innerText = `You have reached the end of the trail!`;
+            //TODO:
+            gameOver = true;
+            if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+            if (townKeyListener) { document.removeEventListener("keydown", townKeyListener); townKeyListener = null; }
           }
         }
       }
@@ -693,5 +697,4 @@ export function totalDeath() {
 // add visuals, like prarie bg, scrubland, whatever was in og game.
 // made bg and town, river, blend better. 
 
-// code chance for healing randomly on trail. 5% chance per day or something.
 // need to make spacebar not available while waiting out an event
