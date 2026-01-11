@@ -65,7 +65,6 @@ function escalateDisease(existingDisease, baseDisease) {
   };
 
   //TODO: change sky color as you go down the trail
-  // to change sky color as you go.
   const sky = document.getElementById("sky");
   const startColor = { r: 211, g: 211, b: 255 }; // light blue
   const poopColor = { r: 182, g: 129, b: 49 };   // brown poop color
@@ -520,6 +519,7 @@ export function lostDaysCalculator(chosenAccident) {
 
       // now i can assign dysentery to a wagon part (added disease to the wagon Class)
 
+      //TODO:
       // If it's a disease-type accident and there's no message, pick a local victim
       // need to add code to pick a wagon part after a certain currentLocationIndex (maybe index unnecessary, don't know)
       if (chosenAccident.disease && !chosenAccident.message) {
@@ -540,7 +540,6 @@ export function lostDaysCalculator(chosenAccident) {
         }
       }
 
-
       // display message and continue with lostDays logic as before
       eventDiv.innerText = chosenAccident.message || chosenAccident.infoMessage || "";
       if (Number.isFinite(chosenAccident.lostDays) && chosenAccident.lostDays > 0) {
@@ -552,6 +551,21 @@ export function lostDaysCalculator(chosenAccident) {
       }
       if (arrived === true) eventChance = 0;
       return;
+    }
+
+    //TODO: end of dysentery setting
+
+    //TODO: HEALING
+    else if (eventChance === 1) {
+      // need a list of all passengers - flatmap i guess
+      const passengers = firstParty.wagons.flatMap(w => w.passengers || []);
+      const sickPassengers = passengers.filter(p => p && passengers.disease === "dysentery");
+      // check if all are healthy, if so return
+      // then from that map of sick passengers get a random one
+
+        const chosenPassenger = sickPassengers[0]; // or pop, find the right method
+        chosenPassenger.disease = null;
+      // remove the disease and set a messsage
     }
 
     // scripts to get a random wagon part that will get dysentery after a certain distance........
@@ -656,8 +670,10 @@ export function totalDeath() {
 
 
 // new notes dec 2025
-// hard code oregon city having dysentery.
-// make later town option have dysentery, hard code. actually make it a route.
-// code sky color changes to poop colors as you go.
+// hard code oregon city having dysentery. it's in option text. photoshop town color.
+// make later town option have dysentery, hard code. actually make it a route. also photoshop.
+// add visuals, like prarie bg, scrubland, whatever was in og game.
+// made bg and town, river, blend better. 
+
 // code chance for healing randomly on trail. 5% chance per day or something.
 // need to make spacebar not available while waiting out an event
