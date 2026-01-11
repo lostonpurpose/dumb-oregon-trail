@@ -64,12 +64,25 @@ function escalateDisease(existingDisease, baseDisease) {
     return false;
   };
 
-  // to change sky color as you go.
+  //TODO: change sky color as you go down the trail
   const sky = document.getElementById("sky");
-  sky.style.backgroundColor = "rgb(211, 211, 255)";
-  const skyEnd = "rgb(0, 6, 69)"
+  const startColor = { r: 211, g: 211, b: 255 }; // light blue
+  const poopColor = { r: 182, g: 129, b: 49 };   // brown poop color
+  const totalTrailMiles = 1460; // total miles on the Oregon Trail
+  let milesTraveled = 0;
+  
+  sky.style.backgroundColor = `rgb(${startColor.r}, ${startColor.g}, ${startColor.b})`;
 
-  // write function to increment sky color. tie it to miles. will have to figure out entire length of trail first. see above for colors.
+  // function to update sky color based on miles traveled
+  function updateSkyColor(miles) {
+    const progress = Math.min(miles / totalTrailMiles, 1); // 0 to 1
+    
+    const r = Math.round(startColor.r + (poopColor.r - startColor.r) * progress);
+    const g = Math.round(startColor.g + (poopColor.g - startColor.g) * progress);
+    const b = Math.round(startColor.b + (poopColor.b - startColor.b) * progress);
+    
+    sky.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+  }
 
   
   const paths = document.querySelectorAll(".paths");
@@ -201,6 +214,8 @@ function escalateDisease(existingDisease, baseDisease) {
 
       // days += 1;
       days2.dayCounter += 1;
+      milesTraveled += step; // track miles traveled
+      updateSkyColor(milesTraveled); // update sky color based on miles
       // dayDiv.innerText = days;
       // dayDiv.innerText = days2.dayCounter; // hiding days for now.
       updateFood(1);
@@ -371,6 +386,10 @@ export function townOptions(currentLocationKey) {
             miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}`;
           } else {
             miles.innerText = `You have reached the end of the trail!`;
+            //TODO:
+            gameOver = true;
+            if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+            if (townKeyListener) { document.removeEventListener("keydown", townKeyListener); townKeyListener = null; }
           }
         }
       }
@@ -504,6 +523,7 @@ export function lostDaysCalculator(chosenAccident) {
 
       // now i can assign dysentery to a wagon part (added disease to the wagon Class)
 
+      //TODO:
       // If it's a disease-type accident and there's no message, pick a local victim
       // need to add code to pick a wagon part after a certain currentLocationIndex (maybe index unnecessary, don't know)
       if (chosenAccident.disease && !chosenAccident.message) {
@@ -524,7 +544,6 @@ export function lostDaysCalculator(chosenAccident) {
         }
       }
 
-
       // display message and continue with lostDays logic as before
       eventDiv.innerText = chosenAccident.message || chosenAccident.infoMessage || "";
       if (Number.isFinite(chosenAccident.lostDays) && chosenAccident.lostDays > 0) {
@@ -534,6 +553,39 @@ export function lostDaysCalculator(chosenAccident) {
         infoDiv.innerText = "Press spacebar to continue";
         if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
       }
+      if (arrived === true) eventChance = 0;
+      return;
+    }
+
+    //TODO: end of dysentery setting
+
+    //TODO: HEALING 1. is long form code //// 2. is refactored
+
+    // 1.
+
+    // else if (eventChance === 1) {
+          // need a list of all passengers - flatmap i guess
+      // const passengers = firstParty.wagons.flatMap(w => w.passengers || []);
+      // const sickPassengers = passengers.filter(p => p && p.disease === "dysentery");
+          // check if all are healthy, if so return]
+      // if (sickPassengers.length === 0) return;
+          // then from that map of sick passengers get a random one
+      // const passengerIndex = Math.floor((Math.random() * sickPassengers.length))
+      // const chosenPassenger = sickPassengers[passengerIndex]; // or pop, find the right method
+      // chosenPassenger.disease = null;
+          // remove the disease and set a messsage
+    // }
+
+    // 2.
+    else if (eventChance === 1) {
+      const sickPassengers = (firstParty.wagons.flatMap(w => w.passengers || [])).filter(p => p && p.disease === "dysentery");      
+      if (sickPassengers.length === 0) return;
+      const passenger = sickPassengers[Math.floor(Math.random() * sickPassengers.length)];
+      passenger.disease = null;
+      eventDiv.innerText = `${passenger.name}'s bout of dysentery is over!`;
+      if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+      infoDiv.innerText = "Press spacebar to continue";
+      renderPassengers();
       if (arrived === true) eventChance = 0;
       return;
     }
@@ -640,59 +692,9 @@ export function totalDeath() {
 
 
 // new notes dec 2025
-// need to get wagon diseases set up after certain timing
-// same with locations, start with the 3 options occasionally having a disease (2. buy food (has dysentery)
-// then allow for the location itself to have dysentery after certain index (maybe 5 or 6) (ft kearney has dysentery, the snake river has dysentery, etc. )
-// code sky color changes to poop colors as you go.
-// code chance for healing at forts. 20% chance or something.
-// code chance for healing randomly on trail. 5% chance per day or something.
+// hard code oregon city having dysentery. it's in option text.
+// make later town option have dysentery, hard code. also photoshop.
+// add visuals, like prarie bg, scrubland, whatever was in og game.
+// made bg and town, river, blend better. 
 
- 
-
-  // rethinking my inks. going to pare down the game to pure comedy. no one is going to play this often. 
-  // they'll play one time through and enjoy the humor. everyone gets dysentery needs to be real
-  // so, the only disease is dysentery. oxen can get it. the wagon can get it. rivers can get it.
-  // if a char gets it twice it's 'super dysentery', their health drops quicker.
-  // that's the whole game. sky turns brown by the end and if they reach oregon valley, the valley has dysentery too. everyone dies. 
-  // it's a fun, funny parody. yes i should allow healing at forts. that's about it. 
-  // so NEW TODO:::
-    // change default party items. no medicine or yokes. back to just one wagon. 5 or 6 party members. that's it.
-    // change to one disease. code that disease stacking.
-    // code health drops based on dysentery severity.
-    // at end - redo location distances.
-
-  // i need to rethink the next steps in terms of mvp
-  // FIXED:: big one visually - right now when you reach a loc the wagon covers it. extend each path by 2 or something so it's in front of you.
-  // FIXED:: new visual issue - route needs to shrink with progress so background mountains don't stop.
-  // FIXED:: snake river strange behavior. miles not counting down. does not stop when reached (former prob causes latter) - forgot to add to route list!
-  // FIXED:: new visual issue - 1. some forts not appearing. FIXED:: 2. long routes - left side mountians don't extend to right all the way to fort/river
-  // FIXED:: new visual issue - right side mountains scroll, but don't always stretch to right side of screen (had to turn off no-repeat)
-  // right now person can only have one disease. have to change it to [] and display that (foreach)
-  // if wagon breaks down and you have a spare part, use it and continue. if not, "waiting for wagon to pass" or "waiting for dad who went to the 
-  // next town" 
-
-  // food makes you die. need to make it make your health drop, just
-  // make new town options - visit doctor, buy oxen, extra - add member to party (brings money and food). or ditch a person ha ha.
-  // FIXED MAYBE:: make some boons - abandoned wagon, berries
-
-  // FIXED:: yeah the town text at rivers is a game breaker right now. have possible solution in rivers file. event listener is getting multiplied i guess 
-  // big one - i could just make a starting town where you buy everything from the start like any other town. just need three buttons to 
-  // choose what your background is. eventually... (not mvp) allow lots of choices, like you're a doctor (super easy).
-  // you know what? if i think about this as a way to get a job, just make it suuuuuper simple to start
-  // in town if purchase screen, nothing says spacebar will return you to main town menu
-
-  // next steps
-  // death stuff is coded. works. but, eventDiv text doesn't show and wagon moves one more step. the latter prob causes the former
-  // also, it doesn't work. i can keep pressing spacebar and game continues after death.
-
-
-  // TODO: 
-  // diseases affect health until death based on disease severity
-  // make passenger die after reaching 0 health or just dying outright
-  // make event like 'attacked by mountain lion' which kills passenger outright
-
-  // allow recovery (doctor eventually) or spontaneous (random). 
-  // do to oxen exactly what i did to people. they have health too... certain diseases for people/oxen kill them outright. 
-  // if wagon destroyed move people to other wagons, but overcrowding affects health. 
-
-  // need to make spacebar not available while waiting out an event
+// need to make spacebar not available while waiting out an event

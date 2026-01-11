@@ -149,7 +149,7 @@ export const fortWallaWalla = {
 export const oregonCity = {
     isFort: "yes",
     flavorText: "You have reached the end of the Trail! And somehow you still have people alive. Sakes alive! Well done. But you notice the Oregon Valley is not as verdant as you were told. In fact, the vegetation has an odd tea-colored tint to it, along with a distinctive smell... Anyhow, contratulations on finishing the trail!",
-    // options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
+    options: "Holy crap (literally), you made it to the end of the trail! Unfortunately, you notice a familiar smell emanating from the city as you approach the town. Upon further inspection, yep, you guessed it, Oregon City has dysentery too."
     // foodAvailable: 300,
     // buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Supplies",
     // items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
