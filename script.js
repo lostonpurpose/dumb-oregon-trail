@@ -578,18 +578,13 @@ export function lostDaysCalculator(chosenAccident) {
       if (sickPassengers.length === 0) return;
       const passenger = sickPassengers[Math.floor(Math.random() * sickPassengers.length)];
       passenger.disease = null;
-      eventDiv.innerText = `${passenger.name} has recovered from dysentery!`;
+      eventDiv.innerText = `${passenger.name}'s bout of dysentery is over!`;
       if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
       infoDiv.innerText = "Press spacebar to continue";
       renderPassengers();
       if (arrived === true) eventChance = 0;
       return;
-    
-    
-    
-    };
-
-
+    }
 
     // scripts to get a random wagon part that will get dysentery after a certain distance........
     
