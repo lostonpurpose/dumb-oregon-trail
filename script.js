@@ -555,18 +555,41 @@ export function lostDaysCalculator(chosenAccident) {
 
     //TODO: end of dysentery setting
 
-    //TODO: HEALING
-    else if (eventChance === 1) {
-      // need a list of all passengers - flatmap i guess
-      const passengers = firstParty.wagons.flatMap(w => w.passengers || []);
-      const sickPassengers = passengers.filter(p => p && passengers.disease === "dysentery");
-      // check if all are healthy, if so return
-      // then from that map of sick passengers get a random one
+    //TODO: HEALING 1. is long form code //// 2. is refactored
 
-        const chosenPassenger = sickPassengers[0]; // or pop, find the right method
-        chosenPassenger.disease = null;
-      // remove the disease and set a messsage
-    }
+    // 1.
+
+    // else if (eventChance === 1) {
+          // need a list of all passengers - flatmap i guess
+      // const passengers = firstParty.wagons.flatMap(w => w.passengers || []);
+      // const sickPassengers = passengers.filter(p => p && p.disease === "dysentery");
+          // check if all are healthy, if so return]
+      // if (sickPassengers.length === 0) return;
+          // then from that map of sick passengers get a random one
+      // const passengerIndex = Math.floor((Math.random() * sickPassengers.length))
+      // const chosenPassenger = sickPassengers[passengerIndex]; // or pop, find the right method
+      // chosenPassenger.disease = null;
+          // remove the disease and set a messsage
+    // }
+
+    // 2.
+    else if (eventChance === 1) {
+      const sickPassengers = (firstParty.wagons.flatMap(w => w.passengers || [])).filter(p => p && p.disease === "dysentery");      
+      if (sickPassengers.length === 0) return;
+      const passenger = sickPassengers[Math.floor(Math.random() * sickPassengers.length)];
+      passenger.disease = null;
+      eventDiv.innerText = `${passenger.name} has recovered from dysentery!`;
+      if (autoMoveInterval) { clearInterval(autoMoveInterval); autoMoveInterval = null; }
+      infoDiv.innerText = "Press spacebar to continue";
+      renderPassengers();
+      if (arrived === true) eventChance = 0;
+      return;
+    
+    
+    
+    };
+
+
 
     // scripts to get a random wagon part that will get dysentery after a certain distance........
     
@@ -670,8 +693,8 @@ export function totalDeath() {
 
 
 // new notes dec 2025
-// hard code oregon city having dysentery. it's in option text. photoshop town color.
-// make later town option have dysentery, hard code. actually make it a route. also photoshop.
+// hard code oregon city having dysentery. it's in option text.
+// make later town option have dysentery, hard code. also photoshop.
 // add visuals, like prarie bg, scrubland, whatever was in og game.
 // made bg and town, river, blend better. 
 
