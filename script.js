@@ -184,7 +184,6 @@ function escalateDisease(existingDisease, baseDisease) {
   miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}` 
 
 
-
   // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   // new autoscroll function i didn't code::::::
   let arrived = false;
@@ -216,6 +215,7 @@ function escalateDisease(existingDisease, baseDisease) {
       days2.dayCounter += 1;
       milesTraveled += step; // track miles traveled
       updateSkyColor(milesTraveled); // update sky color based on miles
+      setBackgroundBar(); // updates background img
       // dayDiv.innerText = days;
       // dayDiv.innerText = days2.dayCounter; // hiding days for now.
       updateFood(1);
@@ -355,6 +355,7 @@ export function townOptions(currentLocationKey) {
         
           // am not using route 1's index bc it's not hidden by default. updates all routes/paths/locs
           currentRouteIndex++;
+          setBackgroundBar(); // another call right after index updates
           currentPathIndex++;
           currentLocationIndex++;
           // unhides next route. TESTING. WORKING
@@ -470,6 +471,19 @@ export function townOptions(currentLocationKey) {
 };
 
 
+  // TODO: background bar change background
+  function setBackgroundBar() {
+    const backgroundRoute = document.getElementById("background-bar");
+    if (currentRouteIndex <= 3) {
+      backgroundRoute.style.backgroundImage = "url('../images/prarie.png')";
+    }
+    else if (currentRouteIndex > 3 && currentRouteIndex <= 6) {
+      backgroundRoute.style.backgroundImage = "url('../images/scrub.png')";
+    }
+    else if (currentRouteIndex > 6) {
+      backgroundRoute.style.backgroundImage = "url('../images/mountains.png')";
+    }
+  };
 
 
 
@@ -692,8 +706,14 @@ export function totalDeath() {
 
 
 // new notes dec 2025
-// hard code oregon city having dysentery. it's in option text.
-// make later town option have dysentery, hard code. also photoshop.
+
+// test routes make sure bg img matches
+// test oregon fort img
+// oxen motion png exists, need to code
+
+// wagon animation. tie to automoveint and dayscounter i think. need to photoshop legs and also versions for brown wagon lol
+// hard code oregon city having dysentery. it's in option text. phtoshop
+// make later town option have dysentery, hard code. actually make it a route. also photoshop.
 // add visuals, like prarie bg, scrubland, whatever was in og game.
 // made bg and town, river, blend better. 
 
