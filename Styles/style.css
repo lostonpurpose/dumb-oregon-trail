@@ -256,7 +256,21 @@ html, body {
     background-image: url("../images/mountains.png");
 }
 
-.path-1, .path-2, .path-3, .path-4, .path-5, .path-6, .path-7, .path-8, .path-9, .path-10, .path-11, .path-12, .path-13, .path-14 {
+.path-1, .path-2, .path-3, .path-4, .path-5 {
+    height: 100%;
+    /* background-color: rgb(217, 176, 255); */
+    /* background-repeat: no-repeat; */
+    background-image: url("../images/prarie.png");
+}
+
+.path-6, .path-7, .path-8 {
+    height: 100%;
+    /* background-color: rgb(217, 176, 255); */
+    /* background-repeat: no-repeat; */
+    background-image: url("../images/scrub.png");
+}
+
+.path-9, .path-10, .path-11, .path-12, .path-13, .path-14 {
     height: 100%;
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
