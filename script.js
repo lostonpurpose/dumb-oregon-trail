@@ -477,10 +477,10 @@ export function townOptions(currentLocationKey) {
     if (currentRouteIndex <= 3) {
       backgroundRoute.style.backgroundImage = "url('../images/prarie.png')";
     }
-    else if (currentRouteIndex > 3 && currentRouteIndex <= 5) {
+    else if (currentRouteIndex > 3 && currentRouteIndex <= 6) {
       backgroundRoute.style.backgroundImage = "url('../images/scrub.png')";
     }
-    else if (currentRouteIndex > 5) {
+    else if (currentRouteIndex > 6) {
       backgroundRoute.style.backgroundImage = "url('../images/mountains.png')";
     }
   };
@@ -706,6 +706,11 @@ export function totalDeath() {
 
 
 // new notes dec 2025
+
+// test routes make sure bg img matches
+// test oregon fort img
+// oxen motion png exists, need to code
+
 // wagon animation. tie to automoveint and dayscounter i think. need to photoshop legs and also versions for brown wagon lol
 // hard code oregon city having dysentery. it's in option text. phtoshop
 // make later town option have dysentery, hard code. actually make it a route. also photoshop.
