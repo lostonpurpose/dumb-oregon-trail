@@ -103,8 +103,7 @@ export function hireNative(currentLocation) {
 }
 
 
-// general lost days calculator
-let fakeMoveInterval = null;
+      let fakeMoveInterval = null;
 export function generalLostDaysCalculator(daysLost) {
       let i = 0;
       fakeMoveInterval = setInterval(() => {

@@ -192,7 +192,28 @@ function escalateDisease(existingDisease, baseDisease) {
   // let days = 0;
   export let days2 = { dayCounter: 0}
   export const dayDiv = document.querySelector(".days");
-  infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game. 
+  infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game.
+
+  // Wagon animation function - alternates between two images based on day counter
+  export function updateWagonAnimation(dayCounter) {
+    // Use modulo 2 to alternate between 0 and 1 every day
+    const wagonFrame = dayCounter % 2;
+    
+    // Determine which image to use based on dysentery status
+    const isDysentery = wagon.classList.contains("dysentery");
+    
+    if (wagonFrame === 0) {
+      // Even days - image 1
+      wagon.style.backgroundImage = isDysentery ? 
+        'url("../images/ot-oxen-brown.png")' : 
+        'url("../images/ot-oxen.png")';
+    } else {
+      // Odd days - image 2
+      wagon.style.backgroundImage = isDysentery ? 
+        'url("../images/ot-oxen-brown-walk.png")' : 
+        'url("../images/ot-oxen-walk.png")';
+    }
+  } 
 
   function autoMoveWagon(path, route, step = 10, interval = 500) {
     autoMoveInterval = setInterval(() => {
@@ -213,6 +234,7 @@ function escalateDisease(existingDisease, baseDisease) {
 
       // days += 1;
       days2.dayCounter += 1;
+      updateWagonAnimation(days2.dayCounter); // animate wagon based on day counter
       milesTraveled += step; // track miles traveled
       updateSkyColor(milesTraveled); // update sky color based on miles
       setBackgroundBar(); // updates background img
@@ -714,7 +736,6 @@ export function totalDeath() {
 // wagon animation. tie to automoveint and dayscounter i think. need to photoshop legs and also versions for brown wagon lol
 // hard code oregon city having dysentery. it's in option text. phtoshop
 // make later town option have dysentery, hard code. actually make it a route. also photoshop.
-// add visuals, like prarie bg, scrubland, whatever was in og game.
 // made bg and town, river, blend better. 
 
 // need to make spacebar not available while waiting out an event
