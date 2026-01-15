@@ -731,9 +731,9 @@ export function totalDeath() {
 
 // test routes make sure bg img matches
 // test oregon fort img
-// oxen motion png exists, need to code
+// improve animate images
+// linear grade sky and grass
 
-// wagon animation. tie to automoveint and dayscounter i think. need to photoshop legs and also versions for brown wagon lol
 // hard code oregon city having dysentery. it's in option text. phtoshop
 // make later town option have dysentery, hard code. actually make it a route. also photoshop.
 // made bg and town, river, blend better. 

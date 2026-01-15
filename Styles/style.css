@@ -254,6 +254,8 @@ html, body {
     /* background-repeat: no-repeat; */
     /* flex-wrap: wrap; */
     background-image: url("../images/mountains.png");
+    -webkit-mask-image: linear-gradient(to left, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to left, black 0%, black 75%, transparent 100%);
 }
 
 .path-1, .path-2, .path-3, .path-4, .path-5 {
@@ -261,6 +263,9 @@ html, body {
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
     background-image: url("../images/prarie.png");
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black 75%, transparent 100%);
+
 }
 
 .path-6, .path-7, .path-8 {
@@ -268,6 +273,8 @@ html, body {
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
     background-image: url("../images/scrub.png");
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black 75%, transparent 100%);
 }
 
 .path-9, .path-10, .path-11, .path-12, .path-13, .path-14 {
@@ -275,6 +282,8 @@ html, body {
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
     background-image: url("../images/mountains.png");
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black 75%, transparent 100%);
 }
 
 
