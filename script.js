@@ -64,25 +64,9 @@ function escalateDisease(existingDisease, baseDisease) {
     return false;
   };
 
-  //TODO: change sky color as you go down the trail
-  const sky = document.getElementById("sky");
-  const startColor = { r: 211, g: 211, b: 255 }; // light blue
-  const poopColor = { r: 182, g: 129, b: 49 };   // brown poop color
-  const totalTrailMiles = 1460; // total miles on the Oregon Trail
-  let milesTraveled = 0;
-  
-  sky.style.backgroundColor = `rgb(${startColor.r}, ${startColor.g}, ${startColor.b})`;
 
-  // function to update sky color based on miles traveled
-  function updateSkyColor(miles) {
-    const progress = Math.min(miles / totalTrailMiles, 1); // 0 to 1
-    
-    const r = Math.round(startColor.r + (poopColor.r - startColor.r) * progress);
-    const g = Math.round(startColor.g + (poopColor.g - startColor.g) * progress);
-    const b = Math.round(startColor.b + (poopColor.b - startColor.b) * progress);
-    
-    sky.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-  }
+// TODO: PPOOOOPPP SKY HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
   
   const paths = document.querySelectorAll(".paths");

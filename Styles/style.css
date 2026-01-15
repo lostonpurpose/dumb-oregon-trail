@@ -181,7 +181,8 @@ html, body {
 }
 
 .town-container {
-    background-color: rgb(188, 232, 199);
+    /* background-color: rgb(188, 232, 199); */
+    background: linear-gradient(to bottom, rgb(15, 109, 15), rgb(83, 204, 74));
     display: grid;
     margin: 0;
     height: 35vh;
@@ -367,6 +368,3 @@ span, .item-span {
     font-weight: 400;
     font-style: normal;
 }
-
-
-/* must be a way to have mountains fade in? */
