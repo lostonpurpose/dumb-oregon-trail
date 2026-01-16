@@ -295,6 +295,8 @@ html, body {
     /* background-color: rgb(217, 176, 255); */
     margin: 0;
     background-image: url("../images/fort.png");
+    background-repeat: no-repeat;
+    background-position: bottom;
 }
 
 /* rivers only */
