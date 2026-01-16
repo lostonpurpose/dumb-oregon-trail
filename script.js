@@ -165,11 +165,16 @@ function escalateDisease(existingDisease, baseDisease) {
   let currentPath = allPaths[currentPathIndex];
   let currentRoute = allRoutes[currentRouteIndex]; // added this so i can apply width style to route container and shrink it with movement
   let milesLeft = parseInt(currentPath.dataset.miles, 10);
+  let milesTraveled = 0; // keep a running total for sky/ambient effects
   miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}` 
 
 
   // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   // new autoscroll function i didn't code::::::
+  function updateSkyColor(miles) {
+    // placeholder to avoid breaking movement loop until sky effect is implemented
+  }
+
   let arrived = false;
   let autoMoveInterval = null;
 
