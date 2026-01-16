@@ -27,22 +27,45 @@ export function buyFoodInput(location, currentLocation) {
     if (!form) return console.error("Form not found.");
     form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const amount = parseInt(document.getElementById("foodAmountField").value, 10);
-    const cost = amount * fortData[key].foodCost;
+        const amount = parseInt(document.getElementById("foodAmountField").value, 10);
+        if (!Number.isFinite(amount) || amount <= 0) {
+            eventDiv.innerText = "You must enter a valid number";
+            return;
+        }
 
-    // safeguard for not valid entry:
-    if (isNaN(amount)) { eventDiv.innerText = "You must enter a valid number";
-    return;
-    }
+        // normalize cost and availability, with guards so we don't create NaN money
+        const foodCost = Number(fortData[key].foodCost);
+        if (!Number.isFinite(foodCost) || foodCost <= 0) {
+            eventDiv.innerText = "This fort can't sell food right now.";
+            return;
+        }
 
-    if (firstParty.money < cost) {
-        eventDiv.innerText = "You don't have enough money!";
-        return;
-    }
+        const availableFoodRaw = fortData[key].buyFood ?? fortData[key].foodAvailable;
+        const availableFood = Number.isFinite(Number(availableFoodRaw)) ? Number(availableFoodRaw) : Infinity;
 
-    firstParty.money -= cost;
-    firstParty.items.food += amount;
-    fortData[key].buyFood -= cost;
+        if (amount > availableFood) {
+            eventDiv.innerText = "They don't have that much food.";
+            return;
+        }
+
+        const cost = amount * foodCost;
+
+        if (firstParty.money < cost) {
+                eventDiv.innerText = "You don't have enough money!";
+                return;
+        }
+
+        firstParty.money -= cost;
+        firstParty.items.food += amount;
+
+        // decrement fort stock if it exists
+        if (Number.isFinite(availableFood) && availableFood !== Infinity) {
+            if (fortData[key].buyFood !== undefined) {
+                fortData[key].buyFood -= amount;
+            } else if (fortData[key].foodAvailable !== undefined) {
+                fortData[key].foodAvailable -= amount;
+            }
+        }
     renderPassengers();
 
     eventDiv.innerText = `${amount} pounds of food purchased!`;

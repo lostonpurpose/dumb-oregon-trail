@@ -74,6 +74,7 @@ export const fortBridger = {
     flavorText: "You have reached Fort Bridger! It's nothing more than a wooden palisade and stray chickens. What would you like to do?",
     options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
     buyFood: 1200,
+    foodCost: 3,
     buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Wagon Yoke",
     items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
     itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
@@ -95,6 +96,7 @@ export const fortHall = {
     flavorText: "You have reached Fort Hall! It's nothing more than a wooden palisade and stray chickens. What would you like to do?",
     options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
     buyFood: 800,
+    foodCost: 5,
     buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy a Hall",
     items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
     itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
@@ -115,7 +117,8 @@ export const fortBoise = {
     isFort: "yes",
     flavorText: "You have reached Fort Boise! Turds alive! It's Built to Spill! What would you like to do?",
     options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
-    foodAvailable: 500,
+    buyFood: 500,
+    foodCost: 5,
     buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Perfect From Now On",
     items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
     itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}
@@ -139,7 +142,8 @@ export const fortWallaWalla = {
     isFort: "yes",
     flavorText: "You have reached Fort Walla Walla! The town is wallowing in dysentery. But it's not just the inhabitants... the entire town itself has dysentery. What would you like to do?",
     options: "1. Continue on the trail\n\n2. Buy Food\n\n3. Buy Supplies",
-    foodAvailable: 300,
+    buyFood: 300,
+    foodCost: 7,
     buySupplies: "1. Leave\n\n2. Buy Food\n\n3. Buy Supplies",
     items: {"wagon wheels": 3, "ox yokes": 5, "medicine": 2},
     itemCost: {"wagon wheels": 25, "ox yokes": 18, "medicine": 30}

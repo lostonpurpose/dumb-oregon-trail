@@ -64,25 +64,42 @@ function escalateDisease(existingDisease, baseDisease) {
     return false;
   };
 
-  //TODO: change sky color as you go down the trail
-  const sky = document.getElementById("sky");
-  const startColor = { r: 211, g: 211, b: 255 }; // light blue
-  const poopColor = { r: 182, g: 129, b: 49 };   // brown poop color
-  const totalTrailMiles = 1460; // total miles on the Oregon Trail
-  let milesTraveled = 0;
-  
-  sky.style.backgroundColor = `rgb(${startColor.r}, ${startColor.g}, ${startColor.b})`;
 
-  // function to update sky color based on miles traveled
-  function updateSkyColor(miles) {
-    const progress = Math.min(miles / totalTrailMiles, 1); // 0 to 1
-    
-    const r = Math.round(startColor.r + (poopColor.r - startColor.r) * progress);
-    const g = Math.round(startColor.g + (poopColor.g - startColor.g) * progress);
-    const b = Math.round(startColor.b + (poopColor.b - startColor.b) * progress);
-    
-    sky.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-  }
+// TODO: PPOOOOPPP SKY HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//TODO: change sky color as you go down the trail
+const sky = document.getElementById("sky");
+const startColorGradient1 = { r: 198, g: 198, b: 255 }; // light blue
+const startColorGradient2 = { r: 255, g: 191, b: 255 }; // to pink
+const poopColorGradient1 = { r: 148, g: 95, b: 35 };   // brown poop color
+const poopColorGradient2 = { r: 215, g: 163, b: 42 };   // lighter brown poop color
+const totalTrailMiles = 1460; // total miles on the Oregon Trail
+let milesTraveled = 0;
+
+sky.style.background = `linear-gradient(to bottom, rgb(${startColorGradient1.r}, ${startColorGradient1.g}, ${startColorGradient1.b}), rgb(${startColorGradient2.r}, ${startColorGradient2.g}, ${startColorGradient2.b}))`;
+
+// function to update sky color based on miles traveled
+function updateSkyColor(miles) {
+  const progress = Math.min(miles / totalTrailMiles, 1); // 0 to 1
+  
+  const r = Math.round(startColorGradient1.r + (poopColorGradient1.r - startColorGradient1.r) * progress);
+  const g = Math.round(startColorGradient1.g + (poopColorGradient1.g - startColorGradient1.g) * progress);
+  const b = Math.round(startColorGradient1.b + (poopColorGradient1.b - startColorGradient1.b) * progress);
+
+  const x = Math.round(startColorGradient2.r + (poopColorGradient2.r - startColorGradient2.r) * progress);
+  const y = Math.round(startColorGradient2.g + (poopColorGradient2.g - startColorGradient2.g) * progress);
+  const z = Math.round(startColorGradient2.b + (poopColorGradient2.b - startColorGradient2.b) * progress);
+
+  sky.style.background = `linear-gradient(to bottom, rgb(${r}, ${g}, ${b}), rgb(${x}, ${y}, ${z}))`;
+}
+
+  // background: linear-gradient(to bottom, rgb(198, 198, 255) 0%, rgb(198, 198, 255) 60%, rgb(255, 191, 225) 100%);
+  // start
+
+  // background: linear-gradient(to bottom, rgb(148, 95, 35), rgb(148, 95, 35) 50%, rgb(215, 163, 42) 100%);
+
+  // poop
+
 
   
   const paths = document.querySelectorAll(".paths");
@@ -186,13 +203,37 @@ function escalateDisease(existingDisease, baseDisease) {
 
   // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   // new autoscroll function i didn't code::::::
+
+  updateSkyColor(miles);
+
   let arrived = false;
   let autoMoveInterval = null;
 
   // let days = 0;
   export let days2 = { dayCounter: 0}
   export const dayDiv = document.querySelector(".days");
-  infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game. 
+  infoDiv.innerText = "Press spacebar to continue" // sets this message at start of the game.
+
+  // Wagon animation function - alternates between two images based on day counter
+  export function updateWagonAnimation(dayCounter) {
+    // Use modulo 2 to alternate between 0 and 1 every day
+    const wagonFrame = dayCounter % 2;
+    
+    // Determine which image to use based on dysentery status
+    const isDysentery = wagon.classList.contains("dysentery");
+    
+    if (wagonFrame === 0) {
+      // Even days - image 1
+      wagon.style.backgroundImage = isDysentery ? 
+        'url("../images/ot-oxen-brown.png")' : 
+        'url("../images/ot-oxen.png")';
+    } else {
+      // Odd days - image 2
+      wagon.style.backgroundImage = isDysentery ? 
+        'url("../images/ot-oxen-brown-walk.png")' : 
+        'url("../images/ot-oxen-walk.png")';
+    }
+  } 
 
   function autoMoveWagon(path, route, step = 10, interval = 500) {
     autoMoveInterval = setInterval(() => {
@@ -213,6 +254,7 @@ function escalateDisease(existingDisease, baseDisease) {
 
       // days += 1;
       days2.dayCounter += 1;
+      updateWagonAnimation(days2.dayCounter); // animate wagon based on day counter
       milesTraveled += step; // track miles traveled
       updateSkyColor(milesTraveled); // update sky color based on miles
       setBackgroundBar(); // updates background img
@@ -709,12 +751,11 @@ export function totalDeath() {
 
 // test routes make sure bg img matches
 // test oregon fort img
-// oxen motion png exists, need to code
+// improve animate images
+// linear grade sky and grass
 
-// wagon animation. tie to automoveint and dayscounter i think. need to photoshop legs and also versions for brown wagon lol
 // hard code oregon city having dysentery. it's in option text. phtoshop
 // make later town option have dysentery, hard code. actually make it a route. also photoshop.
-// add visuals, like prarie bg, scrubland, whatever was in og game.
 // made bg and town, river, blend better. 
 
 // need to make spacebar not available while waiting out an event

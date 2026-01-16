@@ -181,7 +181,8 @@ html, body {
 }
 
 .town-container {
-    background-color: rgb(188, 232, 199);
+    /* background-color: rgb(188, 232, 199); */
+    background: linear-gradient(to bottom, rgb(15, 109, 15), rgb(83, 204, 74));
     display: grid;
     margin: 0;
     height: 35vh;
@@ -254,6 +255,8 @@ html, body {
     /* background-repeat: no-repeat; */
     /* flex-wrap: wrap; */
     background-image: url("../images/mountains.png");
+    -webkit-mask-image: linear-gradient(to left, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to left, black 0%, black 75%, transparent 100%);
 }
 
 .path-1, .path-2, .path-3, .path-4, .path-5 {
@@ -261,6 +264,9 @@ html, body {
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
     background-image: url("../images/prarie.png");
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black 75%, transparent 100%);
+
 }
 
 .path-6, .path-7, .path-8 {
@@ -268,6 +274,8 @@ html, body {
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
     background-image: url("../images/scrub.png");
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black 75%, transparent 100%);
 }
 
 .path-9, .path-10, .path-11, .path-12, .path-13, .path-14 {
@@ -275,6 +283,8 @@ html, body {
     /* background-color: rgb(217, 176, 255); */
     /* background-repeat: no-repeat; */
     background-image: url("../images/mountains.png");
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 80%, transparent 100%);
+    mask-image: linear-gradient(to right, black 0%, black 75%, transparent 100%);
 }
 
 
@@ -285,6 +295,8 @@ html, body {
     /* background-color: rgb(217, 176, 255); */
     margin: 0;
     background-image: url("../images/fort.png");
+    background-repeat: no-repeat;
+    background-position: bottom;
 }
 
 /* rivers only */
@@ -358,6 +370,3 @@ span, .item-span {
     font-weight: 400;
     font-style: normal;
 }
-
-
-/* must be a way to have mountains fade in? */
