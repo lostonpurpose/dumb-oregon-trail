@@ -17,6 +17,8 @@ export const turd = new Person("Turd", "none", 100, 25, "male", true);
 export const fart = new Person("Fart", "none", 100, 23, "female", true);
 export const dookie = new Person("Dookie", "none", 100, 12, "male", true);
 export const pooper = new Person("Pooper", "none", 100, 8, "female", true);
+export const poop = new Person("Poop", "none", 100, 32, "male", true);
+export const idiot = new Person("Idiot", "none", 100, 30, "female", true);
 
 export const crapper = new Person("Crapper", "none", 100, 32, "male", true);
 export const dapper = new Person("Dapper", "none", 100, 30, "female", true);

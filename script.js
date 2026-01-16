@@ -67,6 +67,39 @@ function escalateDisease(existingDisease, baseDisease) {
 
 // TODO: PPOOOOPPP SKY HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+//TODO: change sky color as you go down the trail
+const sky = document.getElementById("sky");
+const startColorGradient1 = { r: 198, g: 198, b: 255 }; // light blue
+const startColorGradient2 = { r: 255, g: 191, b: 255 }; // to pink
+const poopColorGradient1 = { r: 148, g: 95, b: 35 };   // brown poop color
+const poopColorGradient2 = { r: 215, g: 163, b: 42 };   // lighter brown poop color
+const totalTrailMiles = 1460; // total miles on the Oregon Trail
+let milesTraveled = 0;
+
+sky.style.background = `linear-gradient(to bottom, rgb(${startColorGradient1.r}, ${startColorGradient1.g}, ${startColorGradient1.b}), rgb(${startColorGradient2.r}, ${startColorGradient2.g}, ${startColorGradient2.b}))`;
+
+// function to update sky color based on miles traveled
+function updateSkyColor(miles) {
+  const progress = Math.min(miles / totalTrailMiles, 1); // 0 to 1
+  
+  const r = Math.round(startColorGradient1.r + (poopColorGradient1.r - startColorGradient1.r) * progress);
+  const g = Math.round(startColorGradient1.g + (poopColorGradient1.g - startColorGradient1.g) * progress);
+  const b = Math.round(startColorGradient1.b + (poopColorGradient1.b - startColorGradient1.b) * progress);
+
+  const x = Math.round(startColorGradient2.r + (poopColorGradient2.r - startColorGradient2.r) * progress);
+  const y = Math.round(startColorGradient2.g + (poopColorGradient2.g - startColorGradient2.g) * progress);
+  const z = Math.round(startColorGradient2.b + (poopColorGradient2.b - startColorGradient2.b) * progress);
+
+  sky.style.background = `linear-gradient(to bottom, rgb(${r}, ${g}, ${b}), rgb(${x}, ${y}, ${z}))`;
+}
+
+  // background: linear-gradient(to bottom, rgb(198, 198, 255) 0%, rgb(198, 198, 255) 60%, rgb(255, 191, 225) 100%);
+  // start
+
+  // background: linear-gradient(to bottom, rgb(148, 95, 35), rgb(148, 95, 35) 50%, rgb(215, 163, 42) 100%);
+
+  // poop
+
 
   
   const paths = document.querySelectorAll(".paths");
@@ -165,15 +198,13 @@ function escalateDisease(existingDisease, baseDisease) {
   let currentPath = allPaths[currentPathIndex];
   let currentRoute = allRoutes[currentRouteIndex]; // added this so i can apply width style to route container and shrink it with movement
   let milesLeft = parseInt(currentPath.dataset.miles, 10);
-  let milesTraveled = 0; // keep a running total for sky/ambient effects
   miles.innerText = `${Math.max(milesLeft - 20, 0)} miles until ${currentLocation.dataset.location}` 
 
 
   // ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
   // new autoscroll function i didn't code::::::
-  function updateSkyColor(miles) {
-    // placeholder to avoid breaking movement loop until sky effect is implemented
-  }
+
+  updateSkyColor(miles);
 
   let arrived = false;
   let autoMoveInterval = null;
